@@ -118,16 +118,6 @@ public class MazeBuilder {
         }
     }
 
-    private void handleHorizontalStuff() {
-        wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? HORIZONTAL_WALL : NO_WALL;
-        x++;
-
-        escapeRouteArray[x][y] = true;
-        stepCount++;
-
-        chooseRandomlyOneOf(getFirstInstructionHandleX());
-    }
-
     private void i1000() {
         y--;
         wallArray[x][y] = VERTICAL_WALL;
@@ -137,6 +127,34 @@ public class MazeBuilder {
 
         q = false;
         firstInstruction();
+    }
+
+    private void handleHorizontalStuff() { // FIXME seems very linked to escapeRouteArray[x + 1][y] == false and i1090
+        wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? HORIZONTAL_WALL : NO_WALL;
+        x++;
+
+        escapeRouteArray[x][y] = true;
+        stepCount++;
+
+        chooseRandomlyOneOf(getFirstInstructionHandleX());
+    }
+
+    private void i1090() { // FIXME seems very related to escapeRouteArray[x][y + 1] == false and y < max
+        if (!q) {
+            handleVerticalStuff();
+            return;
+        }
+
+        wentThrough1090WithQTrue = true;
+        q = false;
+        wallArray[x][y] = VERTICAL_WALL;
+        x = 1;
+        y = 1;
+        if (!escapeRouteArray[x][y]) {
+            restartFromNextTrueTile();
+        } else {
+            firstInstruction();
+        }
     }
 
     private void restartFromNextTrueTile() {
@@ -219,13 +237,7 @@ public class MazeBuilder {
         var isNotOkForX = !isOkFor(+1, +0);
         List<Runnable> instructionList = new ArrayList<>(List.of(this::i940));
         if (y == this.maxVertical) {
-            q = true;
-            if (wentThrough1090WithQTrue && !isNotOkForX) {
-                return instructionList;
-            }
-            instructionList.add(this::handleHorizontalStuff);
-            instructionList.add(this::i1090);
-            return instructionList;
+            return getRunnables(isNotOkForX, instructionList);
         }
         var isNotOkForY = !isOkFor(+0, +1);
 
@@ -239,22 +251,14 @@ public class MazeBuilder {
         return instructionList;
     }
 
-    private void i1090() { // FIXME semble beaucoup lié à escapeRouteArray[x][y + 1] == false et y < max
-        if (!q) {
-            handleVerticalStuff();
-            return;
+    private List<Runnable> getRunnables(boolean isNotOkForX, List<Runnable> instructionList) {
+        q = true;
+        if (wentThrough1090WithQTrue && !isNotOkForX) {
+            return instructionList;
         }
-
-        wentThrough1090WithQTrue = true;
-        q = false;
-        wallArray[x][y] = VERTICAL_WALL;
-        x = 1;
-        y = 1;
-        if (!escapeRouteArray[x][y]) {
-            restartFromNextTrueTile();
-        } else {
-            firstInstruction();
-        }
+        instructionList.add(this::handleHorizontalStuff);
+        instructionList.add(this::i1090);
+        return instructionList;
     }
 
     private void chooseRandomlyOneOf(List<Runnable> actions) {
