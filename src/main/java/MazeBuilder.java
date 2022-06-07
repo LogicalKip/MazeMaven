@@ -9,9 +9,13 @@ public class MazeBuilder {
     public static final int HORIZONTAL_WALL = 2;
     public static final int NO_WALL = 3;
     private final Random random;
+    /**
+     * Everything is at false at start except the entrance door.
+     * At the end everything is true except the top and side tiles
+     */
     private final boolean[][] escapeRouteArray;
     /**
-     * shows presence of both vertical and horizontal with the same data
+     * shows presence of both vertical and horizontal with the same data.
      * 0, 1 : vertical wall.
      * 0, 2 : horizontal wall.
      * Therefore :
@@ -19,6 +23,7 @@ public class MazeBuilder {
      * 1 : vertical wall
      * 2 : horizontal wall
      * 3 : no wall at all.
+     * It's the output of the MazeBuilder, and isn't used at all to create the maze
      */
     private final int[][] wallArray;
 
@@ -106,6 +111,17 @@ public class MazeBuilder {
         }
     }
 
+    private void i1000() {
+        y--;
+        wallArray[x][y] = VERTICAL_WALL;
+
+        escapeRouteArray[x][y] = true;
+        stepCount++;
+
+        q = false;
+        firstInstruction();
+    }
+
     private void handleVerticalStuff() {
         wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? VERTICAL_WALL : NO_WALL;
         y++;
@@ -118,18 +134,7 @@ public class MazeBuilder {
         }
     }
 
-    private void i1000() {
-        y--;
-        wallArray[x][y] = VERTICAL_WALL;
-
-        escapeRouteArray[x][y] = true;
-        stepCount++;
-
-        q = false;
-        firstInstruction();
-    }
-
-    private void handleHorizontalStuff() { // FIXME seems very linked to escapeRouteArray[x + 1][y] == false and i1090
+    private void handleHorizontalStuff() { // FIXME seems very linked to escapeRouteArray[x + 1][y] == false and is a cousin of i1090
         wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? HORIZONTAL_WALL : NO_WALL;
         x++;
 
