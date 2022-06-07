@@ -98,7 +98,7 @@ public class MazeBuilder {
 
         escapeRouteArray[x][y] = true;
         stepCount++;
-        
+
         if (stepsAreNotAllFilled()) {
             q = false;
             firstInstruction();
@@ -267,6 +267,8 @@ public class MazeBuilder {
     }
 
     private boolean isOkFor(int xDelta, int yDelta) {
+        var xChanged = x + xDelta;
+        var yChanged = y + yDelta;
         if (this.x == maxHorizontal && xDelta == +1) {
             return true;
         }
@@ -279,6 +281,6 @@ public class MazeBuilder {
         if (this.y == 1 && yDelta == -1) {
             return true;
         }
-        return escapeRouteArray[x + xDelta][y + yDelta];
+        return escapeRouteArray[xChanged][yChanged];
     }
 }
