@@ -12,8 +12,9 @@ public class MazeBuilder {
     /**
      * Everything is at false at start except the entrance door.
      * At the end everything is true except the top and side tiles
+     * Maybe means "has been processed" ?
      */
-    private final boolean[][] escapeRouteArray;
+    private final boolean[][] processed;
     /**
      * shows presence of both vertical and horizontal with the same data.
      * 0, 1 : vertical wall.
@@ -56,7 +57,7 @@ public class MazeBuilder {
 
     public MazeBuilder(Random random, int maxHorizontal, int maxVertical) {
         this.random = random;
-        this.escapeRouteArray = new boolean[maxHorizontal + 1][maxVertical + 1];
+        this.processed = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.wallArray = new int[maxHorizontal + 1][maxVertical + 1];
         entrancePosition = random(maxHorizontal);
         this.maxHorizontal = maxHorizontal;
@@ -80,14 +81,14 @@ public class MazeBuilder {
 
     private void initializeArrays(int maxHorizontal, int maxVertical) {
         for (int i = 0; i <= maxHorizontal; i++) {
-            escapeRouteArray[i] = new boolean[maxVertical + 1];
+            processed[i] = new boolean[maxVertical + 1];
         }
 
         for (int i = 0; i <= maxHorizontal; i++) {
             wallArray[i] = new int[maxVertical + 1];
         }
 
-        escapeRouteArray[entrancePosition][1] = true;
+        processed[entrancePosition][1] = true;
     }
 
     public void createMaze() {
@@ -102,7 +103,7 @@ public class MazeBuilder {
         x--;
         wallArray[x][y] = HORIZONTAL_WALL;
 
-        escapeRouteArray[x][y] = true;
+        processed[x][y] = true;
         stepCount++;
 
         if (stepsAreNotAllFilled()) {
@@ -115,7 +116,7 @@ public class MazeBuilder {
         y--;
         wallArray[x][y] = VERTICAL_WALL;
 
-        escapeRouteArray[x][y] = true;
+        processed[x][y] = true;
         stepCount++;
 
         q = false;
@@ -126,7 +127,7 @@ public class MazeBuilder {
         wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? VERTICAL_WALL : NO_WALL;
         y++;
 
-        escapeRouteArray[x][y] = true;
+        processed[x][y] = true;
         stepCount++;
 
         if (stepsAreNotAllFilled()) {
@@ -134,17 +135,17 @@ public class MazeBuilder {
         }
     }
 
-    private void handleHorizontalStuff() { // FIXME seems very linked to escapeRouteArray[x + 1][y] == false and is a cousin of i1090
+    private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false and is a cousin of i1090
         wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? HORIZONTAL_WALL : NO_WALL;
         x++;
 
-        escapeRouteArray[x][y] = true;
+        processed[x][y] = true;
         stepCount++;
 
         chooseRandomlyOneOf(getFirstInstructionHandleX());
     }
 
-    private void i1090() { // FIXME seems very related to escapeRouteArray[x][y + 1] == false and y < max
+    private void i1090() { // FIXME seems very related to processed[x][y + 1] == false and y < max
         if (!q) {
             handleVerticalStuff();
             return;
@@ -155,7 +156,7 @@ public class MazeBuilder {
         wallArray[x][y] = VERTICAL_WALL;
         x = 1;
         y = 1;
-        if (!escapeRouteArray[x][y]) {
+        if (!processed[x][y]) {
             restartFromNextTrueTile();
         } else {
             firstInstruction();
@@ -167,7 +168,7 @@ public class MazeBuilder {
             y = (y % maxVertical) + 1;
         }
         x = (x % maxHorizontal) + 1;
-        if (!escapeRouteArray[x][y]) {
+        if (!processed[x][y]) {
             restartFromNextTrueTile();
         } else {
             firstInstruction();
@@ -287,6 +288,6 @@ public class MazeBuilder {
         if (xChanged > maxHorizontal || yChanged > maxVertical) {
             return true;
         }
-        return escapeRouteArray[xChanged][yChanged];
+        return processed[xChanged][yChanged];
     }
 }
