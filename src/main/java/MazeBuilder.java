@@ -92,6 +92,7 @@ public class MazeBuilder {
 
         firstInstruction();
     }
+
     private void i940() {
         x--;
         wallArray[x][y] = HORIZONTAL_WALL;
@@ -104,6 +105,7 @@ public class MazeBuilder {
             firstInstruction();
         }
     }
+
     private void handleVerticalStuff() {
         wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? VERTICAL_WALL : NO_WALL;
         y++;
@@ -115,6 +117,7 @@ public class MazeBuilder {
             firstInstruction();
         }
     }
+
     private void handleHorizontalStuff() {
         wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? HORIZONTAL_WALL : NO_WALL;
         x++;
@@ -269,16 +272,10 @@ public class MazeBuilder {
     private boolean isOkFor(int xDelta, int yDelta) {
         var xChanged = x + xDelta;
         var yChanged = y + yDelta;
-        if (this.x == maxHorizontal && xDelta == +1) {
+        if (xChanged == 0 || yChanged == 0) {
             return true;
         }
-        if (this.y == maxVertical && yDelta == +1) {
-            return true;
-        }
-        if (this.x == 1 && xDelta == -1) {
-            return true;
-        }
-        if (this.y == 1 && yDelta == -1) {
+        if (xChanged > maxHorizontal || yChanged > maxVertical) {
             return true;
         }
         return escapeRouteArray[xChanged][yChanged];
