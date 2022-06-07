@@ -92,62 +92,65 @@ public class MazeBuilder {
 
         firstInstruction();
     }
-
     private void i940() {
-        stepCount++;
         x--;
         wallArray[x][y] = HORIZONTAL_WALL;
+
         escapeRouteArray[x][y] = true;
+        stepCount++;
+        
         if (stepsAreNotAllFilled()) {
             q = false;
             firstInstruction();
         }
     }
-
     private void handleVerticalStuff() {
-        stepCount++;
         wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? VERTICAL_WALL : NO_WALL;
         y++;
+
         escapeRouteArray[x][y] = true;
+        stepCount++;
+
         if (stepsAreNotAllFilled()) {
             firstInstruction();
         }
     }
-
     private void handleHorizontalStuff() {
-        stepCount++;
         wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? HORIZONTAL_WALL : NO_WALL;
         x++;
+
         escapeRouteArray[x][y] = true;
+        stepCount++;
+
         chooseRandomlyOneOf(getFirstInstructionHandleX());
     }
 
     private void i1000() {
-        stepCount++;
         y--;
-        escapeRouteArray[x][y] = true;
         wallArray[x][y] = VERTICAL_WALL;
+
+        escapeRouteArray[x][y] = true;
+        stepCount++;
 
         q = false;
         firstInstruction();
     }
 
-    private void restartFromNextNon0Tile() {
+    private void restartFromNextTrueTile() {
         if (x == maxHorizontal) {
             y = (y % maxVertical) + 1;
         }
         x = (x % maxHorizontal) + 1;
         if (!escapeRouteArray[x][y]) {
-            restartFromNextNon0Tile();
+            restartFromNextTrueTile();
         } else {
             firstInstruction();
         }
     }
 
     private void someMethod() {
-        var yLow = y < maxVertical;
-        var xMax = !isOkFor(+1, +0);
-        if (xMax && !yLow) {
+        var falseForXPlus1 = !isOkFor(+1, +0);
+        if (falseForXPlus1 && y == maxVertical) {
             if (wentThrough1090WithQTrue) {
                 handleHorizontalStuff();
             } else {
@@ -159,14 +162,14 @@ public class MazeBuilder {
 
         List<Runnable> instructionList = new ArrayList<>();
 
-        if (xMax) {
+        if (falseForXPlus1) {
             instructionList.add(this::handleHorizontalStuff);
         }
         if (!isOkFor(+0, +1)) {
             instructionList.add(this::i1090);
         }
         if (instructionList.isEmpty()) {
-            instructionList.add(this::restartFromNextNon0Tile);
+            instructionList.add(this::restartFromNextTrueTile);
         }
         chooseRandomlyOneOf(instructionList);
     }
@@ -245,7 +248,7 @@ public class MazeBuilder {
         x = 1;
         y = 1;
         if (!escapeRouteArray[x][y]) {
-            restartFromNextNon0Tile();
+            restartFromNextTrueTile();
         } else {
             firstInstruction();
         }
