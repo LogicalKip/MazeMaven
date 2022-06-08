@@ -187,17 +187,17 @@ public class MazeBuilder {
 
     private List<Runnable> getFirstInstructionHandleX() {
         if (isProcessedAt(+0, -1)) {
-            return new ArrayList<>(List.of(this::someMethod));
+            return of(this::someMethod);
         }
 
-        List<Runnable> instructionList = new ArrayList<>(List.of(this::i1000));
+        List<Runnable> instructionList = of(this::i1000);
         addHandleHorizontalStuffIfNeeded(instructionList);
         addi1090IfNeeded(instructionList);
         return instructionList;
     }
 
     private List<Runnable> getFirstInstructionHandleY() {
-        List<Runnable> instructionList = new ArrayList<>(List.of(this::i940));
+        List<Runnable> instructionList = of(this::i940);
         if (y == this.maxVertical) {
             q = true;
             if (isProcessedAt(+1, +0) && wentThrough1090WithQTrue) {
@@ -282,5 +282,9 @@ public class MazeBuilder {
         if (!isProcessedAt(+1, +0)) {
             instructionList.add(this::handleHorizontalStuff);
         }
+    }
+
+    private ArrayList<Runnable> of(Runnable instruction) {
+        return new ArrayList<>(List.of(instruction));
     }
 }
