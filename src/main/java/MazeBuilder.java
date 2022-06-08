@@ -185,7 +185,7 @@ public class MazeBuilder {
         }
     }
 
-    private List<Runnable> ~getFirstInstructionHandleX() {
+    private List<Runnable> getFirstInstructionHandleX() {
         if (isProcessedAt(+0, -1)) {
             return of(this::someMethod);
         }
