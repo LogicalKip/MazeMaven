@@ -191,13 +191,15 @@ public class MazeBuilder {
         }
 
         List<Runnable> instructionList = new ArrayList<>(List.of(this::i1000));
+        addHandleHorizontalStuffIfNeeded(instructionList);
+        addi1090IfNeeded(instructionList);
+        return instructionList;
+    }
+
+    private void addHandleHorizontalStuffIfNeeded(List<Runnable> instructionList) {
         if (!isProcessedAt(+1, +0)) {
             instructionList.add(this::handleHorizontalStuff);
         }
-        if (!isProcessedAt(+0, +1)) {
-            instructionList.add(this::i1090);
-        }
-        return instructionList;
     }
 
     private List<Runnable> getFirstInstructionHandleY() {
@@ -206,24 +208,17 @@ public class MazeBuilder {
         if (y == this.maxVertical) {
             return getRunnables(isNotOkForX, instructionList);
         }
-        var isNotOkForY = !isProcessedAt(+0, +1);
 
-        if (isNotOkForX) {
-            instructionList.add(this::handleHorizontalStuff);
-        }
+        addHandleHorizontalStuffIfNeeded(instructionList);
 
-        if (isNotOkForY) {
-            instructionList.add(this::i1090);
-        }
+        addi1090IfNeeded(instructionList);
         return instructionList;
     }
 
     private List<Runnable> getFirstInstructionHandleOther() {
         List<Runnable> instructionList = new ArrayList<>(List.of(this::i940, this::i1000));
         if (isProcessedAt(+1, +0)) {
-            if (!isProcessedAt(+0, +1)) {
-                instructionList.add(this::i1090);
-            }
+            addi1090IfNeeded(instructionList);
             return instructionList;
         }
 
@@ -245,12 +240,9 @@ public class MazeBuilder {
 
         List<Runnable> instructionList = new ArrayList<>();
 
-        if (falseForXPlus1) {
-            instructionList.add(this::handleHorizontalStuff);
-        }
-        if (!isProcessedAt(+0, +1)) {
-            instructionList.add(this::i1090);
-        }
+
+        addHandleHorizontalStuffIfNeeded(instructionList);
+        addi1090IfNeeded(instructionList);
         if (instructionList.isEmpty()) {
             instructionList.add(this::restartFromNextTrueTile);
         }
@@ -289,5 +281,11 @@ public class MazeBuilder {
             return true;
         }
         return processed[xChanged][yChanged];
+    }
+
+    private void addi1090IfNeeded(List<Runnable> instructionList) {
+        if (!isProcessedAt(+0, +1)) {
+            instructionList.add(this::i1090);
+        }
     }
 }
