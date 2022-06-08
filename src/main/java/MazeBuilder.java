@@ -59,12 +59,12 @@ public class MazeBuilder {
         this.random = random;
         this.processed = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.wallArray = new int[maxHorizontal + 1][maxVertical + 1];
-        entrancePosition = random(maxHorizontal);
+        this.entrancePosition = random(maxHorizontal);
         this.maxHorizontal = maxHorizontal;
         this.maxVertical = maxVertical;
+        this.stepCount = 2;
+        this.q = false;
         initializeArrays(this.maxHorizontal, this.maxVertical);
-        stepCount = 2;
-        q = false;
     }
 
     private int random(int count) {
