@@ -176,9 +176,9 @@ public class MazeBuilder {
     }
 
     private void firstInstruction() {
-        if (isOkFor(-1, +0)) {
+        if (isProcessedAt(-1, +0)) {
             chooseRandomlyOneOf(getFirstInstructionHandleX());
-        } else if (isOkFor(+0, -1)) {
+        } else if (isProcessedAt(+0, -1)) {
             chooseRandomlyOneOf(getFirstInstructionHandleY());
         } else {
             chooseRandomlyOneOf(getFirstInstructionHandleOther());
@@ -186,27 +186,27 @@ public class MazeBuilder {
     }
 
     private List<Runnable> getFirstInstructionHandleX() {
-        if (isOkFor(+0, -1)) {
+        if (isProcessedAt(+0, -1)) {
             return new ArrayList<>(List.of(this::someMethod));
         }
 
         List<Runnable> instructionList = new ArrayList<>(List.of(this::i1000));
-        if (!isOkFor(+1, +0)) {
+        if (!isProcessedAt(+1, +0)) {
             instructionList.add(this::handleHorizontalStuff);
         }
-        if (!isOkFor(+0, +1)) {
+        if (!isProcessedAt(+0, +1)) {
             instructionList.add(this::i1090);
         }
         return instructionList;
     }
 
     private List<Runnable> getFirstInstructionHandleY() {
-        var isNotOkForX = !isOkFor(+1, +0);
+        var isNotOkForX = !isProcessedAt(+1, +0);
         List<Runnable> instructionList = new ArrayList<>(List.of(this::i940));
         if (y == this.maxVertical) {
             return getRunnables(isNotOkForX, instructionList);
         }
-        var isNotOkForY = !isOkFor(+0, +1);
+        var isNotOkForY = !isProcessedAt(+0, +1);
 
         if (isNotOkForX) {
             instructionList.add(this::handleHorizontalStuff);
@@ -220,8 +220,8 @@ public class MazeBuilder {
 
     private List<Runnable> getFirstInstructionHandleOther() {
         List<Runnable> instructionList = new ArrayList<>(List.of(this::i940, this::i1000));
-        if (isOkFor(+1, +0)) {
-            if (!isOkFor(+0, +1)) {
+        if (isProcessedAt(+1, +0)) {
+            if (!isProcessedAt(+0, +1)) {
                 instructionList.add(this::i1090);
             }
             return instructionList;
@@ -232,7 +232,7 @@ public class MazeBuilder {
     }
 
     private void someMethod() {
-        var falseForXPlus1 = !isOkFor(+1, +0);
+        var falseForXPlus1 = !isProcessedAt(+1, +0);
         if (falseForXPlus1 && y == maxVertical) {
             if (wentThrough1090WithQTrue) {
                 handleHorizontalStuff();
@@ -248,7 +248,7 @@ public class MazeBuilder {
         if (falseForXPlus1) {
             instructionList.add(this::handleHorizontalStuff);
         }
-        if (!isOkFor(+0, +1)) {
+        if (!isProcessedAt(+0, +1)) {
             instructionList.add(this::i1090);
         }
         if (instructionList.isEmpty()) {
@@ -279,7 +279,7 @@ public class MazeBuilder {
         return stepCount < this.maxHorizontal * this.maxVertical + 1;
     }
 
-    private boolean isOkFor(int xDelta, int yDelta) {
+    private boolean isProcessedAt(int xDelta, int yDelta) {
         var xChanged = x + xDelta;
         var yChanged = y + yDelta;
         if (xChanged == 0 || yChanged == 0) {
