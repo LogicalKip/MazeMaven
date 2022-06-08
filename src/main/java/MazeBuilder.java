@@ -215,7 +215,7 @@ public class MazeBuilder {
     }
 
     private List<Runnable> getFirstInstructionHandleOther() {
-        List<Runnable> instructionList = new ArrayList<>(List.of(this::i940, this::i1000));
+        List<Runnable> instructionList = of(this::i940, this::i1000);
         if (isProcessedAt(+1, +0)) {
             addi1090IfNeeded(instructionList);
             return instructionList;
@@ -238,7 +238,6 @@ public class MazeBuilder {
         }
 
         List<Runnable> instructionList = new ArrayList<>();
-
 
         addHandleHorizontalStuffIfNeeded(instructionList);
         addi1090IfNeeded(instructionList);
@@ -286,5 +285,8 @@ public class MazeBuilder {
 
     private ArrayList<Runnable> of(Runnable instruction) {
         return new ArrayList<>(List.of(instruction));
+    }
+    private ArrayList<Runnable> of(Runnable instruction, Runnable instruction2) {
+        return new ArrayList<>(List.of(instruction, instruction2));
     }
 }
