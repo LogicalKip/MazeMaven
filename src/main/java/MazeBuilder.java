@@ -198,18 +198,18 @@ public class MazeBuilder {
 
     private List<Runnable> getFirstInstructionHandleY() {
         List<Runnable> instructionList = of(this::i940);
-        if (y == this.maxVertical) {
-            q = true;
-            if (isProcessedAt(+1, +0) && wentThrough1090WithQTrue) {
-                return instructionList;
-            }
-            instructionList.add(this::handleHorizontalStuff);
-            instructionList.add(this::i1090);
+        if (y < this.maxVertical) {
+            addHandleHorizontalStuffIfNeeded(instructionList);
+            addi1090IfNeeded(instructionList);
             return instructionList;
         }
 
-        addHandleHorizontalStuffIfNeeded(instructionList);
-        addi1090IfNeeded(instructionList);
+        q = true;
+        if (isProcessedAt(+1, +0) && wentThrough1090WithQTrue) {
+            return instructionList;
+        }
+        instructionList.add(this::handleHorizontalStuff);
+        instructionList.add(this::i1090);
 
         return instructionList;
     }
