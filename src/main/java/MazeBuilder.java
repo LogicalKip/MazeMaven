@@ -156,10 +156,10 @@ public class MazeBuilder {
         wallArray[x][y] = VERTICAL_WALL;
         x = 1;
         y = 1;
-        if (!processed[x][y]) {
-            restartFromNextTrueTile();
-        } else {
+        if (processed[x][y]) {
             firstInstruction();
+        } else {
+            restartFromNextTrueTile();
         }
     }
 
@@ -168,10 +168,10 @@ public class MazeBuilder {
             y = (y % maxVertical) + 1;
         }
         x = (x % maxHorizontal) + 1;
-        if (!processed[x][y]) {
-            restartFromNextTrueTile();
-        } else {
+        if (processed[x][y]) {
             firstInstruction();
+        } else {
+            restartFromNextTrueTile();
         }
     }
 
