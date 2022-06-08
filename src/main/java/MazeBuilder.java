@@ -196,17 +196,16 @@ public class MazeBuilder {
         return instructionList;
     }
 
-    private void addHandleHorizontalStuffIfNeeded(List<Runnable> instructionList) {
-        if (!isProcessedAt(+1, +0)) {
-            instructionList.add(this::handleHorizontalStuff);
-        }
-    }
-
     private List<Runnable> getFirstInstructionHandleY() {
-        var isNotOkForX = !isProcessedAt(+1, +0);
         List<Runnable> instructionList = new ArrayList<>(List.of(this::i940));
         if (y == this.maxVertical) {
-            return getRunnables(isNotOkForX, instructionList);
+            q = true;
+            if (isProcessedAt(+1, +0) && wentThrough1090WithQTrue) {
+                return instructionList;
+            }
+            instructionList.add(this::handleHorizontalStuff);
+            instructionList.add(this::i1090);
+            return instructionList;
         }
 
         addHandleHorizontalStuffIfNeeded(instructionList);
@@ -249,16 +248,6 @@ public class MazeBuilder {
         chooseRandomlyOneOf(instructionList);
     }
 
-    private List<Runnable> getRunnables(boolean isNotOkForX, List<Runnable> instructionList) {
-        q = true;
-        if (wentThrough1090WithQTrue && !isNotOkForX) {
-            return instructionList;
-        }
-        instructionList.add(this::handleHorizontalStuff);
-        instructionList.add(this::i1090);
-        return instructionList;
-    }
-
     private void chooseRandomlyOneOf(List<Runnable> actions) {
         if (actions.size() == 1) {
             actions.get(0).run();
@@ -286,6 +275,12 @@ public class MazeBuilder {
     private void addi1090IfNeeded(List<Runnable> instructionList) {
         if (!isProcessedAt(+0, +1)) {
             instructionList.add(this::i1090);
+        }
+    }
+
+    private void addHandleHorizontalStuffIfNeeded(List<Runnable> instructionList) {
+        if (!isProcessedAt(+1, +0)) {
+            instructionList.add(this::handleHorizontalStuff);
         }
     }
 }
