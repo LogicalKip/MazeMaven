@@ -175,32 +175,6 @@ public class MazeBuilder {
         }
     }
 
-    private void someMethod() {
-        var falseForXPlus1 = !isOkFor(+1, +0);
-        if (falseForXPlus1 && y == maxVertical) {
-            if (wentThrough1090WithQTrue) {
-                handleHorizontalStuff();
-            } else {
-                q = true;
-                i1000();
-            }
-            return;
-        }
-
-        List<Runnable> instructionList = new ArrayList<>();
-
-        if (falseForXPlus1) {
-            instructionList.add(this::handleHorizontalStuff);
-        }
-        if (!isOkFor(+0, +1)) {
-            instructionList.add(this::i1090);
-        }
-        if (instructionList.isEmpty()) {
-            instructionList.add(this::restartFromNextTrueTile);
-        }
-        chooseRandomlyOneOf(instructionList);
-    }
-
     private void firstInstruction() {
         if (isOkFor(-1, +0)) {
             chooseRandomlyOneOf(getFirstInstructionHandleX());
@@ -209,19 +183,6 @@ public class MazeBuilder {
         } else {
             chooseRandomlyOneOf(getFirstInstructionHandleOther());
         }
-    }
-
-    private List<Runnable> getFirstInstructionHandleOther() {
-        List<Runnable> instructionList = new ArrayList<>(List.of(this::i940, this::i1000));
-        if (isOkFor(+1, +0)) {
-            if (!isOkFor(+0, +1)) {
-                instructionList.add(this::i1090);
-            }
-            return instructionList;
-        }
-
-        instructionList.add(this::handleHorizontalStuff);
-        return instructionList;
     }
 
     private List<Runnable> getFirstInstructionHandleX() {
@@ -255,6 +216,45 @@ public class MazeBuilder {
             instructionList.add(this::i1090);
         }
         return instructionList;
+    }
+
+    private List<Runnable> getFirstInstructionHandleOther() {
+        List<Runnable> instructionList = new ArrayList<>(List.of(this::i940, this::i1000));
+        if (isOkFor(+1, +0)) {
+            if (!isOkFor(+0, +1)) {
+                instructionList.add(this::i1090);
+            }
+            return instructionList;
+        }
+
+        instructionList.add(this::handleHorizontalStuff);
+        return instructionList;
+    }
+
+    private void someMethod() {
+        var falseForXPlus1 = !isOkFor(+1, +0);
+        if (falseForXPlus1 && y == maxVertical) {
+            if (wentThrough1090WithQTrue) {
+                handleHorizontalStuff();
+            } else {
+                q = true;
+                i1000();
+            }
+            return;
+        }
+
+        List<Runnable> instructionList = new ArrayList<>();
+
+        if (falseForXPlus1) {
+            instructionList.add(this::handleHorizontalStuff);
+        }
+        if (!isOkFor(+0, +1)) {
+            instructionList.add(this::i1090);
+        }
+        if (instructionList.isEmpty()) {
+            instructionList.add(this::restartFromNextTrueTile);
+        }
+        chooseRandomlyOneOf(instructionList);
     }
 
     private List<Runnable> getRunnables(boolean isNotOkForX, List<Runnable> instructionList) {

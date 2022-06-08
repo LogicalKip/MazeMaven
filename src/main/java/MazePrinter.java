@@ -4,7 +4,7 @@ public class MazePrinter {
     public static final String VERTICAL_WALL = "  I";
     public static final String VERTICAL_SPACE = "   ";
 
-    public static StringBuilder result = new StringBuilder();
+    public static final StringBuilder result = new StringBuilder();
     void printMaze(int maxHorizontal, int maxVertical, int[][] valueArray, int entrancePosition) {
         clear();
         printHeader();
