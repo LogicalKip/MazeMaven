@@ -283,10 +283,10 @@ public class MazeBuilder {
         }
     }
 
-    private ArrayList<Runnable> of(Runnable instruction) {
+    private List<Runnable> of(Runnable instruction) {
         return new ArrayList<>(List.of(instruction));
     }
-    private ArrayList<Runnable> of(Runnable instruction, Runnable instruction2) {
+    private List<Runnable> of(Runnable instruction, Runnable instruction2) {
         return new ArrayList<>(List.of(instruction, instruction2));
     }
 }
