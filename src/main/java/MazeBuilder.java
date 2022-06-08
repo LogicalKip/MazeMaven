@@ -248,11 +248,11 @@ public class MazeBuilder {
     }
 
     private void chooseRandomlyOneOf(List<Runnable> actions) {
-        if (actions.size() == 1) {
-            actions.get(0).run();
-            return;
-        }
-        actions.get(random(actions.size()) - 1).run();
+        var i =
+                (actions.size() == 1) ?
+                        0 :
+                        (random(actions.size()) - 1);
+        actions.get(i).run();
     }
 
     private boolean stepsAreNotAllFilled() {
@@ -286,6 +286,7 @@ public class MazeBuilder {
     private List<Runnable> of(Runnable instruction) {
         return new ArrayList<>(List.of(instruction));
     }
+
     private List<Runnable> of(Runnable instruction, Runnable instruction2) {
         return new ArrayList<>(List.of(instruction, instruction2));
     }
