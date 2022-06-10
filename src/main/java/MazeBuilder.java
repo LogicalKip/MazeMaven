@@ -156,14 +156,10 @@ public class MazeBuilder {
         wallArray[x][y] = VERTICAL_WALL;
         x = 1;
         y = 1;
-        if (processed[x][y]) {
-            firstInstruction();
-        } else {
-            restartFromNextTrueTile();
-        }
+        restartFromNextProcessedTile();
     }
 
-    private void restartFromNextTrueTile() {
+    private void restartFromNextProcessedTile() {
         if (x == maxHorizontal) {
             y = (y % maxVertical) + 1;
         }
@@ -171,7 +167,7 @@ public class MazeBuilder {
         if (processed[x][y]) {
             firstInstruction();
         } else {
-            restartFromNextTrueTile();
+            restartFromNextProcessedTile();
         }
     }
 
@@ -242,7 +238,7 @@ public class MazeBuilder {
         addHandleHorizontalStuffIfNeeded(instructionList);
         addi1090IfNeeded(instructionList);
         if (instructionList.isEmpty()) {
-            instructionList.add(this::restartFromNextTrueTile);
+            instructionList.add(this::restartFromNextProcessedTile);
         }
         chooseRandomlyOneOf(instructionList);
     }
