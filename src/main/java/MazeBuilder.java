@@ -145,12 +145,7 @@ public class MazeBuilder {
         chooseRandomlyOneOf(getFirstInstructionHandleX());
     }
 
-    private void i1090() { // FIXME seems very related to processed[x][y + 1] == false and y < max
-        if (!q) {
-            handleVerticalStuff();
-            return;
-        }
-
+    private void subi1090() { // FIXME seems very related to processed[x][y + 1] == false and y < max
         wentThrough1090WithQTrue = true;
         q = false;
         wallArray[x][y] = VERTICAL_WALL;
@@ -205,9 +200,14 @@ public class MazeBuilder {
             return instructionList;
         }
         instructionList.add(this::handleHorizontalStuff);
-        instructionList.add(this::i1090);
+        addCorrectPartOfi1090(instructionList);
 
         return instructionList;
+    }
+
+    private void addCorrectPartOfi1090(List<Runnable> instructionList) {
+        // FIXME what if instead of  current implem of addi1090, we did : if !q, add handleVertical, else add [new method for the things below]
+        instructionList.add(q ? this::subi1090 : this::handleVerticalStuff);
     }
 
     private List<Runnable> getFirstInstructionHandleOther() {
@@ -269,7 +269,7 @@ public class MazeBuilder {
 
     private void addi1090IfNeeded(List<Runnable> instructionList) {
         if (!isProcessedAt(+0, +1)) {
-            instructionList.add(this::i1090);
+            addCorrectPartOfi1090(instructionList);
         }
     }
 
