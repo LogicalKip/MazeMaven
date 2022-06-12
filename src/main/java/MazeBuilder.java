@@ -150,9 +150,17 @@ public class MazeBuilder {
             someMethod();
         } else {
             List<Runnable> result = of(this::i1000);
-            addHandleHorizontalStuffIfNeeded(result);
-            addi1090IfNeeded(result);
+            addHorizontalAndOr1090IfNeeded(result);
             chooseRandomlyOneOf(result);
+        }
+    }
+
+    private void addHorizontalAndOr1090IfNeeded(List<Runnable> result) {
+        if (!isProcessedAt(+1, +0)) {
+            result.add(this::handleHorizontalStuff);
+        }
+        if (!isProcessedAt(+0, +1)) {
+            result.add(q ? this::subi1090 : this::handleVerticalStuff);
         }
     }
 
@@ -190,8 +198,7 @@ public class MazeBuilder {
     private void doFirstInstructionHandleY() {
         if (y < this.maxVertical) {
             List<Runnable> instructionList = of(this::i940);
-            addHandleHorizontalStuffIfNeeded(instructionList);
-            addi1090IfNeeded(instructionList);
+            addHorizontalAndOr1090IfNeeded(instructionList);
             chooseRandomlyOneOf(instructionList);
             return;
         }
@@ -247,8 +254,7 @@ public class MazeBuilder {
 
         List<Runnable> instructionList = new ArrayList<>();
 
-        addHandleHorizontalStuffIfNeeded(instructionList);
-        addi1090IfNeeded(instructionList);
+        addHorizontalAndOr1090IfNeeded(instructionList);
         if (instructionList.isEmpty()) {
             instructionList.add(this::restartFromNextProcessedTile);
         }
@@ -280,18 +286,6 @@ public class MazeBuilder {
             return true;
         }
         return processed[xChanged][yChanged];
-    }
-
-    private void addi1090IfNeeded(List<Runnable> instructionList) {
-        if (!isProcessedAt(+0, +1)) {
-            instructionList.add(q ? this::subi1090 : this::handleVerticalStuff);
-        }
-    }
-
-    private void addHandleHorizontalStuffIfNeeded(List<Runnable> instructionList) {
-        if (!isProcessedAt(+1, +0)) {
-            instructionList.add(this::handleHorizontalStuff);
-        }
     }
 
     private List<Runnable> of(Runnable instruction) {
