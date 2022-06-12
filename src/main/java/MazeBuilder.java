@@ -103,8 +103,7 @@ public class MazeBuilder {
         x--;
         wallArray[x][y] = HORIZONTAL_WALL;
 
-        processed[x][y] = true;
-        stepCount++;
+        nextStep();
 
         if (stepsAreNotAllFilled()) {
             q = false;
@@ -116,8 +115,7 @@ public class MazeBuilder {
         y--;
         wallArray[x][y] = VERTICAL_WALL;
 
-        processed[x][y] = true;
-        stepCount++;
+        nextStep();
 
         q = false;
         firstInstruction();
@@ -127,8 +125,7 @@ public class MazeBuilder {
         wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? VERTICAL_WALL : NO_WALL;
         y++;
 
-        processed[x][y] = true;
-        stepCount++;
+        nextStep();
 
         if (stepsAreNotAllFilled()) {
             firstInstruction();
@@ -139,8 +136,7 @@ public class MazeBuilder {
         wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? HORIZONTAL_WALL : NO_WALL;
         x++;
 
-        processed[x][y] = true;
-        stepCount++;
+        nextStep();
 
         doFirstInstructionHandleX();
     }
@@ -294,5 +290,10 @@ public class MazeBuilder {
 
     private Runnable deduceInstructionFromQ() {
         return q ? this::subi1090 : this::handleVerticalStuff;
+    }
+
+    private void nextStep() {
+        processed[x][y] = true;
+        stepCount++;
     }
 }
