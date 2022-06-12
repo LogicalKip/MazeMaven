@@ -155,15 +155,6 @@ public class MazeBuilder {
         }
     }
 
-    private void addHorizontalAndOr1090IfNeeded(List<Runnable> result) {
-        if (!isProcessedAt(+1, +0)) {
-            result.add(this::handleHorizontalStuff);
-        }
-        if (!isProcessedAt(+0, +1)) {
-            result.add(q ? this::subi1090 : this::handleVerticalStuff);
-        }
-    }
-
     private void subi1090() { // FIXME seems very related to processed[x][y + 1] == false and y < max
         wentThrough1090WithQTrue = true;
         q = false;
@@ -292,7 +283,12 @@ public class MazeBuilder {
         return new ArrayList<>(List.of(instruction));
     }
 
-    private List<Runnable> of(Runnable instruction, Runnable instruction2) {
-        return new ArrayList<>(List.of(instruction, instruction2));
+    private void addHorizontalAndOr1090IfNeeded(List<Runnable> result) {
+        if (!isProcessedAt(+1, +0)) {
+            result.add(this::handleHorizontalStuff);
+        }
+        if (!isProcessedAt(+0, +1)) {
+            result.add(q ? this::subi1090 : this::handleVerticalStuff);
+        }
     }
 }
