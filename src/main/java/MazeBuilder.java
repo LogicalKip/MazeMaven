@@ -214,10 +214,6 @@ public class MazeBuilder {
         }
     }
 
-    private void addCorrectPartOfi1090(List<Runnable> instructionList) {
-        instructionList.add(q ? this::subi1090 : this::handleVerticalStuff);
-    }
-
     private List<Runnable> getFirstInstructionHandleOther() {
         List<Runnable> instructionList = of(this::i940, this::i1000);
         if (isProcessedAt(+1, +0)) {
@@ -280,7 +276,7 @@ public class MazeBuilder {
 
     private void addi1090IfNeeded(List<Runnable> instructionList) {
         if (!isProcessedAt(+0, +1)) {
-            addCorrectPartOfi1090(instructionList);
+            instructionList.add(q ? this::subi1090 : this::handleVerticalStuff);
         }
     }
 
