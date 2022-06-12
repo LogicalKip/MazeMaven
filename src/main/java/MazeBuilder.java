@@ -142,7 +142,18 @@ public class MazeBuilder {
         processed[x][y] = true;
         stepCount++;
 
-        chooseRandomlyOneOf(getFirstInstructionHandleX());
+        doFirstInstructionHandleX();
+    }
+
+    private void doFirstInstructionHandleX() {
+        if (isProcessedAt(+0, -1)) {
+            someMethod();
+        } else {
+            List<Runnable> result = of(this::i1000);
+            addHandleHorizontalStuffIfNeeded(result);
+            addi1090IfNeeded(result);
+            chooseRandomlyOneOf(result);
+        }
     }
 
     private void subi1090() { // FIXME seems very related to processed[x][y + 1] == false and y < max
@@ -168,23 +179,12 @@ public class MazeBuilder {
 
     private void firstInstruction() {
         if (isProcessedAt(-1, +0)) {
-            chooseRandomlyOneOf(getFirstInstructionHandleX());
+            doFirstInstructionHandleX();
         } else if (isProcessedAt(+0, -1)) {
             doFirstInstructionHandleY();
         } else {
             doFirstInstructionHandleOther();
         }
-    }
-
-    private List<Runnable> getFirstInstructionHandleX() {
-        if (isProcessedAt(+0, -1)) {
-            return of(this::someMethod);
-        }
-
-        List<Runnable> instructionList = of(this::i1000);
-        addHandleHorizontalStuffIfNeeded(instructionList);
-        addi1090IfNeeded(instructionList);
-        return instructionList;
     }
 
     private void doFirstInstructionHandleY() {
