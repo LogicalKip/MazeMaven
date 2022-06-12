@@ -170,7 +170,8 @@ public class MazeBuilder {
         if (isProcessedAt(-1, +0)) {
             chooseRandomlyOneOf(getFirstInstructionHandleX());
         } else if (isProcessedAt(+0, -1)) {
-            chooseRandomlyOneOf(getFirstInstructionHandleY());
+            final List<Runnable> instructions = getFirstInstructionHandleY();
+            chooseRandomlyOneOf(instructions);
         } else {
             chooseRandomlyOneOf(getFirstInstructionHandleOther());
         }
@@ -188,25 +189,34 @@ public class MazeBuilder {
     }
 
     private List<Runnable> getFirstInstructionHandleY() {
-        List<Runnable> instructionList = of(this::i940);
         if (y < this.maxVertical) {
+            List<Runnable> instructionList = of(this::i940);
             addHandleHorizontalStuffIfNeeded(instructionList);
             addi1090IfNeeded(instructionList);
-            return instructionList;
+            chooseRandomlyOneOf(instructionList);
+            return List.of();
         }
 
         q = true;
         if (isProcessedAt(+1, +0) && wentThrough1090WithQTrue) {
-            return instructionList;
+            i940();
+            return List.of();
         }
-        instructionList.add(this::handleHorizontalStuff);
-        addCorrectPartOfi1090(instructionList);
 
-        return instructionList;
+        int random = random(3);
+        if (random == 1) {
+            i940();
+        } else if (random == 2) {
+            handleHorizontalStuff();
+        } else if (q) {
+            subi1090();
+        } else {
+            handleVerticalStuff();
+        }
+        return List.of();
     }
 
     private void addCorrectPartOfi1090(List<Runnable> instructionList) {
-        // FIXME what if instead of  current implem of addi1090, we did : if !q, add handleVertical, else add [new method for the things below]
         instructionList.add(q ? this::subi1090 : this::handleVerticalStuff);
     }
 
@@ -244,6 +254,9 @@ public class MazeBuilder {
     }
 
     private void chooseRandomlyOneOf(List<Runnable> actions) {
+        if (actions.isEmpty()) {
+            return;
+        }
         var i =
                 (actions.size() == 1) ?
                         0 :
