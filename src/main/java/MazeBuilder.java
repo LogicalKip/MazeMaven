@@ -100,7 +100,7 @@ public class MazeBuilder {
     }
 
     private void i940() {
-        x--;
+        x--; // TODO what if x and y were represented by classes, that this "method" would know. You'd just call "decrement" and it would call the correct class because of how it's been set (with a "x" class here). "decrement()" would know to set a wall, but which exactly ? given by the x/y class. While "increment()" would know to update from existing value
         wallArray[x][y] = HORIZONTAL_WALL;
 
         nextStep();
