@@ -205,10 +205,8 @@ public class MazeBuilder {
             i940();
         } else if (random == 2) {
             handleHorizontalStuff();
-        } else if (q) {
-            subi1090();
         } else {
-            handleVerticalStuff();
+            dependsOnQ();
         }
     }
 
@@ -220,14 +218,12 @@ public class MazeBuilder {
 
         if (random == 1) {
             i940();
-        } else if (random == 2){
+        } else if (random == 2) {
             i1000();
         } else if (notX) {
             handleHorizontalStuff();
-        } else if (q) {
-            subi1090();
         } else {
-            handleVerticalStuff();
+            dependsOnQ();
         }
     }
 
@@ -281,6 +277,14 @@ public class MazeBuilder {
 
     private List<Runnable> of(Runnable instruction) {
         return new ArrayList<>(List.of(instruction));
+    }
+
+    private void dependsOnQ() {
+        if (q) {
+            subi1090();
+        } else {
+            handleVerticalStuff();
+        }
     }
 
     private void addHorizontalAndOr1090IfNeeded(List<Runnable> result) {
