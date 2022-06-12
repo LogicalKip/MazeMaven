@@ -170,8 +170,7 @@ public class MazeBuilder {
         if (isProcessedAt(-1, +0)) {
             chooseRandomlyOneOf(getFirstInstructionHandleX());
         } else if (isProcessedAt(+0, -1)) {
-            final List<Runnable> instructions = getFirstInstructionHandleY();
-            chooseRandomlyOneOf(instructions);
+            doFirstInstructionHandleY();
         } else {
             chooseRandomlyOneOf(getFirstInstructionHandleOther());
         }
@@ -188,19 +187,19 @@ public class MazeBuilder {
         return instructionList;
     }
 
-    private List<Runnable> getFirstInstructionHandleY() {
+    private void doFirstInstructionHandleY() {
         if (y < this.maxVertical) {
             List<Runnable> instructionList = of(this::i940);
             addHandleHorizontalStuffIfNeeded(instructionList);
             addi1090IfNeeded(instructionList);
             chooseRandomlyOneOf(instructionList);
-            return List.of();
+            return;
         }
 
         q = true;
         if (isProcessedAt(+1, +0) && wentThrough1090WithQTrue) {
             i940();
-            return List.of();
+            return;
         }
 
         int random = random(3);
@@ -213,7 +212,6 @@ public class MazeBuilder {
         } else {
             handleVerticalStuff();
         }
-        return List.of();
     }
 
     private void addCorrectPartOfi1090(List<Runnable> instructionList) {
