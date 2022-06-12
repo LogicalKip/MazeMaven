@@ -172,7 +172,7 @@ public class MazeBuilder {
         } else if (isProcessedAt(+0, -1)) {
             doFirstInstructionHandleY();
         } else {
-            chooseRandomlyOneOf(getFirstInstructionHandleOther());
+            doFirstInstructionHandleOther();
         }
     }
 
@@ -214,15 +214,23 @@ public class MazeBuilder {
         }
     }
 
-    private List<Runnable> getFirstInstructionHandleOther() {
-        List<Runnable> instructionList = of(this::i940, this::i1000);
-        if (isProcessedAt(+1, +0)) {
-            addi1090IfNeeded(instructionList);
-            return instructionList;
-        }
+    private void doFirstInstructionHandleOther() {
+        final boolean notX = !isProcessedAt(+1, +0);
+        final boolean notY = !isProcessedAt(+0, +1);
 
-        instructionList.add(this::handleHorizontalStuff);
-        return instructionList;
+        final int random = random(notX || notY ? 3 : 2);
+
+        if (random == 1) {
+            i940();
+        } else if (random == 2){
+            i1000();
+        } else if (notX) {
+            handleHorizontalStuff();
+        } else if (q) {
+            subi1090();
+        } else {
+            handleVerticalStuff();
+        }
     }
 
     private void someMethod() {
