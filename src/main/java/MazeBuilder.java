@@ -279,20 +279,20 @@ public class MazeBuilder {
         return new ArrayList<>(List.of(instruction));
     }
 
-    private void dependsOnQ() {
-        if (q) {
-            subi1090();
-        } else {
-            handleVerticalStuff();
-        }
-    }
-
     private void addHorizontalAndOr1090IfNeeded(List<Runnable> result) {
         if (!isProcessedAt(+1, +0)) {
             result.add(this::handleHorizontalStuff);
         }
         if (!isProcessedAt(+0, +1)) {
-            result.add(q ? this::subi1090 : this::handleVerticalStuff);
+            result.add(deduceInstructionFromQ());
         }
+    }
+
+    private void dependsOnQ() {
+        deduceInstructionFromQ().run();
+    }
+
+    private Runnable deduceInstructionFromQ() {
+        return q ? this::subi1090 : this::handleVerticalStuff;
     }
 }
