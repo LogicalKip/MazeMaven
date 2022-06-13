@@ -5,10 +5,12 @@ public class Data {
         X,
         Y
     }
+
     public static final int VERT_AND_HORIZ_WALL = 0;
     public static final int VERTICAL_WALL = 1;
     public static final int HORIZONTAL_WALL = 2;
     public static final int NO_WALL = 3;
+
     public int[][] getWallArray() {
         return wallArray;
     }
@@ -51,25 +53,18 @@ public class Data {
 
     public void decrement(XorY xorY) {
         if (xorY == XorY.X) {
-            decrementX();
+            x--;
         } else {
-            decrementY();
+            y--;
         }
     }
+
     public void increment(XorY xorY) {
         if (xorY == XorY.X) {
-            incrementX();
+            x++;
         } else {
-            incrementY();
+            y++;
         }
-    }
-
-    public void decrementX() {
-        x--;
-    }
-
-    public void decrementY() {
-        y--;
     }
 
     public void setY(int i) {
@@ -78,14 +73,6 @@ public class Data {
 
     public void setX(int i) {
         x = i;
-    }
-
-    public void incrementY() {
-        y++;
-    }
-
-    public void incrementX() {
-        x++;
     }
 
     public int getCurrentWall() {
