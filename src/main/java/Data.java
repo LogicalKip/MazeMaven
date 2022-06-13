@@ -1,4 +1,8 @@
 public class Data {
+    enum XorY {
+        X,
+        Y
+    }
     public int[][] getWallArray() {
         return wallArray;
     }
@@ -37,6 +41,14 @@ public class Data {
 
     public int getX() {
         return x;
+    }
+
+    public void decrement(XorY xorY) {
+        if (xorY == XorY.X) {
+            decrementX();
+        } else {
+            decrementY();
+        }
     }
 
     public void decrementX() {
