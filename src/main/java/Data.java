@@ -1,4 +1,8 @@
 public class Data {
+    public int[][] getWallArray() {
+        return wallArray;
+    }
+
     /**
      * shows presence of both vertical and horizontal with the same data.
      * 0, 1 : vertical wall.

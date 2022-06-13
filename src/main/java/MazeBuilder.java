@@ -52,7 +52,7 @@ public class MazeBuilder {
     }
 
     public int[][] getWallArray() {
-        return data.wallArray;
+        return data.getWallArray();
     }
 
     public int getEntrancePosition() {
