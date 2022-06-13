@@ -52,8 +52,8 @@ public class MazeBuilder {
         this.maxVertical = maxVertical;
         this.stepCount = 2;
         this.q = false;
-        this.verticalDecrementer = new Decrementer(data, new Vertical());
         initializeArrays(this.maxHorizontal, this.maxVertical);
+        verticalDecrementer = new Decrementer(data, new Vertical());
         verticalIncrementer = new Incrementer(data, new Vertical());
         horizontalIncrementer = new Incrementer(data, new Horizontal());
         horizontalDecrementer = new Decrementer(data, new Horizontal());

@@ -1,6 +1,9 @@
 package dataHandling;
 
 public class Data {
+    private final int maxHorizontal;
+    private final int maxVertical;
+
     enum XorY {
         X,
         Y
@@ -37,6 +40,8 @@ public class Data {
     public int y;
 
     public Data(int maxHorizontal, int maxVertical) {
+        this.maxHorizontal = maxHorizontal;
+        this.maxVertical = maxVertical;
         this.wallArray = new int[maxHorizontal + 1][maxVertical + 1];
         for (int i = 0; i <= maxHorizontal; i++) {
             this.wallArray[i] = new int[maxVertical + 1];
