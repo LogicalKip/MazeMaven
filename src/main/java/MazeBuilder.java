@@ -98,8 +98,7 @@ public class MazeBuilder {
     }
 
     private void handleVerticalStuff() {
-        data.setPossibleWallAtCurrent(VERTICAL_WALL);
-        data.incrementY();
+        new Incrementer(data, new Vertical()).doStuff();
 
         nextStep();
 
