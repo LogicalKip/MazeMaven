@@ -1,8 +1,14 @@
+package dataHandling;
+
 public class Data {
     enum XorY {
         X,
         Y
     }
+    public static final int VERT_AND_HORIZ_WALL = 0;
+    public static final int VERTICAL_WALL = 1;
+    public static final int HORIZONTAL_WALL = 2;
+    public static final int NO_WALL = 3;
     public int[][] getWallArray() {
         return wallArray;
     }
@@ -87,10 +93,10 @@ public class Data {
     }
 
     public void setPossibleWallAtCurrent(int possibleWall) {
-        wallArray[x][y] = getCurrentWall() == MazeBuilder.VERT_AND_HORIZ_WALL ? possibleWall : MazeBuilder.NO_WALL;
+        wallArray[x][y] = getCurrentWall() == VERT_AND_HORIZ_WALL ? possibleWall : NO_WALL;
     }
 
-    void setWallAtCurrent(int horizontalWall) {
+    public void setWallAtCurrent(int horizontalWall) {
         wallArray[x][y] = horizontalWall;
     }
 }

@@ -1,3 +1,5 @@
+package dataHandling;
+
 public class Vertical implements Orientation {
     @Override
     public Data.XorY getXOrY() {
@@ -6,6 +8,6 @@ public class Vertical implements Orientation {
 
     @Override
     public int getTypeOfWall() {
-        return MazeBuilder.VERTICAL_WALL;
+        return Data.VERTICAL_WALL;
     }
 }

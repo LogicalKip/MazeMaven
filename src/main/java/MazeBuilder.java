@@ -1,13 +1,17 @@
+import dataHandling.Data;
+import dataHandling.Decrementer;
+import dataHandling.Horizontal;
+import dataHandling.Incrementer;
+import dataHandling.Vertical;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static dataHandling.Data.VERTICAL_WALL;
+
 public class MazeBuilder {
 
-    public static final int VERT_AND_HORIZ_WALL = 0;
-    public static final int VERTICAL_WALL = 1;
-    public static final int HORIZONTAL_WALL = 2;
-    public static final int NO_WALL = 3;
     private final Random random;
     /**
      * Everything is at false at start except the entrance door.
