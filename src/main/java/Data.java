@@ -67,7 +67,11 @@ public class Data {
         return wallArray[getX()][getY()];
     }
 
-    public void setWallAtCurrent(int possibleWall) {
+    public void setPossibleWallAtCurrent(int possibleWall) {
         wallArray[getX()][getY()] = getCurrentWall() == MazeBuilder.VERT_AND_HORIZ_WALL ? possibleWall : MazeBuilder.NO_WALL;
+    }
+
+    void setWallAtCurrent(int horizontalWall) {
+        wallArray[getX()][getY()] = horizontalWall;
     }
 }

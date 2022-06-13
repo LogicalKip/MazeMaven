@@ -78,7 +78,7 @@ public class MazeBuilder {
 
     private void i940() {
         data.decrementX(); // TODO what if x and y were represented by classes, that this "method" would know. You'd just call "decrement" and it would call the correct class because of how it's been set (with a "x" class here). "decrement()" would know to set a wall, but which exactly ? given by the x/y class. While "increment()" would know to update from existing value
-        setWallAt(HORIZONTAL_WALL);
+        data.setWallAtCurrent(HORIZONTAL_WALL);
 
         nextStep();
 
@@ -88,54 +88,9 @@ public class MazeBuilder {
         }
     }
 
-    private void setWallAt(int horizontalWall) {
-        data.wallArray[data.getX()][data.getY()] = horizontalWall;
-    }
-
-    private int getY() {
-        return data.getY();
-    }
-
-    private int getX() {
-        return data.getX();
-    }
-
-    private void decrementX() {
-        data.decrementX();
-    }
-
-    private void decrementY() {
-        data.decrementY();
-    }
-
-    private void setY(int i) {
-        data.setY(i);
-    }
-
-    private void setX(int i) {
-        data.setX(i);
-    }
-
-    private void incrementY() {
-        data.incrementY();
-    }
-
-    private void incrementX() {
-        data.incrementX();
-    }
-
-    private int getCurrentWall() {
-        return data.getCurrentWall();
-    }
-
-
-    private void setWallAtCurrent(int possibleWall) {
-        data.setWallAtCurrent(possibleWall);
-    }
-
     private void i1000() {
         data.decrementY();
-        setWallAt(VERTICAL_WALL);
+        data.setWallAtCurrent(VERTICAL_WALL);
 
         nextStep();
 
@@ -144,7 +99,7 @@ public class MazeBuilder {
     }
 
     private void handleVerticalStuff() {
-        data.setWallAtCurrent(VERTICAL_WALL);
+        data.setPossibleWallAtCurrent(VERTICAL_WALL);
         data.incrementY();
 
         nextStep();
@@ -155,7 +110,7 @@ public class MazeBuilder {
     }
 
     private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false and is a cousin of i1090
-        data.setWallAtCurrent(HORIZONTAL_WALL);
+        data.setPossibleWallAtCurrent(HORIZONTAL_WALL);
         data.incrementX();
 
         nextStep();
@@ -177,7 +132,7 @@ public class MazeBuilder {
     private void subi1090() { // FIXME seems very related to processed[x][y + 1] == false and y < max
         wentThrough1090WithQTrue = true;
         q = false;
-        setWallAt(VERTICAL_WALL);
+        data.setWallAtCurrent(VERTICAL_WALL);
         data.setX(1);
         data.setY(1);
         restartFromNextProcessedTile();
