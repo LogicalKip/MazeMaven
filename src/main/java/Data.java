@@ -64,14 +64,14 @@ public class Data {
     }
 
     public int getCurrentWall() {
-        return wallArray[getX()][getY()];
+        return wallArray[x][y];
     }
 
     public void setPossibleWallAtCurrent(int possibleWall) {
-        wallArray[getX()][getY()] = getCurrentWall() == MazeBuilder.VERT_AND_HORIZ_WALL ? possibleWall : MazeBuilder.NO_WALL;
+        wallArray[x][y] = getCurrentWall() == MazeBuilder.VERT_AND_HORIZ_WALL ? possibleWall : MazeBuilder.NO_WALL;
     }
 
     void setWallAtCurrent(int horizontalWall) {
-        wallArray[getX()][getY()] = horizontalWall;
+        wallArray[x][y] = horizontalWall;
     }
 }

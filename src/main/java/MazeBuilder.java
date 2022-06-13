@@ -64,7 +64,6 @@ public class MazeBuilder {
             processed[i] = new boolean[maxVertical + 1];
         }
 
-
         processed[entrancePosition][1] = true;
     }
 
