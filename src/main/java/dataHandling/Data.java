@@ -39,13 +39,25 @@ public class Data {
      */
     public int y;
 
-    public Data(int maxHorizontal, int maxVertical) {
+    /**
+     * Everything is at false at start except the entrance door.
+     * At the end everything is true except the top and side tiles
+     * Maybe means "has been processed" ?
+     */
+    private final boolean[][] processed;
+    public Data(int maxHorizontal, int maxVertical, int entrancePosition) {
+        this.processed = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.maxHorizontal = maxHorizontal;
         this.maxVertical = maxVertical;
         this.wallArray = new int[maxHorizontal + 1][maxVertical + 1];
         for (int i = 0; i <= maxHorizontal; i++) {
             this.wallArray[i] = new int[maxVertical + 1];
         }
+        for (int i = 0; i <= maxHorizontal; i++) {
+            processed[i] = new boolean[maxVertical + 1];
+        }
+
+        processed[entrancePosition][1] = true;
     }
 
     public int getY() {
@@ -88,7 +100,26 @@ public class Data {
         wallArray[x][y] = getCurrentWall() == VERT_AND_HORIZ_WALL ? possibleWall : NO_WALL;
     }
 
+    public boolean isProcessedAt(int xDelta, int yDelta) {
+        var xChanged = getX() + xDelta;
+        var yChanged = getY() + yDelta;
+        if (xChanged == 0 || yChanged == 0) {
+            return true;
+        }
+        if (xChanged > maxHorizontal || yChanged > maxVertical) {
+            return true;
+        }
+        return processed[xChanged][yChanged];
+    }
     public void setWallAtCurrent(int horizontalWall) {
         wallArray[x][y] = horizontalWall;
+    }
+
+    public boolean isProcessedAtCurrent() {
+        return processed[getX()][getY()];
+    }
+
+    public void setCurrentToProcessed() {
+        processed[getX()][getY()] = true;
     }
 }

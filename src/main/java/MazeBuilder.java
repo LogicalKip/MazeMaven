@@ -13,12 +13,6 @@ import static dataHandling.Data.VERTICAL_WALL;
 public class MazeBuilder {
 
     private final Random random;
-    /**
-     * Everything is at false at start except the entrance door.
-     * At the end everything is true except the top and side tiles
-     * Maybe means "has been processed" ?
-     */
-    private final boolean[][] processed;
 
     private final int entrancePosition;
     private final int maxHorizontal;
@@ -45,9 +39,9 @@ public class MazeBuilder {
 
     public MazeBuilder(Random random, int maxHorizontal, int maxVertical) {
         this.random = random;
-        this.processed = new boolean[maxHorizontal + 1][maxVertical + 1];
-        this.data = new Data(maxHorizontal, maxVertical);
-        this.entrancePosition = random(maxHorizontal);
+        final int entrancePosition = random(maxHorizontal);
+        this.data = new Data(maxHorizontal, maxVertical, entrancePosition);
+        this.entrancePosition = entrancePosition;
         this.maxHorizontal = maxHorizontal;
         this.maxVertical = maxVertical;
         this.stepCount = 2;
@@ -72,11 +66,6 @@ public class MazeBuilder {
     }
 
     private void initializeArrays(int maxHorizontal, int maxVertical) {
-        for (int i = 0; i <= maxHorizontal; i++) {
-            processed[i] = new boolean[maxVertical + 1];
-        }
-
-        processed[entrancePosition][1] = true;
     }
 
     public void createMaze() {
@@ -151,7 +140,7 @@ public class MazeBuilder {
             data.setY((data.getY() % maxVertical) + 1);
         }
         data.setX((data.getX() % maxHorizontal) + 1);
-        if (processed[data.getX()][data.getY()]) {
+        if (data.isProcessedAtCurrent()) {
             firstInstruction();
         } else {
             restartFromNextProcessedTile();
@@ -246,15 +235,7 @@ public class MazeBuilder {
     }
 
     private boolean isProcessedAt(int xDelta, int yDelta) {
-        var xChanged = data.getX() + xDelta;
-        var yChanged = data.getY() + yDelta;
-        if (xChanged == 0 || yChanged == 0) {
-            return true;
-        }
-        if (xChanged > maxHorizontal || yChanged > maxVertical) {
-            return true;
-        }
-        return processed[xChanged][yChanged];
+        return data.isProcessedAt(xDelta, yDelta);
     }
 
     private List<Runnable> of(Runnable instruction) {
@@ -279,7 +260,8 @@ public class MazeBuilder {
     }
 
     private void nextStep() {
-        processed[data.getX()][data.getY()] = true;
+        data.setCurrentToProcessed();
         stepCount++;
     }
+
 }
