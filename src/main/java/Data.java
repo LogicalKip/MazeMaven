@@ -26,6 +26,9 @@ public class Data {
 
     public Data(int maxHorizontal, int maxVertical) {
         this.wallArray = new int[maxHorizontal + 1][maxVertical + 1];
+        for (int i = 0; i <= maxHorizontal; i++) {
+            this.wallArray[i] = new int[maxVertical + 1];
+        }
     }
 
     public int getY() {

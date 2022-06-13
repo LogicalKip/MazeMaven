@@ -64,9 +64,6 @@ public class MazeBuilder {
             processed[i] = new boolean[maxVertical + 1];
         }
 
-        for (int i = 0; i <= maxHorizontal; i++) {
-            data.wallArray[i] = new int[maxVertical + 1];
-        }
 
         processed[entrancePosition][1] = true;
     }
