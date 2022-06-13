@@ -50,6 +50,13 @@ public class Data {
             decrementY();
         }
     }
+    public void increment(XorY xorY) {
+        if (xorY == XorY.X) {
+            incrementX();
+        } else {
+            incrementY();
+        }
+    }
 
     public void decrementX() {
         x--;
