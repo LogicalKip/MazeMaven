@@ -93,15 +93,15 @@ public class MazeBuilder {
 
     public void createMaze() {
         wentThrough1090WithQTrue = false; // ex Z
-        x = entrancePosition;
-        y = 1;
+        setX(entrancePosition);
+        setY(1);
 
         firstInstruction();
     }
 
     private void i940() {
-        x--; // TODO what if x and y were represented by classes, that this "method" would know. You'd just call "decrement" and it would call the correct class because of how it's been set (with a "x" class here). "decrement()" would know to set a wall, but which exactly ? given by the x/y class. While "increment()" would know to update from existing value
-        wallArray[x][y] = HORIZONTAL_WALL;
+        decrementX(); // TODO what if x and y were represented by classes, that this "method" would know. You'd just call "decrement" and it would call the correct class because of how it's been set (with a "x" class here). "decrement()" would know to set a wall, but which exactly ? given by the x/y class. While "increment()" would know to update from existing value
+        setWallAt(HORIZONTAL_WALL);
 
         nextStep();
 
@@ -111,9 +111,54 @@ public class MazeBuilder {
         }
     }
 
-    private void i1000() {
+    private void setWallAt(int horizontalWall) {
+        wallArray[getX()][getY()] = horizontalWall;
+    }
+
+    private int getY() {
+        return y;
+    }
+
+    private int getX() {
+        return x;
+    }
+
+    private int decrementX() {
+        return x--;
+    }
+
+    private void decrementY() {
         y--;
-        wallArray[x][y] = VERTICAL_WALL;
+    }
+
+    private void setY(int i) {
+        y = i;
+    }
+
+    private void setX(int i) {
+        x = i;
+    }
+
+    private void incrementY() {
+        y++;
+    }
+
+    private void incrementX() {
+        x++;
+    }
+
+    private int getCurrentWall() {
+        return wallArray[getX()][getY()];
+    }
+
+
+    private void setWallAtCurrent(int possibleWall) {
+        wallArray[getX()][getY()] = getCurrentWall() == VERT_AND_HORIZ_WALL ? possibleWall : NO_WALL;
+    }
+
+    private void i1000() {
+        decrementY();
+        setWallAt(VERTICAL_WALL);
 
         nextStep();
 
@@ -122,8 +167,8 @@ public class MazeBuilder {
     }
 
     private void handleVerticalStuff() {
-        wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? VERTICAL_WALL : NO_WALL;
-        y++;
+        setWallAtCurrent(VERTICAL_WALL);
+        incrementY();
 
         nextStep();
 
@@ -133,13 +178,14 @@ public class MazeBuilder {
     }
 
     private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false and is a cousin of i1090
-        wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? HORIZONTAL_WALL : NO_WALL;
-        x++;
+        setWallAtCurrent(HORIZONTAL_WALL);
+        incrementX();
 
         nextStep();
 
         doFirstInstructionHandleX();
     }
+
 
     private void doFirstInstructionHandleX() {
         if (isProcessedAt(+0, -1)) {
@@ -154,18 +200,19 @@ public class MazeBuilder {
     private void subi1090() { // FIXME seems very related to processed[x][y + 1] == false and y < max
         wentThrough1090WithQTrue = true;
         q = false;
-        wallArray[x][y] = VERTICAL_WALL;
-        x = 1;
-        y = 1;
+        setWallAt(VERTICAL_WALL);
+        setX(1);
+        setY(1);
         restartFromNextProcessedTile();
     }
 
+
     private void restartFromNextProcessedTile() {
-        if (x == maxHorizontal) {
-            y = (y % maxVertical) + 1;
+        if (getX() == maxHorizontal) {
+            setY((getY() % maxVertical) + 1);
         }
-        x = (x % maxHorizontal) + 1;
-        if (processed[x][y]) {
+        setX((getX() % maxHorizontal) + 1);
+        if (processed[getX()][getY()]) {
             firstInstruction();
         } else {
             restartFromNextProcessedTile();
@@ -183,7 +230,7 @@ public class MazeBuilder {
     }
 
     private void doFirstInstructionHandleY() {
-        if (y < this.maxVertical) {
+        if (getY() < this.maxVertical) {
             List<Runnable> instructionList = of(this::i940);
             addHorizontalAndOr1090IfNeeded(instructionList);
             chooseRandomlyOneOf(instructionList);
@@ -225,7 +272,7 @@ public class MazeBuilder {
 
     private void someMethod() {
         var falseForXPlus1 = !isProcessedAt(+1, +0);
-        if (falseForXPlus1 && y == maxVertical) {
+        if (falseForXPlus1 && getY() == maxVertical) {
             if (wentThrough1090WithQTrue) {
                 handleHorizontalStuff();
             } else {
@@ -260,8 +307,8 @@ public class MazeBuilder {
     }
 
     private boolean isProcessedAt(int xDelta, int yDelta) {
-        var xChanged = x + xDelta;
-        var yChanged = y + yDelta;
+        var xChanged = getX() + xDelta;
+        var yChanged = getY() + yDelta;
         if (xChanged == 0 || yChanged == 0) {
             return true;
         }
@@ -293,7 +340,7 @@ public class MazeBuilder {
     }
 
     private void nextStep() {
-        processed[x][y] = true;
+        processed[getX()][getY()] = true;
         stepCount++;
     }
 }
