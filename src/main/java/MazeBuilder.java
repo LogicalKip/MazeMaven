@@ -20,6 +20,9 @@ public class MazeBuilder {
     private final int maxHorizontal;
     private final int maxVertical;
     private final Data data;
+    private final Incrementer verticalIncrementer;
+    private final Incrementer horizontalIncrementer;
+    private final Decrementer horizontalDecrementer;
 
     /**
      * ex c
@@ -34,6 +37,7 @@ public class MazeBuilder {
      * ex x
      */
     private boolean wentThrough1090WithQTrue;
+    private final Decrementer verticalDecrementer;
 
     public MazeBuilder(Random random, int maxHorizontal, int maxVertical) {
         this.random = random;
@@ -44,7 +48,11 @@ public class MazeBuilder {
         this.maxVertical = maxVertical;
         this.stepCount = 2;
         this.q = false;
+        this.verticalDecrementer = new Decrementer(data, new Vertical());
         initializeArrays(this.maxHorizontal, this.maxVertical);
+        verticalIncrementer = new Incrementer(data, new Vertical());
+        horizontalIncrementer = new Incrementer(data, new Horizontal());
+        horizontalDecrementer = new Decrementer(data, new Horizontal());
     }
 
     private int random(int count) {
@@ -76,8 +84,7 @@ public class MazeBuilder {
     }
 
     private void i940() {
-        data.decrementX(); // TODO what if x and y were represented by classes, that this "method" would know. You'd just call "decrement" and it would call the correct class because of how it's been set (with a "x" class here). "decrement()" would know to set a wall, but which exactly ? given by the x/y class. While "increment()" would know to update from existing value
-        data.setWallAtCurrent(HORIZONTAL_WALL);
+        horizontalDecrementer.doStuff();
 
         nextStep();
 
@@ -88,8 +95,7 @@ public class MazeBuilder {
     }
 
     private void i1000() {
-        data.decrementY();
-        data.setWallAtCurrent(VERTICAL_WALL);
+        verticalDecrementer.doStuff();
 
         nextStep();
 
@@ -98,7 +104,7 @@ public class MazeBuilder {
     }
 
     private void handleVerticalStuff() {
-        new Incrementer(data, new Vertical()).doStuff();
+        verticalIncrementer.doStuff();
 
         nextStep();
 
@@ -108,7 +114,7 @@ public class MazeBuilder {
     }
 
     private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false and is a cousin of i1090
-        new Incrementer(data, new Horizontal()).doStuff();
+        horizontalIncrementer.doStuff();
 
         nextStep();
 

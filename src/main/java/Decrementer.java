@@ -9,7 +9,7 @@ public class Decrementer implements ICrementer {
     }
     @Override
     public void doStuff() {
-        data.setPossibleWallAtCurrent(orientation.getTypeOfWall());
-        data.increment(orientation.getXOrY());
+        data.decrement(orientation.getXOrY());
+        data.setWallAtCurrent(orientation.getTypeOfWall());
     }
 }
