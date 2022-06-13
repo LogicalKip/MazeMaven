@@ -1,4 +1,4 @@
-public class XProcedure implements Orientation {
+public class Horizontal implements Orientation {
     @Override
     public Data.XorY getXOrY() {
         return Data.XorY.X;

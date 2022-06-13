@@ -109,8 +109,7 @@ public class MazeBuilder {
     }
 
     private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false and is a cousin of i1090
-        data.setPossibleWallAtCurrent(HORIZONTAL_WALL);
-        data.incrementX();
+        new Incrementer(data, new Horizontal()).doStuff();
 
         nextStep();
 
