@@ -1,12 +1,8 @@
 package dataHandling;
 
 public class Incrementer extends Crementer {
-    private final Data data;
-    private final Orientation orientation;
-
     public Incrementer(Data data, Orientation orientation) {
-        this.data = data;
-        this.orientation = orientation;
+        super(data, orientation);
     }
     @Override
     public void doStuff() {
