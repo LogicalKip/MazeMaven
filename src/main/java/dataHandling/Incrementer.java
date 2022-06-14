@@ -5,9 +5,8 @@ public class Incrementer extends Crementer {
         super(data, orientation);
     }
     @Override
-    public void doStuff() {
+    public void toImplement() {
         data.setPossibleWallAtCurrent(orientation.getTypeOfWall());
         data.increment(orientation.getXOrY());
-        data.nextStep();
     }
 }

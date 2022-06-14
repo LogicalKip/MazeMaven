@@ -9,6 +9,11 @@ public abstract class Crementer {
         this.orientation = orientation;
     }
 
-    public abstract void doStuff();
+    protected abstract void toImplement();
+
+    public void doStuff() {
+        toImplement();
+        data.nextStep();
+    }
 
 }

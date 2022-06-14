@@ -5,10 +5,9 @@ public class Decrementer extends Crementer {
         super(data, orientation);
     }
     @Override
-    public void doStuff() {
+    public void toImplement() {
         data.decrement(orientation.getXOrY());
         data.setWallAtCurrent(orientation.getTypeOfWall());
 
-        data.nextStep();
     }
 }
