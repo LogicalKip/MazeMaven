@@ -95,7 +95,7 @@ public class MazeBuilder {
 
 
     private void doFirstInstructionHandleX() {
-        if (data.isProcessedAt(+0, -1)) {
+        if (data.isProcessedAt(+0, -1)) { // FIXME there might be a link between isProcessed and the "direction" we then go to. Which is shown by the method chosen
             someMethod();
         } else {
             List<Runnable> result = of(this::i1000);
