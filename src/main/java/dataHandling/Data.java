@@ -4,16 +4,17 @@ public class Data {
     private final int maxHorizontal;
     private final int maxVertical;
 
+
+
     enum XorY {
         X,
-        Y
+        Y;
     }
-
     public static final int VERT_AND_HORIZ_WALL = 0;
+
     public static final int VERTICAL_WALL = 1;
     public static final int HORIZONTAL_WALL = 2;
     public static final int NO_WALL = 3;
-
     public int[][] getWallArray() {
         return wallArray;
     }
@@ -23,6 +24,7 @@ public class Data {
      * ex c
      */
     private int stepCount;
+
 
     /**
      * shows presence of both vertical and horizontal with the same data.
@@ -72,10 +74,17 @@ public class Data {
         return stepCount < this.maxHorizontal * this.maxVertical + 1;
     }
 
+    public void continueXY() {
+        if (x == maxHorizontal) {
+            y = (y % maxVertical) + 1;
+        }
+        x = (x % maxHorizontal) + 1;
+    }
     public void nextStep() {
         setCurrentToProcessed();
         stepCount++;
     }
+
     public int getY() {
         return y;
     }

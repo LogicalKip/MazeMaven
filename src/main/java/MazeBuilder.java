@@ -122,10 +122,7 @@ public class MazeBuilder {
 
 
     private void restartFromNextProcessedTile() {
-        if (data.getX() == maxHorizontal) {
-            data.setY((data.getY() % maxVertical) + 1);
-        }
-        data.setX((data.getX() % maxHorizontal) + 1);
+        data.continueXY();
         if (data.isProcessedAtCurrent()) {
             firstInstruction();
         } else {
