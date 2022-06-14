@@ -1,37 +1,10 @@
 package dataHandling;
 
 public class Data {
-    private final int maxHorizontal;
-
-    private final int maxVertical;
-
-    public boolean yMaxed() {
-        return getY() == getMaxVertical();
-    }
-
-
-    enum XorY {
-        X,
-        Y;
-
-    }
     public static final int VERT_AND_HORIZ_WALL = 0;
-
     public static final int VERTICAL_WALL = 1;
-
     public static final int HORIZONTAL_WALL = 2;
     public static final int NO_WALL = 3;
-    public int[][] getWallArray() {
-        return wallArray;
-    }
-
-
-    /**
-     * ex c
-     */
-    private int stepCount;
-
-
     /**
      * shows presence of both vertical and horizontal with the same data.
      * 0, 1 : vertical wall.
@@ -44,7 +17,14 @@ public class Data {
      * It's the output of the MazeBuilder, and isn't used at all to create the maze
      */
     public final int[][] wallArray;
-
+    private final int maxHorizontal;
+    private final int maxVertical;
+    /**
+     * Everything is at false at start except the entrance door.
+     * At the end everything is true except the top and side tiles
+     * Maybe means "has been processed" ?
+     */
+    private final boolean[][] processed;
     /**
      * ex r
      */
@@ -54,11 +34,9 @@ public class Data {
      */
     public int y;
     /**
-     * Everything is at false at start except the entrance door.
-     * At the end everything is true except the top and side tiles
-     * Maybe means "has been processed" ?
+     * ex c
      */
-    private final boolean[][] processed;
+    private int stepCount;
 
     public Data(int maxHorizontal, int maxVertical, int entrancePosition) {
         this.processed = new boolean[maxHorizontal + 1][maxVertical + 1];
@@ -74,6 +52,14 @@ public class Data {
         }
 
         processed[entrancePosition][1] = true;
+    }
+
+    public boolean yMaxed() {
+        return getY() == getMaxVertical();
+    }
+
+    public int[][] getWallArray() {
+        return wallArray;
     }
 
     public boolean stepsAreNotAllFilled() {
@@ -96,8 +82,16 @@ public class Data {
         return y;
     }
 
+    public void setY(int i) {
+        y = i;
+    }
+
     public int getX() {
         return x;
+    }
+
+    public void setX(int i) {
+        x = i;
     }
 
     public void decrement(XorY xorY) {
@@ -114,14 +108,6 @@ public class Data {
         } else {
             y++;
         }
-    }
-
-    public void setY(int i) {
-        y = i;
-    }
-
-    public void setX(int i) {
-        x = i;
     }
 
     public int getCurrentWall() {
@@ -158,5 +144,11 @@ public class Data {
 
     public int getMaxVertical() {
         return maxVertical;
+    }
+
+    enum XorY {
+        X,
+        Y;
+
     }
 }

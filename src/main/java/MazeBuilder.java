@@ -30,6 +30,7 @@ public class MazeBuilder {
      * ex x
      */
     private boolean wentThrough1090WithQTrue;
+
     public MazeBuilder(Random random, int maxHorizontal, int maxVertical) {
         this.random = random;
         final int entrancePosition = random(maxHorizontal);
