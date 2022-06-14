@@ -15,8 +15,6 @@ public class MazeBuilder {
     private final Random random;
 
     private final int entrancePosition;
-    private final int maxHorizontal;
-    private final int maxVertical;
     private final Data data;
     private final Incrementer verticalIncrementer;
     private final Incrementer horizontalIncrementer;
@@ -37,10 +35,7 @@ public class MazeBuilder {
         final int entrancePosition = random(maxHorizontal);
         this.data = new Data(maxHorizontal, maxVertical, entrancePosition);
         this.entrancePosition = entrancePosition;
-        this.maxHorizontal = maxHorizontal;
-        this.maxVertical = maxVertical;
         this.q = false;
-        initializeArrays(this.maxHorizontal, this.maxVertical);
         verticalDecrementer = new Decrementer(data, new Vertical());
         verticalIncrementer = new Incrementer(data, new Vertical());
         horizontalIncrementer = new Incrementer(data, new Horizontal());
@@ -59,9 +54,6 @@ public class MazeBuilder {
         return entrancePosition;
     }
 
-    private void initializeArrays(int maxHorizontal, int maxVertical) {
-    }
-
     public void createMaze() {
         wentThrough1090WithQTrue = false; // ex Z
         data.setX(entrancePosition);
@@ -73,7 +65,7 @@ public class MazeBuilder {
     private void i940() {
         horizontalDecrementer.doStuff();
 
-        if (stepsAreNotAllFilled()) {
+        if (data.stepsAreNotAllFilled()) {
             q = false;
             firstInstruction();
         }
@@ -89,7 +81,7 @@ public class MazeBuilder {
     private void handleVerticalStuff() {
         verticalIncrementer.doStuff();
 
-        if (stepsAreNotAllFilled()) {
+        if (data.stepsAreNotAllFilled()) {
             firstInstruction();
         }
     }
@@ -102,7 +94,7 @@ public class MazeBuilder {
 
 
     private void doFirstInstructionHandleX() {
-        if (isProcessedAt(+0, -1)) {
+        if (data.isProcessedAt(+0, -1)) {
             someMethod();
         } else {
             List<Runnable> result = of(this::i1000);
@@ -131,9 +123,9 @@ public class MazeBuilder {
     }
 
     private void firstInstruction() {
-        if (isProcessedAt(-1, +0)) {
+        if (data.isProcessedAt(-1, +0)) {
             doFirstInstructionHandleX();
-        } else if (isProcessedAt(+0, -1)) {
+        } else if (data.isProcessedAt(+0, -1)) {
             doFirstInstructionHandleY();
         } else {
             doFirstInstructionHandleOther();
@@ -141,7 +133,7 @@ public class MazeBuilder {
     }
 
     private void doFirstInstructionHandleY() {
-        if (data.getY() < this.maxVertical) {
+        if (!data.yMaxed()) {
             List<Runnable> instructionList = of(this::i940);
             addHorizontalAndOr1090IfNeeded(instructionList);
             chooseRandomlyOneOf(instructionList);
@@ -149,7 +141,7 @@ public class MazeBuilder {
         }
 
         q = true;
-        if (isProcessedAt(+1, +0) && wentThrough1090WithQTrue) {
+        if (data.isProcessedAt(+1, +0) && wentThrough1090WithQTrue) {
             i940();
             return;
         }
@@ -165,8 +157,8 @@ public class MazeBuilder {
     }
 
     private void doFirstInstructionHandleOther() {
-        final boolean notX = !isProcessedAt(+1, +0);
-        final boolean notY = !isProcessedAt(+0, +1);
+        final boolean notX = !data.isProcessedAt(+1, +0);
+        final boolean notY = !data.isProcessedAt(+0, +1);
 
         final int random = random(notX || notY ? 3 : 2);
 
@@ -182,8 +174,8 @@ public class MazeBuilder {
     }
 
     private void someMethod() {
-        var falseForXPlus1 = !isProcessedAt(+1, +0);
-        if (falseForXPlus1 && data.getY() == maxVertical) {
+        var falseForXPlus1 = !data.isProcessedAt(+1, +0);
+        if (falseForXPlus1 && data.yMaxed()) {
             if (wentThrough1090WithQTrue) {
                 handleHorizontalStuff();
             } else {
@@ -213,23 +205,15 @@ public class MazeBuilder {
         actions.get(i).run();
     }
 
-    private boolean stepsAreNotAllFilled() {
-        return data.stepsAreNotAllFilled();
-    }
-
-    private boolean isProcessedAt(int xDelta, int yDelta) {
-        return data.isProcessedAt(xDelta, yDelta);
-    }
-
     private List<Runnable> of(Runnable instruction) {
         return new ArrayList<>(List.of(instruction));
     }
 
     private void addHorizontalAndOr1090IfNeeded(List<Runnable> result) {
-        if (!isProcessedAt(+1, +0)) {
+        if (!data.isProcessedAt(+1, +0)) {
             result.add(this::handleHorizontalStuff);
         }
-        if (!isProcessedAt(+0, +1)) {
+        if (!data.isProcessedAt(+0, +1)) {
             result.add(deduceInstructionFromQ());
         }
     }

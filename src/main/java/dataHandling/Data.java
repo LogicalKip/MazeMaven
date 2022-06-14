@@ -2,17 +2,23 @@ package dataHandling;
 
 public class Data {
     private final int maxHorizontal;
+
     private final int maxVertical;
 
+    public boolean yMaxed() {
+        return getY() == getMaxVertical();
+    }
 
 
     enum XorY {
         X,
         Y;
+
     }
     public static final int VERT_AND_HORIZ_WALL = 0;
 
     public static final int VERTICAL_WALL = 1;
+
     public static final int HORIZONTAL_WALL = 2;
     public static final int NO_WALL = 3;
     public int[][] getWallArray() {
@@ -38,6 +44,7 @@ public class Data {
      * It's the output of the MazeBuilder, and isn't used at all to create the maze
      */
     public final int[][] wallArray;
+
     /**
      * ex r
      */
@@ -46,7 +53,6 @@ public class Data {
      * ex s
      */
     public int y;
-
     /**
      * Everything is at false at start except the entrance door.
      * At the end everything is true except the top and side tiles
@@ -80,6 +86,7 @@ public class Data {
         }
         x = (x % maxHorizontal) + 1;
     }
+
     public void nextStep() {
         setCurrentToProcessed();
         stepCount++;
@@ -147,5 +154,9 @@ public class Data {
 
     public void setCurrentToProcessed() {
         processed[getX()][getY()] = true;
+    }
+
+    public int getMaxVertical() {
+        return maxVertical;
     }
 }
