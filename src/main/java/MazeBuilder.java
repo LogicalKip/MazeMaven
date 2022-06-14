@@ -21,6 +21,8 @@ public class MazeBuilder {
     private final Incrementer verticalIncrementer;
     private final Incrementer horizontalIncrementer;
     private final Decrementer horizontalDecrementer;
+    private final Decrementer verticalDecrementer;
+
 
     /**
      * ex c
@@ -35,8 +37,6 @@ public class MazeBuilder {
      * ex x
      */
     private boolean wentThrough1090WithQTrue;
-    private final Decrementer verticalDecrementer;
-
     public MazeBuilder(Random random, int maxHorizontal, int maxVertical) {
         this.random = random;
         final int entrancePosition = random(maxHorizontal);

@@ -45,6 +45,7 @@ public class Data {
      * Maybe means "has been processed" ?
      */
     private final boolean[][] processed;
+
     public Data(int maxHorizontal, int maxVertical, int entrancePosition) {
         this.processed = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.maxHorizontal = maxHorizontal;
@@ -111,6 +112,7 @@ public class Data {
         }
         return processed[xChanged][yChanged];
     }
+
     public void setWallAtCurrent(int horizontalWall) {
         wallArray[x][y] = horizontalWall;
     }
