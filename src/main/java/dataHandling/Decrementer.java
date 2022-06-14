@@ -13,5 +13,7 @@ public class Decrementer implements ICrementer {
     public void doStuff() {
         data.decrement(orientation.getXOrY());
         data.setWallAtCurrent(orientation.getTypeOfWall());
+
+        data.nextStep();
     }
 }

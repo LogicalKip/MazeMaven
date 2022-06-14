@@ -12,5 +12,6 @@ public class Incrementer implements ICrementer {
     public void doStuff() {
         data.setPossibleWallAtCurrent(orientation.getTypeOfWall());
         data.increment(orientation.getXOrY());
+        data.nextStep();
     }
 }

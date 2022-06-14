@@ -73,7 +73,6 @@ public class MazeBuilder {
     private void i940() {
         horizontalDecrementer.doStuff();
 
-        data.nextStep();
 
         if (stepsAreNotAllFilled()) {
             q = false;
@@ -84,7 +83,6 @@ public class MazeBuilder {
     private void i1000() {
         verticalDecrementer.doStuff();
 
-        data.nextStep();
 
         q = false;
         firstInstruction();
@@ -93,7 +91,6 @@ public class MazeBuilder {
     private void handleVerticalStuff() {
         verticalIncrementer.doStuff();
 
-        data.nextStep();
 
         if (stepsAreNotAllFilled()) {
             firstInstruction();
@@ -103,7 +100,6 @@ public class MazeBuilder {
     private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false and is a cousin of i1090
         horizontalIncrementer.doStuff();
 
-        data.nextStep();
 
         doFirstInstructionHandleX();
     }
