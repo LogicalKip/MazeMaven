@@ -106,7 +106,7 @@ public class Data {
         return wallArray[x][y];
     }
 
-    public void setPossibleWallAtCurrent(int possibleWall) {
+    public void simplifyWallInto(int possibleWall) {
         wallArray[x][y] = getCurrentWall() == VERT_AND_HORIZ_WALL ? possibleWall : NO_WALL;
     }
 
@@ -122,8 +122,8 @@ public class Data {
         return processed[xChanged][yChanged];
     }
 
-    public void setWallAtCurrent(int horizontalWall) {
-        wallArray[x][y] = horizontalWall;
+    public void setWallAtCurrent(int wallType) {
+        wallArray[x][y] = wallType;
     }
 
     public boolean isProcessedAtCurrent() {
