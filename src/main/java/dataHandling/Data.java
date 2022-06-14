@@ -55,7 +55,7 @@ public class Data {
     }
 
     public boolean yMaxed() {
-        return getY() == getMaxVertical();
+        return y == getMaxVertical();
     }
 
     public int[][] getWallArray() {
@@ -66,7 +66,7 @@ public class Data {
         return stepCount < this.maxHorizontal * this.maxVertical + 1;
     }
 
-    public void continueXY() {
+    public void changeXY() {
         if (x == maxHorizontal) {
             y = (y % maxVertical) + 1;
         }
@@ -78,16 +78,8 @@ public class Data {
         stepCount++;
     }
 
-    public int getY() {
-        return y;
-    }
-
     public void setY(int i) {
         y = i;
-    }
-
-    public int getX() {
-        return x;
     }
 
     public void setX(int i) {
@@ -119,8 +111,8 @@ public class Data {
     }
 
     public boolean isProcessedAt(int xDelta, int yDelta) {
-        var xChanged = getX() + xDelta;
-        var yChanged = getY() + yDelta;
+        var xChanged = x + xDelta;
+        var yChanged = y + yDelta;
         if (xChanged == 0 || yChanged == 0) {
             return true;
         }
@@ -135,11 +127,11 @@ public class Data {
     }
 
     public boolean isProcessedAtCurrent() {
-        return processed[getX()][getY()];
+        return processed[x][y];
     }
 
     public void setCurrentToProcessed() {
-        processed[getX()][getY()] = true;
+        processed[x][y] = true;
     }
 
     public int getMaxVertical() {
