@@ -23,11 +23,6 @@ public class MazeBuilder {
     private final Decrementer horizontalDecrementer;
     private final Decrementer verticalDecrementer;
 
-
-    /**
-     * ex c
-     */
-    private int stepCount;
     /**
      * ex q
      */
@@ -44,7 +39,6 @@ public class MazeBuilder {
         this.entrancePosition = entrancePosition;
         this.maxHorizontal = maxHorizontal;
         this.maxVertical = maxVertical;
-        this.stepCount = 2;
         this.q = false;
         initializeArrays(this.maxHorizontal, this.maxVertical);
         verticalDecrementer = new Decrementer(data, new Vertical());
@@ -79,7 +73,7 @@ public class MazeBuilder {
     private void i940() {
         horizontalDecrementer.doStuff();
 
-        nextStep();
+        data.nextStep();
 
         if (stepsAreNotAllFilled()) {
             q = false;
@@ -90,7 +84,7 @@ public class MazeBuilder {
     private void i1000() {
         verticalDecrementer.doStuff();
 
-        nextStep();
+        data.nextStep();
 
         q = false;
         firstInstruction();
@@ -99,7 +93,7 @@ public class MazeBuilder {
     private void handleVerticalStuff() {
         verticalIncrementer.doStuff();
 
-        nextStep();
+        data.nextStep();
 
         if (stepsAreNotAllFilled()) {
             firstInstruction();
@@ -109,7 +103,7 @@ public class MazeBuilder {
     private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false and is a cousin of i1090
         horizontalIncrementer.doStuff();
 
-        nextStep();
+        data.nextStep();
 
         doFirstInstructionHandleX();
     }
@@ -231,7 +225,7 @@ public class MazeBuilder {
     }
 
     private boolean stepsAreNotAllFilled() {
-        return stepCount < this.maxHorizontal * this.maxVertical + 1;
+        return data.stepsAreNotAllFilled();
     }
 
     private boolean isProcessedAt(int xDelta, int yDelta) {
@@ -259,9 +253,5 @@ public class MazeBuilder {
         return q ? this::subi1090 : this::handleVerticalStuff;
     }
 
-    private void nextStep() {
-        data.setCurrentToProcessed();
-        stepCount++;
-    }
 
 }

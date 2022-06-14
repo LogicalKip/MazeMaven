@@ -18,6 +18,12 @@ public class Data {
         return wallArray;
     }
 
+
+    /**
+     * ex c
+     */
+    private int stepCount;
+
     /**
      * shows presence of both vertical and horizontal with the same data.
      * 0, 1 : vertical wall.
@@ -51,6 +57,7 @@ public class Data {
         this.maxHorizontal = maxHorizontal;
         this.maxVertical = maxVertical;
         this.wallArray = new int[maxHorizontal + 1][maxVertical + 1];
+        this.stepCount = 2;
         for (int i = 0; i <= maxHorizontal; i++) {
             this.wallArray[i] = new int[maxVertical + 1];
         }
@@ -61,6 +68,14 @@ public class Data {
         processed[entrancePosition][1] = true;
     }
 
+    public boolean stepsAreNotAllFilled() {
+        return stepCount < this.maxHorizontal * this.maxVertical + 1;
+    }
+
+    public void nextStep() {
+        setCurrentToProcessed();
+        stepCount++;
+    }
     public int getY() {
         return y;
     }
