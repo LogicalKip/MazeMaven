@@ -1,6 +1,6 @@
 package dataHandling;
 
-public class Decrementer implements ICrementer {
+public class Decrementer extends Crementer {
 
     private final Data data;
     private final Orientation orientation;
