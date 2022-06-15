@@ -214,16 +214,13 @@ public class MazeBuilder {
             result.add(this::handleHorizontalStuff);
         }
         if (!data.isProcessedAt(+0, +1)) {
-            result.add(deduceInstructionFromQ());
+            result.add(this::handleVerticalStuff);
         }
     }
 
     private void dependsOnQ() {
-        deduceInstructionFromQ().run();
-    }
-
-    private Runnable deduceInstructionFromQ() {
-        return q ? this::subi1090 : this::handleVerticalStuff;
+        final Runnable runnable = (q ? this::subi1090 : this::handleVerticalStuff);
+        runnable.run();
     }
 
 
