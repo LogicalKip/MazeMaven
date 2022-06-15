@@ -1,3 +1,4 @@
+import dataHandling.Crementer;
 import dataHandling.Data;
 import dataHandling.Decrementer;
 import dataHandling.Horizontal;
@@ -177,11 +178,10 @@ public class MazeBuilder {
 
     private void someMethod() {
         if (!data.isProcessedAt(+1, +0) && data.yMaxed()) {
-            if (wentThrough1090WithQTrue) {
-                handleHorizontalStuff();
-            } else {
-                i1000();
-            }
+            Crementer crementer = wentThrough1090WithQTrue ? horizontalIncrementer : verticalDecrementer;
+            crementer.doStuff();
+            firstInstruction();
+
             return;
         }
 
