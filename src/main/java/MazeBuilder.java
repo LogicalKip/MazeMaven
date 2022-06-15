@@ -155,7 +155,7 @@ public class MazeBuilder {
         } else if (random == 2) {
             handleHorizontalStuff();
         } else {
-            dependsOnQ();
+            subi1090();
         }
     }
 
@@ -172,7 +172,7 @@ public class MazeBuilder {
         } else if (notX) {
             handleHorizontalStuff();
         } else {
-            dependsOnQ();
+            handleVerticalStuff();
         }
     }
 
@@ -217,11 +217,5 @@ public class MazeBuilder {
             result.add(this::handleVerticalStuff);
         }
     }
-
-    private void dependsOnQ() {
-        final Runnable runnable = (q ? this::subi1090 : this::handleVerticalStuff);
-        runnable.run();
-    }
-
 
 }
