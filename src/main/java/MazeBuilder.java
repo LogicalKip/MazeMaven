@@ -150,9 +150,7 @@ public class MazeBuilder {
         }
 
         int random = random(3);
-        if (random == 1) {
-            i940();
-        } else if (random == 2) {
+        if (random == 2) {
             handleHorizontalStuff();
         } else {
             subi1090();
