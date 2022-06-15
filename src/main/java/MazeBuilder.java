@@ -55,6 +55,7 @@ public class MazeBuilder {
         return entrancePosition;
     }
 
+    // FIXME maybe we can use the random and ifs to determine the correct parts of objects (behaviors), then combine them and call the resulting object
     public void createMaze() {
         wentThrough1090WithQTrue = false; // ex Z
         data.setX(entrancePosition);
@@ -175,12 +176,10 @@ public class MazeBuilder {
     }
 
     private void someMethod() {
-        var falseForXPlus1 = !data.isProcessedAt(+1, +0);
-        if (falseForXPlus1 && data.yMaxed()) {
+        if (!data.isProcessedAt(+1, +0) && data.yMaxed()) {
             if (wentThrough1090WithQTrue) {
                 handleHorizontalStuff();
             } else {
-                q = true;
                 i1000();
             }
             return;
