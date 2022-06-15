@@ -163,19 +163,21 @@ public class MazeBuilder {
 
         final int random = random(notX || notY ? 3 : 2);
 
+        Crementer crementer;
         if (random == 1) {
-            horizontalDecrementer.doStuff();
-            firstInstruction();
+            crementer = horizontalDecrementer;
         } else if (random == 2) {
-            verticalDecrementer.doStuff();
-            firstInstruction();
-        } else if (notX) {
+            crementer = verticalDecrementer;
+        } else if (!notX) {
+            crementer = verticalIncrementer;
+        } else {
             horizontalIncrementer.doStuff();
             doFirstInstructionHandleX();
-        } else {
-            verticalIncrementer.doStuff();
-            firstInstruction();
+            return;
         }
+        crementer.doStuff();
+
+        firstInstruction();
     }
 
     private void someMethod() {
