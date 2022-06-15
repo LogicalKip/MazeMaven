@@ -164,13 +164,17 @@ public class MazeBuilder {
         final int random = random(notX || notY ? 3 : 2);
 
         if (random == 1) {
-            i940();
+            horizontalDecrementer.doStuff();
+            firstInstruction();
         } else if (random == 2) {
-            i1000();
+            verticalDecrementer.doStuff();
+            firstInstruction();
         } else if (notX) {
-            handleHorizontalStuff();
+            horizontalIncrementer.doStuff();
+            doFirstInstructionHandleX();
         } else {
-            handleVerticalStuff();
+            verticalIncrementer.doStuff();
+            firstInstruction();
         }
     }
 
