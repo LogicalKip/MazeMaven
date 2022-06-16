@@ -84,17 +84,7 @@ public class MazeBuilder {
     private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false
         horizontalIncrementer.doStuff();
 
-        doFirstInstructionHandleX();
-    }
-
-    private void doFirstInstructionHandleX() {
-        if (data.isProcessedAt(+0, -1)) { // FIXME there might be a link between isProcessed and the "direction" we then go to. Which is shown by the method chosen
-            someMethod();
-        } else {
-            List<Runnable> result = of(this::i1000);
-            addHorizontalAndOrVerticalIfNeeded(result);
-            chooseRandomlyOneOf(result);
-        }
+        doFirstInstructionHandleX(); // <=> to firstInstruction() here
     }
 
     private void restartFromNextProcessedTile() {
@@ -114,6 +104,16 @@ public class MazeBuilder {
         } else {
             doFirstInstructionHandleOther();
         }
+    }
+
+    private void doFirstInstructionHandleX() { // FIXME there might be a link between isProcessed and the "direction" we then go to. Which is shown by the method chosen
+        if (!data.isProcessedAt(+0, -1)) {
+            List<Runnable> result = of(this::i1000);
+            addHorizontalAndOrVerticalIfNeeded(result);
+            chooseRandomlyOneOf(result);
+            return;
+        }
+        someMethod();
     }
 
     private void doFirstInstructionHandleY() {

@@ -140,7 +140,6 @@ public class Data {
 
     enum XorY {
         X,
-        Y;
-
+        Y
     }
 }
