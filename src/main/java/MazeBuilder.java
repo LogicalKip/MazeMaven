@@ -25,7 +25,7 @@ public class MazeBuilder {
     /**
      * ex x
      */
-    private boolean wentThrough1090;
+    private boolean hasRestarted;
 
     public MazeBuilder(Random random, int maxHorizontal, int maxVertical) {
         this.random = random;
@@ -52,7 +52,7 @@ public class MazeBuilder {
 
     // FIXME maybe we can use the random and ifs to determine the correct parts of objects (behaviors), then combine them and call the resulting object
     public void createMaze() {
-        wentThrough1090 = false;
+        hasRestarted = false;
         data.setX(entrancePosition);
         data.setY(1);
 
@@ -87,7 +87,6 @@ public class MazeBuilder {
         doFirstInstructionHandleX();
     }
 
-
     private void doFirstInstructionHandleX() {
         if (data.isProcessedAt(+0, -1)) { // FIXME there might be a link between isProcessed and the "direction" we then go to. Which is shown by the method chosen
             someMethod();
@@ -97,7 +96,6 @@ public class MazeBuilder {
             chooseRandomlyOneOf(result);
         }
     }
-
 
     private void restartFromNextProcessedTile() {
         data.changeXY();
@@ -126,7 +124,7 @@ public class MazeBuilder {
             return;
         }
 
-        if (data.isProcessedAt(+1, +0) && wentThrough1090) {
+        if (data.isProcessedAt(+1, +0) && hasRestarted) {
             i940();
             return;
         }
@@ -135,7 +133,7 @@ public class MazeBuilder {
         if (random == 2) {
             handleHorizontalStuff();
         } else {
-            wentThrough1090 = true;
+            hasRestarted = true;
             data.setWallAtCurrent(VERTICAL_WALL);
             data.setX(1);
             data.setY(1);
@@ -157,8 +155,7 @@ public class MazeBuilder {
         } else if (!notX) {
             crementer = verticalIncrementer;
         } else {
-            horizontalIncrementer.doStuff();
-            doFirstInstructionHandleX();
+            handleHorizontalStuff(); //FIXME these 4 cases look a lot like the small functions
             return;
         }
         crementer.doStuff();
@@ -168,7 +165,7 @@ public class MazeBuilder {
 
     private void someMethod() {
         if (!data.isProcessedAt(+1, +0) && data.yMaxed()) {
-            Crementer crementer = wentThrough1090 ? horizontalIncrementer : verticalDecrementer;
+            Crementer crementer = hasRestarted ? horizontalIncrementer : verticalDecrementer;
             crementer.doStuff();
             firstInstruction();
 
