@@ -23,21 +23,15 @@ public class MazeBuilder {
     private final Decrementer verticalDecrementer;
 
     /**
-     * ex q
-     */
-    private boolean q;
-
-    /**
      * ex x
      */
-    private boolean wentThrough1090WithQTrue;
+    private boolean wentThrough1090;
 
     public MazeBuilder(Random random, int maxHorizontal, int maxVertical) {
         this.random = random;
         final int entrancePosition = random(maxHorizontal);
         this.data = new Data(maxHorizontal, maxVertical, entrancePosition);
         this.entrancePosition = entrancePosition;
-        this.q = false;
         verticalDecrementer = new Decrementer(data, new Vertical());
         verticalIncrementer = new Incrementer(data, new Vertical());
         horizontalIncrementer = new Incrementer(data, new Horizontal());
@@ -58,7 +52,7 @@ public class MazeBuilder {
 
     // FIXME maybe we can use the random and ifs to determine the correct parts of objects (behaviors), then combine them and call the resulting object
     public void createMaze() {
-        wentThrough1090WithQTrue = false; // ex Z
+        wentThrough1090 = false;
         data.setX(entrancePosition);
         data.setY(1);
 
@@ -69,7 +63,6 @@ public class MazeBuilder {
         horizontalDecrementer.doStuff();
 
         if (data.stepsAreNotAllFilled()) {
-            q = false;
             firstInstruction();
         }
     }
@@ -77,7 +70,6 @@ public class MazeBuilder {
     private void i1000() {
         verticalDecrementer.doStuff();
 
-        q = false;
         firstInstruction();
     }
 
@@ -89,7 +81,7 @@ public class MazeBuilder {
         }
     }
 
-    private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false and is a cousin of i1090
+    private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false
         horizontalIncrementer.doStuff();
 
         doFirstInstructionHandleX();
@@ -101,18 +93,9 @@ public class MazeBuilder {
             someMethod();
         } else {
             List<Runnable> result = of(this::i1000);
-            addHorizontalAndOr1090IfNeeded(result);
+            addHorizontalAndOrVerticalIfNeeded(result);
             chooseRandomlyOneOf(result);
         }
-    }
-
-    private void subi1090() { // FIXME seems very related to processed[x][y + 1] == false and y < max
-        wentThrough1090WithQTrue = true;
-        q = false;
-        data.setWallAtCurrent(VERTICAL_WALL);
-        data.setX(1);
-        data.setY(1);
-        restartFromNextProcessedTile();
     }
 
 
@@ -138,13 +121,12 @@ public class MazeBuilder {
     private void doFirstInstructionHandleY() {
         if (!data.yMaxed()) {
             List<Runnable> instructionList = of(this::i940);
-            addHorizontalAndOr1090IfNeeded(instructionList);
+            addHorizontalAndOrVerticalIfNeeded(instructionList);
             chooseRandomlyOneOf(instructionList);
             return;
         }
 
-        q = true;
-        if (data.isProcessedAt(+1, +0) && wentThrough1090WithQTrue) {
+        if (data.isProcessedAt(+1, +0) && wentThrough1090) {
             i940();
             return;
         }
@@ -153,7 +135,11 @@ public class MazeBuilder {
         if (random == 2) {
             handleHorizontalStuff();
         } else {
-            subi1090();
+            wentThrough1090 = true;
+            data.setWallAtCurrent(VERTICAL_WALL);
+            data.setX(1);
+            data.setY(1);
+            restartFromNextProcessedTile();
         }
     }
 
@@ -182,7 +168,7 @@ public class MazeBuilder {
 
     private void someMethod() {
         if (!data.isProcessedAt(+1, +0) && data.yMaxed()) {
-            Crementer crementer = wentThrough1090WithQTrue ? horizontalIncrementer : verticalDecrementer;
+            Crementer crementer = wentThrough1090 ? horizontalIncrementer : verticalDecrementer;
             crementer.doStuff();
             firstInstruction();
 
@@ -191,7 +177,7 @@ public class MazeBuilder {
 
         List<Runnable> instructionList = new ArrayList<>();
 
-        addHorizontalAndOr1090IfNeeded(instructionList);
+        addHorizontalAndOrVerticalIfNeeded(instructionList);
         if (instructionList.isEmpty()) {
             instructionList.add(this::restartFromNextProcessedTile);
         }
@@ -213,7 +199,7 @@ public class MazeBuilder {
         return new ArrayList<>(List.of(instruction));
     }
 
-    private void addHorizontalAndOr1090IfNeeded(List<Runnable> result) {
+    private void addHorizontalAndOrVerticalIfNeeded(List<Runnable> result) {
         if (!data.isProcessedAt(+1, +0)) {
             result.add(this::handleHorizontalStuff);
         }
