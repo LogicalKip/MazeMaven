@@ -156,7 +156,7 @@ public class MazeBuilder {
             crementer = verticalIncrementer;
         } else {
             //FIXME these 4 cases look a lot like the small functions
-            crementer = horizontalIncrementer;  // instruction could be the submethod doFirstInstructionHandleX instead here
+            crementer = horizontalIncrementer;  // instruction could be the submethod doFirstInstructionHandleX instead of firstInstruction here
         }
         crementer.doStuff();
         firstInstruction();
