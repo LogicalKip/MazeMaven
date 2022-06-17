@@ -142,24 +142,23 @@ public class MazeBuilder {
     }
 
     private void doFirstInstructionHandleOther() {
-        final boolean notX = !data.isProcessedAt(+1, +0);
-        final boolean notY = !data.isProcessedAt(+0, +1);
+        final boolean xProcessed = data.isProcessedAt(+1, +0);
+        final boolean yProcessed = data.isProcessedAt(+0, +1);
 
-        final int random = random(notX || notY ? 3 : 2);
+        final int random = random(xProcessed && yProcessed ? 2 : 3);
 
         Crementer crementer;
         if (random == 1) {
             crementer = horizontalDecrementer;
         } else if (random == 2) {
             crementer = verticalDecrementer;
-        } else if (!notX) {
+        } else if (xProcessed) {
             crementer = verticalIncrementer;
         } else {
-            handleHorizontalStuff(); //FIXME these 4 cases look a lot like the small functions
-            return;
+            //FIXME these 4 cases look a lot like the small functions
+            crementer = horizontalIncrementer;  // instruction could be the submethod doFirstInstructionHandleX instead here
         }
         crementer.doStuff();
-
         firstInstruction();
     }
 
