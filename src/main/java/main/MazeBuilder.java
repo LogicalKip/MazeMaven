@@ -58,14 +58,6 @@ public class MazeBuilder {
         new Decrementer(data, new Horizontal(), true, this).doStuff();
     }
 
-    private void i1000() {
-        new Decrementer(data, new Vertical(), false, this).doStuff();
-    }
-
-    private void handleVerticalStuff() {
-        new Incrementer(data, new Vertical(), true, this).doStuff();
-    }
-
     private void handleHorizontalStuff() {
         new Incrementer(data, new Horizontal(), false, this).doStuff();
     }
@@ -156,19 +148,14 @@ public class MazeBuilder {
             return;
         }
 
-        List<Runnable> instructionList = new ArrayList<>();
+        List<Crementer> crementers = new ArrayList<>();
 
-        addHorizontalAndOrVerticalIfNeeded(instructionList);
-        if (instructionList.isEmpty()) {
-            instructionList.add(this::restartFromNextProcessedTile);
+        addCrementersAsNeeded(crementers);
+        if (crementers.isEmpty()) {
+            restartFromNextProcessedTile();
+            return;
         }
-        chooseRandomlyOneOf(instructionList);
-    }
-
-    private void chooseRandomlyOneOf(List<Runnable> actions) {
-        final Runnable runnable = getRandomElement(actions);
-        if (runnable == null) return;
-        runnable.run();
+        getRandomElement(crementers).doStuff();
     }
 
     private <T> T getRandomElement(List<T> actions) {
@@ -182,22 +169,10 @@ public class MazeBuilder {
         return actions.get(i);
     }
 
-    private List<Runnable> of(Runnable instruction) {
-        return new ArrayList<>(List.of(instruction));
-    }
-
     private List<Crementer> of(Crementer crementer) {
         return new ArrayList<>(List.of(crementer));
     }
 
-    private void addHorizontalAndOrVerticalIfNeeded(List<Runnable> result) {
-        if (!data.isProcessedAt(+1, +0)) {
-            result.add(this::handleHorizontalStuff);
-        }
-        if (!data.isProcessedAt(+0, +1)) {
-            result.add(this::handleVerticalStuff);
-        }
-    }
 
     private void addCrementersAsNeeded(List<Crementer> result) {
         if (!data.isProcessedAt(+1, +0)) {
