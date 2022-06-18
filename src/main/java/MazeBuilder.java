@@ -84,7 +84,7 @@ public class MazeBuilder {
     private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false
         horizontalIncrementer.doStuff();
 
-        doFirstInstructionHandleX(); // <=> to firstInstruction() here
+        firstInstruction(); // can use firstInstruction or doFirstInstructionHandleX, either works here
     }
 
     private void restartFromNextProcessedTile() {
