@@ -80,11 +80,11 @@ public class MazeBuilder {
                 chooseOneOfUpTo3Ways(verticalDecrementer);
             }
         } else if (alreadyDonePreviousY) {
-            if (!data.yMaxed()) {
+            if (data.yMaxed()) {
+                handleRoof(alreadyDoneNextX);
+            } else {
                 chooseOneOfUpTo3Ways(horizontalDecrementer);
-                return;
             }
-            doFirstInstructionHandleY(alreadyDoneNextX);
         } else {
             doFirstInstructionHandleOther();
         }
@@ -113,7 +113,7 @@ public class MazeBuilder {
         }
     }
 
-    private void doFirstInstructionHandleY(boolean alreadyDoneNextX) {
+    private void handleRoof(boolean alreadyDoneNextX) {
         if (alreadyDoneNextX && hasRestarted) {
             horizontalDecrementer.doStuff();
         } else if (random(3) == 2) {
