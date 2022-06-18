@@ -18,7 +18,7 @@ public abstract class Crementer {
     public void doStuff() {
         toImplement();
         data.nextStep();
-//        restarter.run();
+        restarter.run();
     }
 
 }
