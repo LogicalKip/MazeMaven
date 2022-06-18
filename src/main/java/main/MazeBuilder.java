@@ -109,7 +109,6 @@ public class MazeBuilder {
         final boolean yProcessed = data.isProcessedAt(+0, +1);
 
         final int random = random(xProcessed && yProcessed ? 2 : 3);
-
         Orientation orientation = new Horizontal();
         Crementer crementer = new Incrementer(data, false, this);
         if (random == 1) {
