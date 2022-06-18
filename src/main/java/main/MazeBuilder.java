@@ -93,11 +93,7 @@ public class MazeBuilder {
 
         if (data.isProcessedAt(+1, +0) && hasRestarted) {
             new Decrementer(data, new Horizontal(), true, this).doStuff();
-            return;
-        }
-
-        int random = random(3);
-        if (random == 2) {
+        } else if (random(3) == 2) {
             new Incrementer(data, new Horizontal(), false, this).doStuff();
         } else {
             hasRestarted = true;
@@ -113,7 +109,6 @@ public class MazeBuilder {
         final boolean yProcessed = data.isProcessedAt(+0, +1);
 
         final int random = random(xProcessed && yProcessed ? 2 : 3);
-
 
         Orientation orientation = new Horizontal();
         Crementer crementer = new Incrementer(data, false, this);
@@ -141,7 +136,6 @@ public class MazeBuilder {
         }
 
         List<Crementer> crementers = new ArrayList<>();
-
         addCrementersAsNeeded(crementers);
         if (crementers.isEmpty()) {
             restartFromNextProcessedTile();
