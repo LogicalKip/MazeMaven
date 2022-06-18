@@ -60,14 +60,13 @@ public class MazeBuilder {
 
     private void i1000() {
         new Decrementer(data, new Vertical(), false, this).doStuff();
-
     }
 
     private void handleVerticalStuff() {
         new Incrementer(data, new Vertical(), true, this).doStuff();
     }
 
-    private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false
+    private void handleHorizontalStuff() {
         new Incrementer(data, new Horizontal(), false, this).doStuff();
     }
 
