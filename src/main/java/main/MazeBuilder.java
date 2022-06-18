@@ -54,14 +54,6 @@ public class MazeBuilder {
         firstInstruction();
     }
 
-    private void i940() {
-        new Decrementer(data, new Horizontal(), true, this).doStuff();
-    }
-
-    private void handleHorizontalStuff() {
-        new Incrementer(data, new Horizontal(), false, this).doStuff();
-    }
-
     private void restartFromNextProcessedTile() {
         data.changeXY();
         if (data.isProcessedAtCurrent()) {
@@ -100,13 +92,13 @@ public class MazeBuilder {
         }
 
         if (data.isProcessedAt(+1, +0) && hasRestarted) {
-            i940();
+            new Decrementer(data, new Horizontal(), true, this).doStuff();
             return;
         }
 
         int random = random(3);
         if (random == 2) {
-            handleHorizontalStuff();
+            new Incrementer(data, new Horizontal(), false, this).doStuff();
         } else {
             hasRestarted = true;
             data.setWallAtCurrent(VERTICAL_WALL);
@@ -172,7 +164,6 @@ public class MazeBuilder {
     private List<Crementer> of(Crementer crementer) {
         return new ArrayList<>(List.of(crementer));
     }
-
 
     private void addCrementersAsNeeded(List<Crementer> result) {
         if (!data.isProcessedAt(+1, +0)) {
