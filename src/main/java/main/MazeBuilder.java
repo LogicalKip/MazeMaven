@@ -20,7 +20,10 @@ public class MazeBuilder {
 
     private final int entrancePosition;
     private final Data data;
-
+    private final Incrementer horizontalIncrementer;
+    private final Decrementer verticalDecrementer;
+    private final Incrementer verticalIncrementer;
+    private final Decrementer horizontalDecrementer;
     /**
      * ex x
      */
@@ -31,6 +34,10 @@ public class MazeBuilder {
         final int entrancePosition = random(maxHorizontal);
         this.data = new Data(maxHorizontal, maxVertical, entrancePosition);
         this.entrancePosition = entrancePosition;
+        verticalDecrementer = new Decrementer(data, new Vertical(), false, this);
+        verticalIncrementer = new Incrementer(data, new Vertical(), true, this);
+        horizontalIncrementer = new Incrementer(data, new Horizontal(), false, this);
+        horizontalDecrementer = new Decrementer(data, new Horizontal(), true, this);
     }
 
     private int random(int count) {
@@ -75,18 +82,16 @@ public class MazeBuilder {
 
     private void doFirstInstructionHandleX() { // FIXME there might be a link between isProcessed and the "direction" we then go to. Which is shown by the method chosen
         if (data.isProcessedAt(+0, -1)) {
-            final Incrementer horizontalIncrementer = new Incrementer(data, new Horizontal(), false, this);
             final boolean notProcessedInXPlus1 = !data.isProcessedAt(+1, +0);
             if (notProcessedInXPlus1 && data.yMaxed()) {
                 Crementer crementer = hasRestarted ?
                         horizontalIncrementer :
-                        new Decrementer(data, new Vertical(), false, this);
+                        verticalDecrementer;
                 crementer.doStuff();
 
                 return;
             }
 
-            final Incrementer verticalIncrementer = new Incrementer(data, new Vertical(), true, this);
             final boolean notProcessedInYPlus1 = !data.isProcessedAt(+0, +1);
             if (notProcessedInXPlus1 && notProcessedInYPlus1) {
                 getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).doStuff();
@@ -98,24 +103,29 @@ public class MazeBuilder {
                 restartFromNextProcessedTile();
             }
         } else {
-            List<Crementer> crementers = of(new Decrementer(data, new Vertical(), false, this));
-            addCrementersAsNeeded(crementers);
+            List<Crementer> crementers = of(verticalDecrementer);
+            if (!data.isProcessedAt(+1, +0)) {
+                crementers.add(horizontalIncrementer);
+            }
+            if (!data.isProcessedAt(+0, +1)) {
+                crementers.add(verticalIncrementer);
+            }
             getRandomElement(crementers).doStuff();
         }
     }
 
     private void doFirstInstructionHandleY() {
         if (!data.yMaxed()) {
-            List<Crementer> crementers = of(new Decrementer(data, new Horizontal(), true, this));
+            List<Crementer> crementers = of(horizontalDecrementer);
             addCrementersAsNeeded(crementers);
             getRandomElement(crementers).doStuff();
             return;
         }
 
         if (data.isProcessedAt(+1, +0) && hasRestarted) {
-            new Decrementer(data, new Horizontal(), true, this).doStuff();
+            horizontalDecrementer.doStuff();
         } else if (random(3) == 2) {
-            new Incrementer(data, new Horizontal(), false, this).doStuff();
+            horizontalIncrementer.doStuff();
         } else {
             hasRestarted = true;
             data.setWallAtCurrent(VERTICAL_WALL);
@@ -162,10 +172,10 @@ public class MazeBuilder {
 
     private void addCrementersAsNeeded(List<Crementer> result) {
         if (!data.isProcessedAt(+1, +0)) {
-            result.add(new Incrementer(data, new Horizontal(), false, this));
+            result.add(horizontalIncrementer);
         }
         if (!data.isProcessedAt(+0, +1)) {
-            result.add(new Incrementer(data, new Vertical(), true, this));
+            result.add(verticalIncrementer);
         }
     }
 }
