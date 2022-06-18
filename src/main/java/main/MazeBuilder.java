@@ -125,22 +125,28 @@ public class MazeBuilder {
     }
 
     private void someMethod() {
-        if (!data.isProcessedAt(+1, +0) && data.yMaxed()) {
+        final Incrementer horizontalIncrementer = new Incrementer(data, new Horizontal(), false, this);
+        final boolean notProcessedInXPlus1 = !data.isProcessedAt(+1, +0);
+        if (notProcessedInXPlus1 && data.yMaxed()) {
             Crementer crementer = hasRestarted ?
-                    new Incrementer(data, new Horizontal(), false, this) :
+                    horizontalIncrementer :
                     new Decrementer(data, new Vertical(), false, this);
             crementer.doStuff();
 
             return;
         }
 
-        List<Crementer> crementers = new ArrayList<>();
-        addCrementersAsNeeded(crementers);
-        if (crementers.isEmpty()) {
+        final Incrementer verticalIncrementer = new Incrementer(data, new Vertical(), true, this);
+        final boolean notProcessedInYPlus1 = !data.isProcessedAt(+0, +1);
+        if (notProcessedInXPlus1 && notProcessedInYPlus1) {
+            getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).doStuff();
+        } else if (notProcessedInXPlus1) {
+            horizontalIncrementer.doStuff();
+        } else if (notProcessedInYPlus1) {
+            verticalIncrementer.doStuff();
+        } else {
             restartFromNextProcessedTile();
-            return;
         }
-        getRandomElement(crementers).doStuff();
     }
 
     private <T> T getRandomElement(List<T> actions) {
