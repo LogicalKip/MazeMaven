@@ -71,14 +71,15 @@ public class MazeBuilder {
     }
 
     public void firstInstruction() {
-        final boolean alreadyDoneNextX = data.isProcessedAt(+1, +0);
-        if (data.isProcessedAt(-1, +0)) {
-            if (!data.isProcessedAt(+0, -1)) {
+        final boolean alreadyDoneNextX = data.isAlreadyProcessedAt(+1, +0);
+        final boolean alreadyDonePreviousY = data.isAlreadyProcessedAt(+0, -1);
+        if (data.isAlreadyProcessedAt(-1, +0)) {
+            if (!alreadyDonePreviousY) {
                 chooseOneOfUpTo3Ways(verticalDecrementer);
                 return;
             }
             doFirstInstructionHandleX(alreadyDoneNextX);
-        } else if (data.isProcessedAt(+0, -1)) {
+        } else if (alreadyDonePreviousY) {
             if (!data.yMaxed()) {
                 chooseOneOfUpTo3Ways(horizontalDecrementer);
                 return;
@@ -100,7 +101,7 @@ public class MazeBuilder {
             return;
         }
 
-        final boolean notProcessedInYPlus1 = !data.isProcessedAt(+0, +1);
+        final boolean notProcessedInYPlus1 = !data.isAlreadyProcessedAt(+0, +1);
         if (nextXAvailable && notProcessedInYPlus1) {
             getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).doStuff();
         } else if (nextXAvailable) {
@@ -127,8 +128,8 @@ public class MazeBuilder {
     }
 
     private void doFirstInstructionHandleOther() {
-        final boolean xProcessed = data.isProcessedAt(+1, +0);
-        final boolean yProcessed = data.isProcessedAt(+0, +1);
+        final boolean xProcessed = data.isAlreadyProcessedAt(+1, +0);
+        final boolean yProcessed = data.isAlreadyProcessedAt(+0, +1);
 
         final int random = random(xProcessed && yProcessed ? 2 : 3);
         Orientation orientation = new Horizontal();
@@ -149,10 +150,10 @@ public class MazeBuilder {
 
     private void chooseOneOfUpTo3Ways(Decrementer guaranteedPossibility) {
         List<Crementer> crementers = of(guaranteedPossibility);
-        if (!data.isProcessedAt(+1, +0)) {
+        if (!data.isAlreadyProcessedAt(+1, +0)) {
             crementers.add(horizontalIncrementer);
         }
-        if (!data.isProcessedAt(+0, +1)) {
+        if (!data.isAlreadyProcessedAt(+0, +1)) {
             crementers.add(verticalIncrementer);
         }
         getRandomElement(crementers).doStuff();

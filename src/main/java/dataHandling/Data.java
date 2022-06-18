@@ -110,7 +110,7 @@ public class Data {
         wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? orientation.getTypeOfWall() : NO_WALL;
     }
 
-    public boolean isProcessedAt(int xDelta, int yDelta) {
+    public boolean isAlreadyProcessedAt(int xDelta, int yDelta) {
         var xChanged = x + xDelta;
         var yChanged = y + yDelta;
         if (xChanged == 0 || yChanged == 0) {
