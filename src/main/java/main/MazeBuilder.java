@@ -74,13 +74,34 @@ public class MazeBuilder {
     }
 
     private void doFirstInstructionHandleX() { // FIXME there might be a link between isProcessed and the "direction" we then go to. Which is shown by the method chosen
-        if (!data.isProcessedAt(+0, -1)) {
+        if (data.isProcessedAt(+0, -1)) {
+            final Incrementer horizontalIncrementer = new Incrementer(data, new Horizontal(), false, this);
+            final boolean notProcessedInXPlus1 = !data.isProcessedAt(+1, +0);
+            if (notProcessedInXPlus1 && data.yMaxed()) {
+                Crementer crementer = hasRestarted ?
+                        horizontalIncrementer :
+                        new Decrementer(data, new Vertical(), false, this);
+                crementer.doStuff();
+
+                return;
+            }
+
+            final Incrementer verticalIncrementer = new Incrementer(data, new Vertical(), true, this);
+            final boolean notProcessedInYPlus1 = !data.isProcessedAt(+0, +1);
+            if (notProcessedInXPlus1 && notProcessedInYPlus1) {
+                getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).doStuff();
+            } else if (notProcessedInXPlus1) {
+                horizontalIncrementer.doStuff();
+            } else if (notProcessedInYPlus1) {
+                verticalIncrementer.doStuff();
+            } else {
+                restartFromNextProcessedTile();
+            }
+        } else {
             List<Crementer> crementers = of(new Decrementer(data, new Vertical(), false, this));
             addCrementersAsNeeded(crementers);
             getRandomElement(crementers).doStuff();
-            return;
         }
-        someMethod();
     }
 
     private void doFirstInstructionHandleY() {
@@ -122,31 +143,6 @@ public class MazeBuilder {
 
         crementer.setOrientation(orientation);
         crementer.doStuff();
-    }
-
-    private void someMethod() {
-        final Incrementer horizontalIncrementer = new Incrementer(data, new Horizontal(), false, this);
-        final boolean notProcessedInXPlus1 = !data.isProcessedAt(+1, +0);
-        if (notProcessedInXPlus1 && data.yMaxed()) {
-            Crementer crementer = hasRestarted ?
-                    horizontalIncrementer :
-                    new Decrementer(data, new Vertical(), false, this);
-            crementer.doStuff();
-
-            return;
-        }
-
-        final Incrementer verticalIncrementer = new Incrementer(data, new Vertical(), true, this);
-        final boolean notProcessedInYPlus1 = !data.isProcessedAt(+0, +1);
-        if (notProcessedInXPlus1 && notProcessedInYPlus1) {
-            getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).doStuff();
-        } else if (notProcessedInXPlus1) {
-            horizontalIncrementer.doStuff();
-        } else if (notProcessedInYPlus1) {
-            verticalIncrementer.doStuff();
-        } else {
-            restartFromNextProcessedTile();
-        }
     }
 
     private <T> T getRandomElement(List<T> actions) {
