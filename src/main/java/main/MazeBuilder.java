@@ -34,10 +34,10 @@ public class MazeBuilder {
         final int entrancePosition = random(maxHorizontal);
         this.data = new Data(maxHorizontal, maxVertical, entrancePosition);
         this.entrancePosition = entrancePosition;
-        verticalDecrementer = new Decrementer(data, new Vertical(), false);
-        verticalIncrementer = new Incrementer(data, new Vertical(), true);
-        horizontalIncrementer = new Incrementer(data, new Horizontal(), false);
-        horizontalDecrementer = new Decrementer(data, new Horizontal(), true);
+        verticalDecrementer = new Decrementer(data, new Vertical(), false, this);
+        verticalIncrementer = new Incrementer(data, new Vertical(), true, this);
+        horizontalIncrementer = new Incrementer(data, new Horizontal(), false, this);
+        horizontalDecrementer = new Decrementer(data, new Horizontal(), true, this);
     }
 
     private int random(int count) {
