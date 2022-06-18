@@ -147,10 +147,11 @@ public class MazeBuilder {
         final int random = random(xProcessed && yProcessed ? 2 : 3);
         Orientation orientation = new Horizontal();
         Crementer crementer = new Incrementer(data, false, this);
+        final Decrementer decrementer = new Decrementer(data, false, this);
         if (random == 1) {
-            crementer = new Decrementer(data, false, this);
+            crementer = decrementer;
         } else if (random == 2) {
-            crementer = new Decrementer(data, false, this);
+            crementer = decrementer;
             orientation = new Vertical();
         } else if (xProcessed) {
             orientation = new Vertical();
