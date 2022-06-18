@@ -52,7 +52,6 @@ public class MazeBuilder {
         return entrancePosition;
     }
 
-    // FIXME maybe we can use the random and ifs to determine the correct parts of objects (behaviors), then combine them and call the resulting object
     public void createMaze() {
         hasRestarted = false;
         data.setX(entrancePosition);
@@ -73,12 +72,13 @@ public class MazeBuilder {
     public void firstInstruction() {
         final boolean alreadyDoneNextX = data.isAlreadyProcessedAt(+1, +0);
         final boolean alreadyDonePreviousY = data.isAlreadyProcessedAt(+0, -1);
-        if (data.isAlreadyProcessedAt(-1, +0)) {
-            if (!alreadyDonePreviousY) {
+        final boolean alreadyDonePreviousX = data.isAlreadyProcessedAt(-1, +0);
+        if (alreadyDonePreviousX) {
+            if (alreadyDonePreviousY) {
+                incrementWherePossible(alreadyDoneNextX);
+            } else {
                 chooseOneOfUpTo3Ways(verticalDecrementer);
-                return;
             }
-            doFirstInstructionHandleX(alreadyDoneNextX);
         } else if (alreadyDonePreviousY) {
             if (!data.yMaxed()) {
                 chooseOneOfUpTo3Ways(horizontalDecrementer);
@@ -90,7 +90,7 @@ public class MazeBuilder {
         }
     }
 
-    private void doFirstInstructionHandleX(boolean alreadyDoneNextX) { // FIXME there might be a link between isProcessed and the "direction" we then go to. Which is shown by the method chosen
+    private void incrementWherePossible(boolean alreadyDoneNextX) {
         final boolean nextXAvailable = !alreadyDoneNextX;
         if (nextXAvailable && data.yMaxed()) {
             Crementer crementer = hasRestarted ?
@@ -101,12 +101,12 @@ public class MazeBuilder {
             return;
         }
 
-        final boolean notProcessedInYPlus1 = !data.isAlreadyProcessedAt(+0, +1);
-        if (nextXAvailable && notProcessedInYPlus1) {
+        final boolean nextYAvailable = !data.isAlreadyProcessedAt(+0, +1);
+        if (nextXAvailable && nextYAvailable) {
             getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).doStuff();
         } else if (nextXAvailable) {
             horizontalIncrementer.doStuff();
-        } else if (notProcessedInYPlus1) {
+        } else if (nextYAvailable) {
             verticalIncrementer.doStuff();
         } else {
             restartFromNextProcessedTile();
