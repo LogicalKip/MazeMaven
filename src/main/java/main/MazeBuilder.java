@@ -71,23 +71,27 @@ public class MazeBuilder {
     }
 
     public void firstInstruction() {
+        final boolean alreadyDoneNextX = data.isProcessedAt(+1, +0);
         if (data.isProcessedAt(-1, +0)) {
-            doFirstInstructionHandleX();
+            if (!data.isProcessedAt(+0, -1)) {
+                chooseOneOfUpTo3Ways(verticalDecrementer);
+                return;
+            }
+            doFirstInstructionHandleX(alreadyDoneNextX);
         } else if (data.isProcessedAt(+0, -1)) {
-            doFirstInstructionHandleY();
+            if (!data.yMaxed()) {
+                chooseOneOfUpTo3Ways(horizontalDecrementer);
+                return;
+            }
+            doFirstInstructionHandleY(alreadyDoneNextX);
         } else {
             doFirstInstructionHandleOther();
         }
     }
 
-    private void doFirstInstructionHandleX() { // FIXME there might be a link between isProcessed and the "direction" we then go to. Which is shown by the method chosen
-        if (!data.isProcessedAt(+0, -1)) {
-            incrementOrGoBackTheOnlyWay(verticalDecrementer);
-            return;
-        }
-
-        final boolean notProcessedInXPlus1 = !data.isProcessedAt(+1, +0);
-        if (notProcessedInXPlus1 && data.yMaxed()) {
+    private void doFirstInstructionHandleX(boolean alreadyDoneNextX) { // FIXME there might be a link between isProcessed and the "direction" we then go to. Which is shown by the method chosen
+        final boolean nextXAvailable = !alreadyDoneNextX;
+        if (nextXAvailable && data.yMaxed()) {
             Crementer crementer = hasRestarted ?
                     horizontalIncrementer :
                     verticalDecrementer;
@@ -97,25 +101,19 @@ public class MazeBuilder {
         }
 
         final boolean notProcessedInYPlus1 = !data.isProcessedAt(+0, +1);
-        if (notProcessedInXPlus1 && notProcessedInYPlus1) {
+        if (nextXAvailable && notProcessedInYPlus1) {
             getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).doStuff();
-        } else if (notProcessedInXPlus1) {
+        } else if (nextXAvailable) {
             horizontalIncrementer.doStuff();
         } else if (notProcessedInYPlus1) {
             verticalIncrementer.doStuff();
         } else {
             restartFromNextProcessedTile();
         }
-
     }
 
-    private void doFirstInstructionHandleY() {
-        if (!data.yMaxed()) {
-            incrementOrGoBackTheOnlyWay(horizontalDecrementer);
-            return;
-        }
-
-        if (data.isProcessedAt(+1, +0) && hasRestarted) {
+    private void doFirstInstructionHandleY(boolean alreadyDoneNextX) {
+        if (alreadyDoneNextX && hasRestarted) {
             horizontalDecrementer.doStuff();
         } else if (random(3) == 2) {
             horizontalIncrementer.doStuff();
@@ -149,8 +147,8 @@ public class MazeBuilder {
         crementer.doStuff();
     }
 
-    private void incrementOrGoBackTheOnlyWay(Decrementer decrementer) {
-        List<Crementer> crementers = of(decrementer);
+    private void chooseOneOfUpTo3Ways(Decrementer guaranteedPossibility) {
+        List<Crementer> crementers = of(guaranteedPossibility);
         if (!data.isProcessedAt(+1, +0)) {
             crementers.add(horizontalIncrementer);
         }
