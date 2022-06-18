@@ -91,9 +91,9 @@ public class MazeBuilder {
 
     private void doFirstInstructionHandleX() { // FIXME there might be a link between isProcessed and the "direction" we then go to. Which is shown by the method chosen
         if (!data.isProcessedAt(+0, -1)) {
-            List<Runnable> result = of(this::i1000);
-            addHorizontalAndOrVerticalIfNeeded(result);
-            chooseRandomlyOneOf(result);
+            List<Crementer> result = of(new Decrementer(data, new Vertical(), false, this));
+            addCrementersAsNeeded(result);
+            getRandomElement(result).doStuff();
             return;
         }
         someMethod();
@@ -166,18 +166,28 @@ public class MazeBuilder {
     }
 
     private void chooseRandomlyOneOf(List<Runnable> actions) {
+        final Runnable runnable = getRandomElement(actions);
+        if (runnable == null) return;
+        runnable.run();
+    }
+
+    private <T> T getRandomElement(List<T> actions) {
         if (actions.isEmpty()) {
-            return;
+            return null;
         }
         var i =
                 (actions.size() == 1) ?
                         0 :
                         (random(actions.size()) - 1);
-        actions.get(i).run();
+        return actions.get(i);
     }
 
     private List<Runnable> of(Runnable instruction) {
         return new ArrayList<>(List.of(instruction));
+    }
+
+    private List<Crementer> of(Crementer crementer) {
+        return new ArrayList<>(List.of(crementer));
     }
 
     private void addHorizontalAndOrVerticalIfNeeded(List<Runnable> result) {
@@ -189,4 +199,12 @@ public class MazeBuilder {
         }
     }
 
+    private void addCrementersAsNeeded(List<Crementer> result) {
+        if (!data.isProcessedAt(+1, +0)) {
+            result.add(new Incrementer(data, new Horizontal(), false, this));
+        }
+        if (!data.isProcessedAt(+0, +1)) {
+            result.add(new Incrementer(data, new Vertical(), true, this));
+        }
+    }
 }
