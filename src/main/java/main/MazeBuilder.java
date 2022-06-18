@@ -81,63 +81,50 @@ public class MazeBuilder {
     }
 
     private void doFirstInstructionHandleX() { // FIXME there might be a link between isProcessed and the "direction" we then go to. Which is shown by the method chosen
-        if (data.isProcessedAt(+0, -1)) {
-            final boolean notProcessedInXPlus1 = !data.isProcessedAt(+1, +0);
-            if (notProcessedInXPlus1 && data.yMaxed()) {
-                Crementer crementer = hasRestarted ?
-                        horizontalIncrementer :
-                        verticalDecrementer;
-                crementer.doStuff();
-
-                return;
-            }
-
-            final boolean notProcessedInYPlus1 = !data.isProcessedAt(+0, +1);
-            if (notProcessedInXPlus1 && notProcessedInYPlus1) {
-                getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).doStuff();
-            } else if (notProcessedInXPlus1) {
-                horizontalIncrementer.doStuff();
-            } else if (notProcessedInYPlus1) {
-                verticalIncrementer.doStuff();
-            } else {
-                restartFromNextProcessedTile();
-            }
-        } else {
-            List<Crementer> crementers = of(verticalDecrementer);
-            if (!data.isProcessedAt(+1, +0)) {
-                crementers.add(horizontalIncrementer);
-            }
-            if (!data.isProcessedAt(+0, +1)) {
-                crementers.add(verticalIncrementer);
-            }
-            getRandomElement(crementers).doStuff();
+        if (!data.isProcessedAt(+0, -1)) {
+            incrementOrGoBackTheOnlyWay(verticalDecrementer);
+            return;
         }
+        final boolean notProcessedInXPlus1 = !data.isProcessedAt(+1, +0);
+        if (notProcessedInXPlus1 && data.yMaxed()) {
+            Crementer crementer = hasRestarted ?
+                    horizontalIncrementer :
+                    verticalDecrementer;
+            crementer.doStuff();
+
+            return;
+        }
+
+        final boolean notProcessedInYPlus1 = !data.isProcessedAt(+0, +1);
+        if (notProcessedInXPlus1 && notProcessedInYPlus1) {
+            getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).doStuff();
+        } else if (notProcessedInXPlus1) {
+            horizontalIncrementer.doStuff();
+        } else if (notProcessedInYPlus1) {
+            verticalIncrementer.doStuff();
+        } else {
+            restartFromNextProcessedTile();
+        }
+
     }
 
     private void doFirstInstructionHandleY() {
-        if (data.yMaxed()) {
-            if (data.isProcessedAt(+1, +0) && hasRestarted) {
-                horizontalDecrementer.doStuff();
-            } else if (random(3) == 2) {
-                horizontalIncrementer.doStuff();
-            } else {
-                hasRestarted = true;
-                data.setWallAtCurrent(VERTICAL_WALL);
-                data.setX(1);
-                data.setY(1);
-                restartFromNextProcessedTile();
-            }
-        } else {
-            List<Crementer> crementers = of(horizontalDecrementer);
-            if (!data.isProcessedAt(+1, +0)) {
-                crementers.add(horizontalIncrementer);
-            }
-            if (!data.isProcessedAt(+0, +1)) {
-                crementers.add(verticalIncrementer);
-            }
-            getRandomElement(crementers).doStuff();
+        if (!data.yMaxed()) {
+            incrementOrGoBackTheOnlyWay(horizontalDecrementer);
+            return;
         }
-
+        if (data.isProcessedAt(+1, +0) && hasRestarted) {
+            horizontalDecrementer.doStuff();
+        } else if (random(3) == 2) {
+            horizontalIncrementer.doStuff();
+        } else {
+            hasRestarted = true;
+            data.setWallAtCurrent(VERTICAL_WALL);
+            data.setX(1);
+            data.setY(1);
+            restartFromNextProcessedTile();
+        }
+        
     }
 
     private void doFirstInstructionHandleOther() {
@@ -159,6 +146,17 @@ public class MazeBuilder {
 
         crementer.setOrientation(orientation);
         crementer.doStuff();
+    }
+
+    private void incrementOrGoBackTheOnlyWay(Decrementer decrementer) {
+        List<Crementer> crementers = of(decrementer);
+        if (!data.isProcessedAt(+1, +0)) {
+            crementers.add(horizontalIncrementer);
+        }
+        if (!data.isProcessedAt(+0, +1)) {
+            crementers.add(verticalIncrementer);
+        }
+        getRandomElement(crementers).doStuff();
     }
 
     private <T> T getRandomElement(List<T> actions) {
