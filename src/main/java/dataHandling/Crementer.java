@@ -5,13 +5,13 @@ import main.MazeBuilder;
 public abstract class Crementer {
     protected final Data data;
     protected final Orientation orientation;
-    private final boolean restarter;
+    private final boolean mustCheckIfStepsFilledBeforeRestart;
     private final MazeBuilder mazeBuilder;
 
-    public Crementer(Data data, Orientation orientation, boolean restarter, MazeBuilder mazeBuilder) {
+    public Crementer(Data data, Orientation orientation, boolean mustCheckIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder) {
         this.data = data;
         this.orientation = orientation;
-        this.restarter = restarter;
+        this.mustCheckIfStepsFilledBeforeRestart = mustCheckIfStepsFilledBeforeRestart;
         this.mazeBuilder = mazeBuilder;
     }
 
@@ -20,7 +20,7 @@ public abstract class Crementer {
     public void doStuff() {
         toImplement();
         data.nextStep();
-        if (restarter) {
+        if (mustCheckIfStepsFilledBeforeRestart) {
             if (data.stepsAreNotAllFilled()) {
                 mazeBuilder.firstInstruction();
             }
