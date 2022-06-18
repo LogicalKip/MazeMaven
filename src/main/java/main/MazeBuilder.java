@@ -53,12 +53,6 @@ public class MazeBuilder {
         firstInstruction();
     }
 
-    private void restartWithCondition() {
-        if (data.stepsAreNotAllFilled()) {
-            firstInstruction();
-        }
-    }
-
     private void i940() {
         new Decrementer(data, new Horizontal(), true, this).doStuff();
     }

@@ -20,11 +20,11 @@ public abstract class Crementer {
     public void doStuff() {
         toImplement();
         data.nextStep();
-        if (mustCheckIfStepsFilledBeforeRestart) {
-            if (data.stepsAreNotAllFilled()) {
-                mazeBuilder.firstInstruction();
-            }
-        } else {
+        restart();
+    }
+
+    private void restart() {
+        if (data.stepsAreNotAllFilled() || !mustCheckIfStepsFilledBeforeRestart) {
             mazeBuilder.firstInstruction();
         }
     }
