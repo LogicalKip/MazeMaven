@@ -24,9 +24,10 @@ public abstract class Crementer {
     }
 
     private void restart() {
-        if (data.stepsAreNotAllFilled() || !mustCheckIfStepsFilledBeforeRestart) {
-            mazeBuilder.firstInstruction();
+        if (mustCheckIfStepsFilledBeforeRestart && !data.stepsAreNotAllFilled()) {
+            return;
         }
+        mazeBuilder.firstInstruction();
     }
 
 }
