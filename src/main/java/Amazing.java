@@ -7,6 +7,9 @@
  * + This transliteration to Java was created by Bill Wake, William.Wake@acm.org
  */
 
+import main.MazeBuilder;
+import main.MazePrinter;
+
 import java.util.Random;
 
 public class Amazing {

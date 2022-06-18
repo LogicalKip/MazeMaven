@@ -1,3 +1,5 @@
+package main;
+
 public class MazePrinter {
     public static final String HORIZONTAL_WALL = ":--";
     public static final String HORIZONTAL_SPACE = ":  ";
@@ -5,7 +7,8 @@ public class MazePrinter {
     public static final String VERTICAL_SPACE = "   ";
 
     public static final StringBuilder result = new StringBuilder();
-    void printMaze(int maxHorizontal, int maxVertical, int[][] valueArray, int entrancePosition) {
+
+    public void printMaze(int maxHorizontal, int maxVertical, int[][] valueArray, int entrancePosition) {
         clear();
         printHeader();
         printFirstWall(maxHorizontal, entrancePosition);
