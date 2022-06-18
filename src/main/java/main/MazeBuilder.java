@@ -5,6 +5,7 @@ import dataHandling.Data;
 import dataHandling.Decrementer;
 import dataHandling.Horizontal;
 import dataHandling.Incrementer;
+import dataHandling.Orientation;
 import dataHandling.Vertical;
 
 import java.util.ArrayList;
@@ -131,15 +132,21 @@ public class MazeBuilder {
         final int random = random(xProcessed && yProcessed ? 2 : 3);
 
         Crementer crementer;
+        Orientation orientation = new Horizontal();
+        boolean incrementer = true;
         if (random == 1) {
-            crementer = new Decrementer(data, new Horizontal(), false, this);
+            incrementer = false;
         } else if (random == 2) {
-            crementer = new Decrementer(data, new Vertical(), false, this);
+            incrementer = false;
+            orientation = new Vertical();
         } else if (xProcessed) {
-            crementer = new Incrementer(data, new Vertical(), false, this);
+            orientation = new Vertical();
+        }
+
+        if (incrementer) {
+            crementer = new Incrementer(data, orientation, false, this);
         } else {
-            //FIXME these 4 cases look a lot like the small functions
-            crementer = new Incrementer(data, new Horizontal(), false, this);  // instruction could be the submethod doFirstInstructionHandleX instead of firstInstruction here
+            crementer = new Decrementer(data, orientation, false, this);
         }
         crementer.doStuff();
     }
