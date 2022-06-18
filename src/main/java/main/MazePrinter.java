@@ -19,6 +19,11 @@ public class MazePrinter {
         }
     }
 
+    private void printHeader() {
+        print("Amazing - Copyright by Creative Computing, Morristown, NJ");
+        println();
+    }
+
     void printFirstWall(int maxHorizontal, int entrancePosition) {
         for (int i = 1; i <= maxHorizontal; i++) {
             if (i == entrancePosition) {
@@ -28,11 +33,6 @@ public class MazePrinter {
             }
         }
         print(":"); // top right corner
-        println();
-    }
-
-    private void printHeader() {
-        print("Amazing - Copyright by Creative Computing, Morristown, NJ");
         println();
     }
 
