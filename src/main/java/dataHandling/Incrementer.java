@@ -12,7 +12,7 @@ public class Incrementer extends Crementer {
     }
 
     @Override
-    protected void toImplement() {
+    protected void moveThrough() {
         data.allowPassage(orientation);
         data.increment(orientation.getXOrY());
     }

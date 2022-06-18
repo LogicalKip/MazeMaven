@@ -115,7 +115,19 @@ public class MazeBuilder {
     }
 
     private void doFirstInstructionHandleY() {
-        if (!data.yMaxed()) {
+        if (data.yMaxed()) {
+            if (data.isProcessedAt(+1, +0) && hasRestarted) {
+                horizontalDecrementer.doStuff();
+            } else if (random(3) == 2) {
+                horizontalIncrementer.doStuff();
+            } else {
+                hasRestarted = true;
+                data.setWallAtCurrent(VERTICAL_WALL);
+                data.setX(1);
+                data.setY(1);
+                restartFromNextProcessedTile();
+            }
+        } else {
             List<Crementer> crementers = of(horizontalDecrementer);
             if (!data.isProcessedAt(+1, +0)) {
                 crementers.add(horizontalIncrementer);
@@ -124,20 +136,8 @@ public class MazeBuilder {
                 crementers.add(verticalIncrementer);
             }
             getRandomElement(crementers).doStuff();
-            return;
         }
 
-        if (data.isProcessedAt(+1, +0) && hasRestarted) {
-            horizontalDecrementer.doStuff();
-        } else if (random(3) == 2) {
-            horizontalIncrementer.doStuff();
-        } else {
-            hasRestarted = true;
-            data.setWallAtCurrent(VERTICAL_WALL);
-            data.setX(1);
-            data.setY(1);
-            restartFromNextProcessedTile();
-        }
     }
 
     private void doFirstInstructionHandleOther() {

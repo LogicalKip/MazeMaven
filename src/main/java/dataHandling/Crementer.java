@@ -15,10 +15,10 @@ public abstract class Crementer {
         this.mazeBuilder = mazeBuilder;
     }
 
-    protected abstract void toImplement();
+    protected abstract void moveThrough();
 
     public void doStuff() {
-        toImplement();
+        moveThrough();
         data.nextStep();
         restart();
     }
