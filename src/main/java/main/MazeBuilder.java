@@ -91,9 +91,9 @@ public class MazeBuilder {
 
     private void doFirstInstructionHandleX() { // FIXME there might be a link between isProcessed and the "direction" we then go to. Which is shown by the method chosen
         if (!data.isProcessedAt(+0, -1)) {
-            List<Crementer> result = of(new Decrementer(data, new Vertical(), false, this));
-            addCrementersAsNeeded(result);
-            getRandomElement(result).doStuff();
+            List<Crementer> crementers = of(new Decrementer(data, new Vertical(), false, this));
+            addCrementersAsNeeded(crementers);
+            getRandomElement(crementers).doStuff();
             return;
         }
         someMethod();
@@ -101,9 +101,9 @@ public class MazeBuilder {
 
     private void doFirstInstructionHandleY() {
         if (!data.yMaxed()) {
-            List<Runnable> instructionList = of(this::i940);
-            addHorizontalAndOrVerticalIfNeeded(instructionList);
-            chooseRandomlyOneOf(instructionList);
+            List<Crementer> crementers = of(new Decrementer(data, new Horizontal(), true, this));
+            addCrementersAsNeeded(crementers);
+            getRandomElement(crementers).doStuff();
             return;
         }
 
