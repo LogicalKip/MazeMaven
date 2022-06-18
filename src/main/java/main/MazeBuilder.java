@@ -34,10 +34,10 @@ public class MazeBuilder {
         final int entrancePosition = random(maxHorizontal);
         this.data = new Data(maxHorizontal, maxVertical, entrancePosition);
         this.entrancePosition = entrancePosition;
-        verticalDecrementer = new Decrementer(data, new Vertical(), false, this);
-        verticalIncrementer = new Incrementer(data, new Vertical(), true, this);
-        horizontalIncrementer = new Incrementer(data, new Horizontal(), false, this);
-        horizontalDecrementer = new Decrementer(data, new Horizontal(), true, this);
+        verticalDecrementer = new Decrementer(data, new Vertical(), this::firstInstruction, this);
+        verticalIncrementer = new Incrementer(data, new Vertical(), this::restartWithCondition, this);
+        horizontalIncrementer = new Incrementer(data, new Horizontal(), this::firstInstruction, this);
+        horizontalDecrementer = new Decrementer(data, new Horizontal(), this::restartWithCondition, this);
     }
 
     private int random(int count) {
@@ -61,12 +61,16 @@ public class MazeBuilder {
         firstInstruction();
     }
 
-    private void i940() {
-        horizontalDecrementer.doStuff();
-
+    private void restartWithCondition() {
         if (data.stepsAreNotAllFilled()) {
             firstInstruction();
         }
+    }
+
+    private void i940() {
+        horizontalDecrementer.doStuff();
+
+        restartWithCondition();
     }
 
     private void i1000() {
@@ -78,9 +82,7 @@ public class MazeBuilder {
     private void handleVerticalStuff() {
         verticalIncrementer.doStuff();
 
-        if (data.stepsAreNotAllFilled()) {
-            firstInstruction();
-        }
+        restartWithCondition();
     }
 
     private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false

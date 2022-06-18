@@ -55,7 +55,7 @@ public class Data {
     }
 
     public boolean yMaxed() {
-        return y == getMaxVertical();
+        return y == maxVertical;
     }
 
     public int[][] getWallArray() {
@@ -74,7 +74,7 @@ public class Data {
     }
 
     public void nextStep() {
-        setCurrentToProcessed();
+        processed[x][y] = true;
         stepCount++;
     }
 
@@ -102,12 +102,8 @@ public class Data {
         }
     }
 
-    public int getCurrentWall() {
-        return wallArray[x][y];
-    }
-
     public void simplifyWallInto(int possibleWall) {
-        wallArray[x][y] = getCurrentWall() == VERT_AND_HORIZ_WALL ? possibleWall : NO_WALL;
+        wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? possibleWall : NO_WALL;
     }
 
     public boolean isProcessedAt(int xDelta, int yDelta) {
@@ -128,14 +124,6 @@ public class Data {
 
     public boolean isProcessedAtCurrent() {
         return processed[x][y];
-    }
-
-    public void setCurrentToProcessed() {
-        processed[x][y] = true;
-    }
-
-    public int getMaxVertical() {
-        return maxVertical;
     }
 
     enum XorY {
