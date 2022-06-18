@@ -60,20 +60,20 @@ public class MazeBuilder {
     }
 
     private void i940() {
-        new Decrementer(data, new Horizontal(), this::restartWithCondition).doStuff();
+        new Decrementer(data, new Horizontal(), this::restartWithCondition, this).doStuff();
     }
 
     private void i1000() {
-        new Decrementer(data, new Vertical(), this::firstInstruction).doStuff();
+        new Decrementer(data, new Vertical(), this::firstInstruction, this).doStuff();
 
     }
 
     private void handleVerticalStuff() {
-        new Incrementer(data, new Vertical(), this::restartWithCondition).doStuff();
+        new Incrementer(data, new Vertical(), this::restartWithCondition, this).doStuff();
     }
 
     private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false
-        new Incrementer(data, new Horizontal(), this::firstInstruction).doStuff();
+        new Incrementer(data, new Horizontal(), this::firstInstruction, this).doStuff();
     }
 
     private void restartFromNextProcessedTile() {
@@ -138,21 +138,23 @@ public class MazeBuilder {
 
         Crementer crementer;
         if (random == 1) {
-            crementer = new Decrementer(data, new Horizontal(), this::firstInstruction);
+            crementer = new Decrementer(data, new Horizontal(), this::firstInstruction, this);
         } else if (random == 2) {
-            crementer = new Decrementer(data, new Vertical(), this::firstInstruction);
+            crementer = new Decrementer(data, new Vertical(), this::firstInstruction, this);
         } else if (xProcessed) {
-            crementer = new Incrementer(data, new Vertical(), this::firstInstruction);
+            crementer = new Incrementer(data, new Vertical(), this::firstInstruction, this);
         } else {
             //FIXME these 4 cases look a lot like the small functions
-            crementer = new Incrementer(data, new Horizontal(), this::firstInstruction);  // instruction could be the submethod doFirstInstructionHandleX instead of firstInstruction here
+            crementer = new Incrementer(data, new Horizontal(), this::firstInstruction, this);  // instruction could be the submethod doFirstInstructionHandleX instead of firstInstruction here
         }
         crementer.doStuff();
     }
 
     private void someMethod() {
         if (!data.isProcessedAt(+1, +0) && data.yMaxed()) {
-            Crementer crementer = hasRestarted ? new Incrementer(data, new Horizontal(), this::firstInstruction) : new Decrementer(data, new Vertical(), this::firstInstruction);
+            Crementer crementer = hasRestarted ?
+                    new Incrementer(data, new Horizontal(), this::firstInstruction, this) :
+                    new Decrementer(data, new Vertical(), this::firstInstruction, this);
             crementer.doStuff();
 
             return;

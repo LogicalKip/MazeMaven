@@ -1,8 +1,10 @@
 package dataHandling;
 
+import main.MazeBuilder;
+
 public class Decrementer extends Crementer {
-    public Decrementer(Data data, Orientation orientation, Runnable checkIfStepsFilledBeforeRestart) {
-        super(data, orientation, checkIfStepsFilledBeforeRestart);
+    public Decrementer(Data data, Orientation orientation, Runnable checkIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder) {
+        super(data, orientation, checkIfStepsFilledBeforeRestart, mazeBuilder);
     }
 
     @Override
