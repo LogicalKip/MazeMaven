@@ -67,7 +67,10 @@ public class Data {
         return stepCount < this.maxHorizontal * this.maxVertical + 1;
     }
 
-    public void changeXY() {
+    /**
+     * Moves to the right. If no more room, Move to first tile of next line above.
+     */
+    public void nextTile() {
         if (x == maxHorizontal) {
             y = (y % maxVertical) + 1;
         }

@@ -62,7 +62,7 @@ public class MazeBuilder {
     }
 
     private void restartFromNextProcessedTile() {
-        data.changeXY();
+        data.nextTile();
         if (data.isProcessedAtCurrent()) {
             firstInstruction();
         } else {
