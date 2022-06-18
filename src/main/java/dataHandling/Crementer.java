@@ -4,9 +4,9 @@ import main.MazeBuilder;
 
 public abstract class Crementer {
     protected final Data data;
-    protected final Orientation orientation;
     private final boolean mustCheckIfStepsFilledBeforeRestart;
     private final MazeBuilder mazeBuilder;
+    protected Orientation orientation;
 
     public Crementer(Data data, Orientation orientation, boolean mustCheckIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder) {
         this.data = data;
@@ -30,4 +30,8 @@ public abstract class Crementer {
         mazeBuilder.firstInstruction();
     }
 
+
+    public void setOrientation(Orientation orientation) {
+        this.orientation = orientation;
+    }
 }

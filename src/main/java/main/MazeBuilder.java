@@ -131,23 +131,19 @@ public class MazeBuilder {
 
         final int random = random(xProcessed && yProcessed ? 2 : 3);
 
-        Crementer crementer;
+
         Orientation orientation = new Horizontal();
-        boolean incrementer = true;
+        Crementer crementer = new Incrementer(data, false, this);
         if (random == 1) {
-            incrementer = false;
+            crementer = new Decrementer(data, false, this);
         } else if (random == 2) {
-            incrementer = false;
+            crementer = new Decrementer(data, false, this);
             orientation = new Vertical();
         } else if (xProcessed) {
             orientation = new Vertical();
         }
 
-        if (incrementer) {
-            crementer = new Incrementer(data, orientation, false, this);
-        } else {
-            crementer = new Decrementer(data, orientation, false, this);
-        }
+        crementer.setOrientation(orientation);
         crementer.doStuff();
     }
 
