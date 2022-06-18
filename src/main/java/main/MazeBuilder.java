@@ -60,13 +60,12 @@ public class MazeBuilder {
         firstInstruction();
     }
 
-    private void restartFromNextProcessedTile() {
-        data.nextTile();
-        if (data.isProcessedAtCurrent()) {
-            firstInstruction();
-        } else {
-            restartFromNextProcessedTile();
-        }
+    private void findNextProcessedTileInOrder() {
+        do {
+            data.nextTile();
+        } while (!data.isProcessedAtCurrent());
+
+        firstInstruction();
     }
 
     public void firstInstruction() {
@@ -86,7 +85,7 @@ public class MazeBuilder {
                 chooseOneOfUpTo3Ways(horizontalDecrementer);
             }
         } else {
-            doFirstInstructionHandleOther();
+            goAnyDirection();
         }
     }
 
@@ -109,7 +108,7 @@ public class MazeBuilder {
         } else if (nextYAvailable) {
             verticalIncrementer.doStuff();
         } else {
-            restartFromNextProcessedTile();
+            findNextProcessedTileInOrder();
         }
     }
 
@@ -123,11 +122,11 @@ public class MazeBuilder {
             data.setWallAtCurrent(VERTICAL_WALL);
             data.setX(1);
             data.setY(1);
-            restartFromNextProcessedTile();
+            findNextProcessedTileInOrder();
         }
     }
 
-    private void doFirstInstructionHandleOther() {
+    private void goAnyDirection() {
         final boolean xProcessed = data.isAlreadyProcessedAt(+1, +0);
         final boolean yProcessed = data.isAlreadyProcessedAt(+0, +1);
 
