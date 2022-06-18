@@ -60,20 +60,20 @@ public class MazeBuilder {
     }
 
     private void i940() {
-        new Decrementer(data, new Horizontal(), this::restartWithCondition, this).doStuff();
+        new Decrementer(data, new Horizontal(), true, this).doStuff();
     }
 
     private void i1000() {
-        new Decrementer(data, new Vertical(), this::firstInstruction, this).doStuff();
+        new Decrementer(data, new Vertical(), false, this).doStuff();
 
     }
 
     private void handleVerticalStuff() {
-        new Incrementer(data, new Vertical(), this::restartWithCondition, this).doStuff();
+        new Incrementer(data, new Vertical(), true, this).doStuff();
     }
 
     private void handleHorizontalStuff() { // FIXME seems very related to processed[x + 1][y] == false
-        new Incrementer(data, new Horizontal(), this::firstInstruction, this).doStuff();
+        new Incrementer(data, new Horizontal(), false, this).doStuff();
     }
 
     private void restartFromNextProcessedTile() {
@@ -85,7 +85,7 @@ public class MazeBuilder {
         }
     }
 
-    private void firstInstruction() {
+    public void firstInstruction() {
         if (data.isProcessedAt(-1, +0)) {
             doFirstInstructionHandleX();
         } else if (data.isProcessedAt(+0, -1)) {
@@ -138,14 +138,14 @@ public class MazeBuilder {
 
         Crementer crementer;
         if (random == 1) {
-            crementer = new Decrementer(data, new Horizontal(), this::firstInstruction, this);
+            crementer = new Decrementer(data, new Horizontal(), false, this);
         } else if (random == 2) {
-            crementer = new Decrementer(data, new Vertical(), this::firstInstruction, this);
+            crementer = new Decrementer(data, new Vertical(), false, this);
         } else if (xProcessed) {
-            crementer = new Incrementer(data, new Vertical(), this::firstInstruction, this);
+            crementer = new Incrementer(data, new Vertical(), false, this);
         } else {
             //FIXME these 4 cases look a lot like the small functions
-            crementer = new Incrementer(data, new Horizontal(), this::firstInstruction, this);  // instruction could be the submethod doFirstInstructionHandleX instead of firstInstruction here
+            crementer = new Incrementer(data, new Horizontal(), false, this);  // instruction could be the submethod doFirstInstructionHandleX instead of firstInstruction here
         }
         crementer.doStuff();
     }
@@ -153,8 +153,8 @@ public class MazeBuilder {
     private void someMethod() {
         if (!data.isProcessedAt(+1, +0) && data.yMaxed()) {
             Crementer crementer = hasRestarted ?
-                    new Incrementer(data, new Horizontal(), this::firstInstruction, this) :
-                    new Decrementer(data, new Vertical(), this::firstInstruction, this);
+                    new Incrementer(data, new Horizontal(), false, this) :
+                    new Decrementer(data, new Vertical(), false, this);
             crementer.doStuff();
 
             return;
