@@ -161,9 +161,6 @@ public class MazeBuilder {
     }
 
     private <T> T getRandomElement(List<T> actions) {
-        if (actions.isEmpty()) {
-            return null;
-        }
         var i =
                 (actions.size() == 1) ?
                         0 :
@@ -173,14 +170,5 @@ public class MazeBuilder {
 
     private List<Crementer> of(Crementer crementer) {
         return new ArrayList<>(List.of(crementer));
-    }
-
-    private void addCrementersAsNeeded(List<Crementer> result) {
-        if (!data.isProcessedAt(+1, +0)) {
-            result.add(horizontalIncrementer);
-        }
-        if (!data.isProcessedAt(+0, +1)) {
-            result.add(verticalIncrementer);
-        }
     }
 }
