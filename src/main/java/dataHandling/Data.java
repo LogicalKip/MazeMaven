@@ -14,6 +14,7 @@ public class Data {
      * 1 : vertical wall
      * 2 : horizontal wall
      * 3 : no wall at all.
+     * Starts fully filled with double walls, then gets simplified little by little.
      * It's the output of the MazeBuilder, and isn't used at all to create the maze
      */
     public final int[][] wallArray;
