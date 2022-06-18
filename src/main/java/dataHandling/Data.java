@@ -106,8 +106,8 @@ public class Data {
         }
     }
 
-    public void simplifyWallInto(int possibleWall) {
-        wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? possibleWall : NO_WALL;
+    public void allowPassage(Orientation orientation) {
+        wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? orientation.getTypeOfWall() : NO_WALL;
     }
 
     public boolean isProcessedAt(int xDelta, int yDelta) {
