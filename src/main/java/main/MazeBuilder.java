@@ -85,6 +85,7 @@ public class MazeBuilder {
             incrementOrGoBackTheOnlyWay(verticalDecrementer);
             return;
         }
+
         final boolean notProcessedInXPlus1 = !data.isProcessedAt(+1, +0);
         if (notProcessedInXPlus1 && data.yMaxed()) {
             Crementer crementer = hasRestarted ?
@@ -113,6 +114,7 @@ public class MazeBuilder {
             incrementOrGoBackTheOnlyWay(horizontalDecrementer);
             return;
         }
+
         if (data.isProcessedAt(+1, +0) && hasRestarted) {
             horizontalDecrementer.doStuff();
         } else if (random(3) == 2) {
@@ -124,7 +126,6 @@ public class MazeBuilder {
             data.setY(1);
             restartFromNextProcessedTile();
         }
-        
     }
 
     private void doFirstInstructionHandleOther() {
