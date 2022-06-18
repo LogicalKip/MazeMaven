@@ -12,7 +12,7 @@ public class Decrementer extends Crementer {
     }
 
     @Override
-    public void toImplement() {
+    protected void toImplement() {
         data.decrement(orientation.getXOrY());
         data.setWallAtCurrent(orientation.getTypeOfWall());
     }

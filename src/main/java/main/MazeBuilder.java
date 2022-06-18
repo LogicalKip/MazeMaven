@@ -117,7 +117,12 @@ public class MazeBuilder {
     private void doFirstInstructionHandleY() {
         if (!data.yMaxed()) {
             List<Crementer> crementers = of(horizontalDecrementer);
-            addCrementersAsNeeded(crementers);
+            if (!data.isProcessedAt(+1, +0)) {
+                crementers.add(horizontalIncrementer);
+            }
+            if (!data.isProcessedAt(+0, +1)) {
+                crementers.add(verticalIncrementer);
+            }
             getRandomElement(crementers).doStuff();
             return;
         }

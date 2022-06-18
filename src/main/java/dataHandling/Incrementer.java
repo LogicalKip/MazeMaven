@@ -12,7 +12,7 @@ public class Incrementer extends Crementer {
     }
 
     @Override
-    public void toImplement() {
+    protected void toImplement() {
         data.simplifyWallInto(orientation.getTypeOfWall());
         data.increment(orientation.getXOrY());
     }
