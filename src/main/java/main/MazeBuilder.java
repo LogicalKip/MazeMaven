@@ -61,7 +61,7 @@ public class MazeBuilder {
         data.setX(entrancePosition);
         data.setY(1);
 
-        firstInstruction();
+        buildMazeForCurrentStep();
     }
 
     private void findNextProcessedTileInOrder() {
@@ -69,10 +69,10 @@ public class MazeBuilder {
             data.nextTile();
         } while (!data.isProcessedAtCurrent());
 
-        firstInstruction();
+        buildMazeForCurrentStep();
     }
 
-    public void firstInstruction() {
+    public void buildMazeForCurrentStep() {
         final boolean alreadyDoneNextX = data.isAlreadyProcessedAt(+1, +0);
         final boolean alreadyDonePreviousY = data.isAlreadyProcessedAt(+0, -1);
         final boolean alreadyDonePreviousX = data.isAlreadyProcessedAt(-1, +0);
@@ -98,10 +98,9 @@ public class MazeBuilder {
 
     private boolean handleLastRow(boolean alreadyDoneNextX, boolean previousXAvailable, boolean previousYAvailable) {
         if (!previousXAvailable && !previousYAvailable && !data.xMaxed()) {
-            Crementer crementer = foundExit ?
+            (foundExit ?
                     horizontalIncrementer :
-                    verticalDecrementer;
-            crementer.processStep();
+                    verticalDecrementer).processStep();
             return true;
         }
 
