@@ -76,9 +76,11 @@ public class MazeBuilder {
         final boolean alreadyDoneNextX = data.isAlreadyProcessedAt(+1, +0);
         final boolean alreadyDonePreviousY = data.isAlreadyProcessedAt(+0, -1);
         final boolean alreadyDonePreviousX = data.isAlreadyProcessedAt(-1, +0);
+        final boolean previousXAvailable = !alreadyDonePreviousX;
+        final boolean previousYAvailable = !alreadyDonePreviousY;
 
-        if (!alreadyDonePreviousX && !alreadyDonePreviousY) {
-            goAnyDirection();
+        if (previousXAvailable && previousYAvailable) {
+            goProbablyBackwards();
             return;
         }
 
@@ -92,7 +94,7 @@ public class MazeBuilder {
             return;
         }
 
-        goWhereNotProcessedYet();
+        goAnyDirection();
     }
 
     private void incrementWherePossible(boolean alreadyDoneNextX) {
@@ -129,7 +131,7 @@ public class MazeBuilder {
         }
     }
 
-    private void goAnyDirection() {
+    private void goProbablyBackwards() {
         final boolean xProcessed = data.isAlreadyProcessedAt(+1, +0);
         final boolean yProcessed = data.isAlreadyProcessedAt(+0, +1);
 
@@ -150,7 +152,7 @@ public class MazeBuilder {
         crementer.processStep();
     }
 
-    private void goWhereNotProcessedYet() {
+    private void goAnyDirection() {
         List<Crementer> crementers = new ArrayList<>();
         if (!data.isAlreadyProcessedAt(+0, -1)) {
             crementers.add(verticalDecrementer);
