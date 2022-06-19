@@ -17,7 +17,7 @@ public abstract class Crementer {
 
     protected abstract void moveThrough();
 
-    public void doStuff() {
+    public void processStep() {
         moveThrough();
         data.nextStep();
         restart();

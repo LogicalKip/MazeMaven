@@ -99,18 +99,18 @@ public class MazeBuilder {
             Crementer crementer = hasRestarted ?
                     horizontalIncrementer :
                     verticalDecrementer;
-            crementer.doStuff();
+            crementer.processStep();
 
             return;
         }
 
         final boolean nextYAvailable = !data.isAlreadyProcessedAt(+0, +1);
         if (nextXAvailable && nextYAvailable) {
-            getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).doStuff();
+            getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).processStep();
         } else if (nextXAvailable) {
-            horizontalIncrementer.doStuff();
+            horizontalIncrementer.processStep();
         } else if (nextYAvailable) {
-            verticalIncrementer.doStuff();
+            verticalIncrementer.processStep();
         } else {
             findNextProcessedTileInOrder();
         }
@@ -118,9 +118,9 @@ public class MazeBuilder {
 
     private void handleRoof(boolean alreadyDoneNextX) {
         if (alreadyDoneNextX && hasRestarted) {
-            horizontalDecrementer.doStuff();
+            horizontalDecrementer.processStep();
         } else if (random(3) == 2) {
-            horizontalIncrementer.doStuff();
+            horizontalIncrementer.processStep();
         } else { // Happens only once
             hasRestarted = true;
             data.setWallAtCurrent(VERTICAL_WALL);
@@ -148,7 +148,7 @@ public class MazeBuilder {
         }
 
         crementer.setOrientation(orientation);
-        crementer.doStuff();
+        crementer.processStep();
     }
 
     private void chooseOneOfUpTo3Ways(Decrementer guaranteedPossibility) {
@@ -159,7 +159,7 @@ public class MazeBuilder {
         if (!data.isAlreadyProcessedAt(+0, +1)) {
             crementers.add(verticalIncrementer);
         }
-        getRandomElement(crementers).doStuff();
+        getRandomElement(crementers).processStep();
     }
 
     private <T> T getRandomElement(List<T> actions) {
