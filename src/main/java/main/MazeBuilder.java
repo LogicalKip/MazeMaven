@@ -79,34 +79,48 @@ public class MazeBuilder {
         final boolean previousXAvailable = !alreadyDonePreviousX;
         final boolean previousYAvailable = !alreadyDonePreviousY;
 
+        if (data.yMaxed() && handleLastRow(alreadyDoneNextX, previousXAvailable, previousYAvailable)) {
+            return;
+        }
+
         if (previousXAvailable && previousYAvailable) {
             goProbablyBackwards();
             return;
         }
 
-        if (!previousXAvailable) {
-            if (!previousYAvailable) {
-                goForwardsIfPossibleOtherwiseNextTile(alreadyDoneNextX);
-                return;
-            }
-        } else if (data.yMaxed()) {
-            handleLastRow(alreadyDoneNextX);
+        if (!previousXAvailable && !previousYAvailable) {
+            goForwardsIfPossibleOtherwiseNextTile(alreadyDoneNextX);
             return;
         }
 
         goAnyDirection();
     }
 
-    private void goForwardsIfPossibleOtherwiseNextTile(boolean alreadyDoneNextX) {
-        final boolean nextXAvailable = !alreadyDoneNextX;
-        if (data.yMaxed() && !data.xMaxed()) {
+    private boolean handleLastRow(boolean alreadyDoneNextX, boolean previousXAvailable, boolean previousYAvailable) {
+        if (!previousXAvailable && !previousYAvailable && !data.xMaxed()) {
             Crementer crementer = foundExit ?
                     horizontalIncrementer :
                     verticalDecrementer;
             crementer.processStep();
-
-            return;
+            return true;
         }
+
+        if (previousXAvailable) {
+            if (alreadyDoneNextX) {
+                horizontalDecrementer.processStep();
+            } else if (random(3) == 2) {
+                horizontalIncrementer.processStep();
+            } else { // Happens only once
+                createExitHere();
+                fillTheRest();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void goForwardsIfPossibleOtherwiseNextTile(boolean alreadyDoneNextX) {
+        final boolean nextXAvailable = !alreadyDoneNextX;
 
         final boolean nextYAvailable = !data.isAlreadyProcessedAt(+0, +1);
         if (nextXAvailable && nextYAvailable) {
@@ -117,17 +131,6 @@ public class MazeBuilder {
             verticalIncrementer.processStep();
         } else {
             findNextProcessedTileInOrder();
-        }
-    }
-
-    private void handleLastRow(boolean alreadyDoneNextX) {
-        if (alreadyDoneNextX && foundExit) {
-            horizontalDecrementer.processStep();
-        } else if (random(3) == 2) {
-            horizontalIncrementer.processStep();
-        } else { // Happens only once
-            createExitHere();
-            fillTheRest();
         }
     }
 
