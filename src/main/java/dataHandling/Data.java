@@ -59,6 +59,10 @@ public class Data {
         return y == maxVertical;
     }
 
+    public boolean xMaxed() {
+        return x == maxHorizontal; // FIXME can be replaced by !data.isAlreadyProcessedAt(+1, +0)
+    }
+
     public int[][] getWallArray() {
         return wallArray;
     }

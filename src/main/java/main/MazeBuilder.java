@@ -84,9 +84,9 @@ public class MazeBuilder {
             return;
         }
 
-        if (alreadyDonePreviousX) {
-            if (alreadyDonePreviousY) {
-                incrementWherePossible(alreadyDoneNextX);
+        if (!previousXAvailable) {
+            if (!previousYAvailable) {
+                goForwardsIfPossibleOtherwiseNextTile(alreadyDoneNextX);
                 return;
             }
         } else if (data.yMaxed()) {
@@ -97,9 +97,9 @@ public class MazeBuilder {
         goAnyDirection();
     }
 
-    private void incrementWherePossible(boolean alreadyDoneNextX) {
+    private void goForwardsIfPossibleOtherwiseNextTile(boolean alreadyDoneNextX) {
         final boolean nextXAvailable = !alreadyDoneNextX;
-        if (nextXAvailable && data.yMaxed()) {
+        if (data.yMaxed() && !data.xMaxed()) {
             Crementer crementer = foundExit ?
                     horizontalIncrementer :
                     verticalDecrementer;
