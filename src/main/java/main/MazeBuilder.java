@@ -88,11 +88,11 @@ public class MazeBuilder {
                 return;
             }
         } else if (data.yMaxed()) {
-            handleRoof(alreadyDoneNextX);
+            handleLastRow(alreadyDoneNextX);
             return;
         }
 
-        chooseOneOfUpTo3Ways();
+        goWhereNotProcessedYet();
     }
 
     private void incrementWherePossible(boolean alreadyDoneNextX) {
@@ -118,7 +118,7 @@ public class MazeBuilder {
         }
     }
 
-    private void handleRoof(boolean alreadyDoneNextX) {
+    private void handleLastRow(boolean alreadyDoneNextX) {
         if (alreadyDoneNextX && foundExit) {
             horizontalDecrementer.processStep();
         } else if (random(3) == 2) {
@@ -127,17 +127,6 @@ public class MazeBuilder {
             createExitHere();
             fillTheRest();
         }
-    }
-
-    private void createExitHere() {
-        foundExit = true;
-        data.setWallAtCurrent(VERTICAL_WALL);
-    }
-
-    private void fillTheRest() {
-        data.setX(1);
-        data.setY(1);
-        findNextProcessedTileInOrder();
     }
 
     private void goAnyDirection() {
@@ -161,7 +150,7 @@ public class MazeBuilder {
         crementer.processStep();
     }
 
-    private void chooseOneOfUpTo3Ways() {
+    private void goWhereNotProcessedYet() {
         List<Crementer> crementers = new ArrayList<>();
         if (!data.isAlreadyProcessedAt(+0, -1)) {
             crementers.add(verticalDecrementer);
@@ -178,15 +167,22 @@ public class MazeBuilder {
         getRandomElement(crementers).processStep();
     }
 
-    private <T> T getRandomElement(List<T> actions) {
+    private void createExitHere() {
+        foundExit = true;
+        data.setWallAtCurrent(VERTICAL_WALL);
+    }
+
+    private void fillTheRest() {
+        data.setX(1);
+        data.setY(1);
+        findNextProcessedTileInOrder();
+    }
+
+    private Crementer getRandomElement(List<Crementer> actions) {
         var i =
                 (actions.size() == 1) ?
                         0 :
                         (random(actions.size()) - 1);
         return actions.get(i);
-    }
-
-    private List<Crementer> of(Crementer crementer) {
-        return new ArrayList<>(List.of(crementer));
     }
 }
