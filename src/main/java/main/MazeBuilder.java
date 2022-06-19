@@ -18,6 +18,9 @@ public class MazeBuilder {
 
     private final Random random;
 
+    /**
+     * or is it exit ?
+     */
     private final int entrancePosition;
     private final Data data;
     private final Incrementer horizontalIncrementer;
@@ -26,6 +29,7 @@ public class MazeBuilder {
     private final Decrementer horizontalDecrementer;
     /**
      * ex x
+     * Maybe means "exit was found", which allows more liberty in choices afterwards
      */
     private boolean hasRestarted;
 
@@ -117,7 +121,7 @@ public class MazeBuilder {
             horizontalDecrementer.doStuff();
         } else if (random(3) == 2) {
             horizontalIncrementer.doStuff();
-        } else {
+        } else { // Happens only once
             hasRestarted = true;
             data.setWallAtCurrent(VERTICAL_WALL);
             data.setX(1);
