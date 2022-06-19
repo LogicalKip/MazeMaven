@@ -76,21 +76,23 @@ public class MazeBuilder {
         final boolean alreadyDoneNextX = data.isAlreadyProcessedAt(+1, +0);
         final boolean alreadyDonePreviousY = data.isAlreadyProcessedAt(+0, -1);
         final boolean alreadyDonePreviousX = data.isAlreadyProcessedAt(-1, +0);
+
+        if (!alreadyDonePreviousX && !alreadyDonePreviousY) {
+            goAnyDirection();
+            return;
+        }
+
         if (alreadyDonePreviousX) {
             if (alreadyDonePreviousY) {
                 incrementWherePossible(alreadyDoneNextX);
-            } else {
-                chooseOneOfUpTo3Ways(verticalDecrementer);
+                return;
             }
-        } else if (alreadyDonePreviousY) {
-            if (data.yMaxed()) {
-                handleRoof(alreadyDoneNextX);
-            } else {
-                chooseOneOfUpTo3Ways(horizontalDecrementer);
-            }
-        } else {
-            goAnyDirection();
+        } else if (data.yMaxed()) {
+            handleRoof(alreadyDoneNextX);
+            return;
         }
+
+        chooseOneOfUpTo3Ways();
     }
 
     private void incrementWherePossible(boolean alreadyDoneNextX) {
@@ -159,8 +161,14 @@ public class MazeBuilder {
         crementer.processStep();
     }
 
-    private void chooseOneOfUpTo3Ways(Decrementer guaranteedPossibility) {
-        List<Crementer> crementers = of(guaranteedPossibility);
+    private void chooseOneOfUpTo3Ways() {
+        List<Crementer> crementers = new ArrayList<>();
+        if (!data.isAlreadyProcessedAt(+0, -1)) {
+            crementers.add(verticalDecrementer);
+        }
+        if (!data.isAlreadyProcessedAt(-1, +0)) {
+            crementers.add(horizontalDecrementer);
+        }
         if (!data.isAlreadyProcessedAt(+1, +0)) {
             crementers.add(horizontalIncrementer);
         }
