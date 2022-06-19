@@ -31,7 +31,7 @@ public class MazeBuilder {
      * ex x
      * Maybe means "exit was found", which allows more liberty in choices afterwards
      */
-    private boolean hasRestarted;
+    private boolean foundExit;
 
     public MazeBuilder(Random random, int maxHorizontal, int maxVertical) {
         this.random = random;
@@ -57,7 +57,7 @@ public class MazeBuilder {
     }
 
     public void createMaze() {
-        hasRestarted = false;
+        foundExit = false;
         data.setX(entrancePosition);
         data.setY(1);
 
@@ -96,7 +96,7 @@ public class MazeBuilder {
     private void incrementWherePossible(boolean alreadyDoneNextX) {
         final boolean nextXAvailable = !alreadyDoneNextX;
         if (nextXAvailable && data.yMaxed()) {
-            Crementer crementer = hasRestarted ?
+            Crementer crementer = foundExit ?
                     horizontalIncrementer :
                     verticalDecrementer;
             crementer.processStep();
@@ -117,17 +117,25 @@ public class MazeBuilder {
     }
 
     private void handleRoof(boolean alreadyDoneNextX) {
-        if (alreadyDoneNextX && hasRestarted) {
+        if (alreadyDoneNextX && foundExit) {
             horizontalDecrementer.processStep();
         } else if (random(3) == 2) {
             horizontalIncrementer.processStep();
         } else { // Happens only once
-            hasRestarted = true;
-            data.setWallAtCurrent(VERTICAL_WALL);
-            data.setX(1);
-            data.setY(1);
-            findNextProcessedTileInOrder();
+            createExitHere();
+            fillTheRest();
         }
+    }
+
+    private void createExitHere() {
+        foundExit = true;
+        data.setWallAtCurrent(VERTICAL_WALL);
+    }
+
+    private void fillTheRest() {
+        data.setX(1);
+        data.setY(1);
+        findNextProcessedTileInOrder();
     }
 
     private void goAnyDirection() {
