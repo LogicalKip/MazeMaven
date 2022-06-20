@@ -98,10 +98,10 @@ public class MazeBuilder {
             return false;
         }
 
-        final boolean alreadyDoneNextX = !data.isAvailable(+1, +0);
+        final boolean nextXNotAvailable = !data.isAvailable(+1, +0);
 
         if (previousXAvailable) {
-            if (alreadyDoneNextX) {
+            if (nextXNotAvailable) {
                 horizontalDecrementer.processStep();
             } else if (random(3) == 2) {
                 horizontalIncrementer.processStep();
