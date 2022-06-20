@@ -64,7 +64,7 @@ public class MazeBuilder {
         buildMazeForCurrentStep();
     }
 
-    private void findNextProcessedTileInOrder() {
+    private void restartFromNextProcessedTileInOrder() {
         do {
             data.nextTile();
         } while (!data.isProcessedAtCurrent());
@@ -127,15 +127,15 @@ public class MazeBuilder {
         } else if (nextYAvailable) {
             verticalIncrementer.processStep();
         } else {
-            findNextProcessedTileInOrder();
+            restartFromNextProcessedTileInOrder();
         }
     }
 
     private void goProbablyBackwards() {
-        final boolean xProcessed = data.isAlreadyProcessedAt(+1, +0);
-        final boolean yProcessed = data.isAlreadyProcessedAt(+0, +1);
+        final boolean xAvailable = data.isAvailable(+1, +0);
+        final boolean yAvailable = data.isAvailable(+0, +1);
 
-        final int random = random(xProcessed && yProcessed ? 2 : 3);
+        final int random = random(xAvailable || yAvailable ? 3 : 2);
         Orientation orientation = new Horizontal();
         Crementer crementer = new Incrementer(data, false, this);
         final Decrementer decrementer = new Decrementer(data, false, this);
@@ -144,7 +144,7 @@ public class MazeBuilder {
         } else if (random == 2) {
             crementer = decrementer;
             orientation = new Vertical();
-        } else if (xProcessed) {
+        } else if (yAvailable) {
             orientation = new Vertical();
         }
 
@@ -177,7 +177,7 @@ public class MazeBuilder {
     private void fillTheRest() {
         data.setX(1);
         data.setY(1);
-        findNextProcessedTileInOrder();
+        restartFromNextProcessedTileInOrder();
     }
 
     private Crementer getRandomElement(List<Crementer> actions) {
