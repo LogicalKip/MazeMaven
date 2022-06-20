@@ -74,10 +74,8 @@ public class MazeBuilder {
 
     public void buildMazeForCurrentStep() {
         final boolean alreadyDoneNextX = data.isAlreadyProcessedAt(+1, +0);
-        final boolean alreadyDonePreviousY = data.isAlreadyProcessedAt(+0, -1);
-        final boolean alreadyDonePreviousX = data.isAlreadyProcessedAt(-1, +0);
-        final boolean previousXAvailable = !alreadyDonePreviousX;
-        final boolean previousYAvailable = !alreadyDonePreviousY;
+        final boolean previousXAvailable = data.isAvailable(-1, +0);
+        final boolean previousYAvailable = data.isAvailable(+0, -1);
 
         if (data.yMaxed() && handleLastRow(alreadyDoneNextX, previousXAvailable, previousYAvailable)) {
             return;
@@ -121,7 +119,7 @@ public class MazeBuilder {
     private void goForwardsIfPossibleOtherwiseNextTile(boolean alreadyDoneNextX) {
         final boolean nextXAvailable = !alreadyDoneNextX;
 
-        final boolean nextYAvailable = !data.isAlreadyProcessedAt(+0, +1);
+        final boolean nextYAvailable = data.isAvailable(+0, +1);
         if (nextXAvailable && nextYAvailable) {
             getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).processStep();
         } else if (nextXAvailable) {
@@ -156,16 +154,16 @@ public class MazeBuilder {
 
     private void goAnyDirection() {
         List<Crementer> crementers = new ArrayList<>();
-        if (!data.isAlreadyProcessedAt(+0, -1)) {
+        if (data.isAvailable(+0, -1)) {
             crementers.add(verticalDecrementer);
         }
-        if (!data.isAlreadyProcessedAt(-1, +0)) {
+        if (data.isAvailable(-1, +0)) {
             crementers.add(horizontalDecrementer);
         }
-        if (!data.isAlreadyProcessedAt(+1, +0)) {
+        if (data.isAvailable(+1, +0)) {
             crementers.add(horizontalIncrementer);
         }
-        if (!data.isAlreadyProcessedAt(+0, +1)) {
+        if (data.isAvailable(+0, +1)) {
             crementers.add(verticalIncrementer);
         }
         getRandomElement(crementers).processStep();

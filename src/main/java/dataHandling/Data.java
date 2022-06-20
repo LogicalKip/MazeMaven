@@ -126,6 +126,10 @@ public class Data {
         return processed[xChanged][yChanged];
     }
 
+    public boolean isAvailable(int xDelta, int yDelta) {
+        return !isAlreadyProcessedAt(xDelta, yDelta);
+    }
+
     public void setWallAtCurrent(int wallType) {
         wallArray[x][y] = wallType;
     }
