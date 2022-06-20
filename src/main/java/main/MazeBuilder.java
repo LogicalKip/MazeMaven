@@ -87,7 +87,7 @@ public class MazeBuilder {
         }
 
         if (!previousXAvailable && !previousYAvailable) {
-            goForwardsIfPossibleOtherwiseNextTile(alreadyDoneNextX);
+            goForwardsIfPossibleOtherwiseNextTile();
             return;
         }
 
@@ -116,10 +116,10 @@ public class MazeBuilder {
         return false;
     }
 
-    private void goForwardsIfPossibleOtherwiseNextTile(boolean alreadyDoneNextX) {
-        final boolean nextXAvailable = !alreadyDoneNextX;
-
+    private void goForwardsIfPossibleOtherwiseNextTile() {
+        final boolean nextXAvailable = data.isAvailable(+1, +0);
         final boolean nextYAvailable = data.isAvailable(+0, +1);
+        
         if (nextXAvailable && nextYAvailable) {
             getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).processStep();
         } else if (nextXAvailable) {
