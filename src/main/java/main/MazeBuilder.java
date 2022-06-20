@@ -73,11 +73,10 @@ public class MazeBuilder {
     }
 
     public void buildMazeForCurrentStep() {
-        final boolean alreadyDoneNextX = !data.isAvailable(+1, +0);
         final boolean previousXAvailable = data.isAvailable(-1, +0);
         final boolean previousYAvailable = data.isAvailable(+0, -1);
 
-        if (data.yMaxed() && handleLastRow(alreadyDoneNextX, previousXAvailable, previousYAvailable)) {
+        if (handleLastRow(previousXAvailable, previousYAvailable)) {
             return;
         }
 
@@ -94,7 +93,13 @@ public class MazeBuilder {
         goAnyDirection();
     }
 
-    private boolean handleLastRow(boolean alreadyDoneNextX, boolean previousXAvailable, boolean previousYAvailable) {
+    private boolean handleLastRow(boolean previousXAvailable, boolean previousYAvailable) {
+        if (!data.yMaxed()) {
+            return false;
+        }
+
+        final boolean alreadyDoneNextX = !data.isAvailable(+1, +0);
+
         if (previousXAvailable) {
             if (alreadyDoneNextX) {
                 horizontalDecrementer.processStep();
