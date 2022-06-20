@@ -114,20 +114,16 @@ public class Data {
         wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? orientation.getTypeOfWall() : NO_WALL;
     }
 
-    public boolean isAlreadyProcessedAt(int xDelta, int yDelta) {
+    public boolean isAvailable(int xDelta, int yDelta) {
         var xChanged = x + xDelta;
         var yChanged = y + yDelta;
         if (xChanged == 0 || yChanged == 0) {
-            return true;
+            return false;
         }
         if (xChanged > maxHorizontal || yChanged > maxVertical) {
-            return true;
+            return false;
         }
-        return processed[xChanged][yChanged];
-    }
-
-    public boolean isAvailable(int xDelta, int yDelta) {
-        return !isAlreadyProcessedAt(xDelta, yDelta);
+        return !processed[xChanged][yChanged];
     }
 
     public void setWallAtCurrent(int wallType) {

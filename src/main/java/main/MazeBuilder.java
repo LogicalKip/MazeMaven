@@ -73,7 +73,7 @@ public class MazeBuilder {
     }
 
     public void buildMazeForCurrentStep() {
-        final boolean alreadyDoneNextX = data.isAlreadyProcessedAt(+1, +0);
+        final boolean alreadyDoneNextX = !data.isAvailable(+1, +0);
         final boolean previousXAvailable = data.isAvailable(-1, +0);
         final boolean previousYAvailable = data.isAvailable(+0, -1);
 
@@ -95,13 +95,6 @@ public class MazeBuilder {
     }
 
     private boolean handleLastRow(boolean alreadyDoneNextX, boolean previousXAvailable, boolean previousYAvailable) {
-        if (!previousXAvailable && !previousYAvailable && !data.xMaxed()) {
-            (foundExit ?
-                    horizontalIncrementer :
-                    verticalDecrementer).processStep();
-            return true;
-        }
-
         if (previousXAvailable) {
             if (alreadyDoneNextX) {
                 horizontalDecrementer.processStep();
@@ -111,6 +104,13 @@ public class MazeBuilder {
                 createExitHere();
                 fillTheRest();
             }
+            return true;
+        }
+
+        if (!previousYAvailable && !data.xMaxed()) {
+            (foundExit ?
+                    horizontalIncrementer :
+                    verticalDecrementer).processStep();
             return true;
         }
         return false;
