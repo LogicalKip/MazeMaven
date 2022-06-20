@@ -119,9 +119,9 @@ public class MazeBuilder {
     private void goForwardsIfPossibleOtherwiseNextTile() {
         final boolean nextXAvailable = data.isAvailable(+1, +0);
         final boolean nextYAvailable = data.isAvailable(+0, +1);
-        
+
         if (nextXAvailable && nextYAvailable) {
-            getRandomElement(new ArrayList<>(List.of(horizontalIncrementer, verticalIncrementer))).processStep();
+            getRandomElement(List.of(horizontalIncrementer, verticalIncrementer)).processStep();
         } else if (nextXAvailable) {
             horizontalIncrementer.processStep();
         } else if (nextYAvailable) {
