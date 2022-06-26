@@ -38,6 +38,7 @@ public class MazeBuilder {
         final int entrancePosition = random(maxHorizontal);
         this.data = new Data(maxHorizontal, maxVertical, entrancePosition);
         this.entrancePosition = entrancePosition;
+        this.foundExit = false;
         verticalDecrementer = new Decrementer(data, new Vertical(), false, this);
         verticalIncrementer = new Incrementer(data, new Vertical(), true, this);
         horizontalIncrementer = new Incrementer(data, new Horizontal(), false, this);
@@ -57,7 +58,6 @@ public class MazeBuilder {
     }
 
     public void createMaze() {
-        foundExit = false;
         data.setX(entrancePosition);
         data.setY(1);
 
