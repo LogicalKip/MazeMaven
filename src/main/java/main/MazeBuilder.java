@@ -9,6 +9,7 @@ import dataHandling.Vertical;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import static dataHandling.Data.VERTICAL_WALL;
@@ -80,7 +81,8 @@ public class MazeBuilder {
         }
 
         if (!previousXAvailable && !previousYAvailable) {
-            goForwardsIfPossibleOtherwiseNextTile();
+            getForwardDirection()
+                    .ifPresentOrElse(Crementer::processStep, this::restartFromNextProcessedTileInOrder);
             return;
         }
 
@@ -115,19 +117,18 @@ public class MazeBuilder {
         return false;
     }
 
-    private void goForwardsIfPossibleOtherwiseNextTile() {
+    private Optional<Crementer> getForwardDirection() {
         final boolean nextXAvailable = data.isAvailable(+1, +0);
         final boolean nextYAvailable = data.isAvailable(+0, +1);
 
         if (nextXAvailable && nextYAvailable) {
-            getRandomElement(List.of(horizontalIncrementer, verticalIncrementer)).processStep();
+            return Optional.of(getRandomElement(List.of(horizontalIncrementer, verticalIncrementer)));
         } else if (nextXAvailable) {
-            horizontalIncrementer.processStep();
+            return Optional.of(horizontalIncrementer);
         } else if (nextYAvailable) {
-            verticalIncrementer.processStep();
-        } else {
-            restartFromNextProcessedTileInOrder();
+            return Optional.of(verticalIncrementer);
         }
+        return Optional.empty();
     }
 
 

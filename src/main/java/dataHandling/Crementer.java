@@ -30,8 +30,4 @@ public abstract class Crementer {
         mazeBuilder.buildMazeForCurrentStep();
     }
 
-
-    public void setOrientation(Orientation orientation) {
-        this.orientation = orientation;
-    }
 }
