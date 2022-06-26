@@ -80,7 +80,7 @@ public class MazeBuilder {
         }
 
         if (previousXAvailable && previousYAvailable) {
-            goProbablyBackwards();
+            goAnyDirection();
             return;
         }
 
@@ -133,30 +133,6 @@ public class MazeBuilder {
         } else {
             restartFromNextProcessedTileInOrder();
         }
-    }
-
-    private void goProbablyBackwards() {
-        final boolean xAvailable = data.isAvailable(+1, +0);
-        final boolean yAvailable = data.isAvailable(+0, +1);
-
-        if (!xAvailable || !yAvailable) {
-            goAnyDirection();
-            return;
-        }
-
-        final int random = random(3);
-        Crementer crementer;
-        boolean goVertical;
-        if (random == 3) {
-            crementer = new Incrementer(data, false, this);
-            goVertical = true;
-        } else {
-            crementer = new Decrementer(data, false, this);
-            goVertical = random == 2;
-        }
-
-        crementer.setOrientation(goVertical ? new Vertical() : new Horizontal());
-        crementer.processStep();
     }
 
 
