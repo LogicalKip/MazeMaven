@@ -140,21 +140,18 @@ public class MazeBuilder {
         final boolean yAvailable = data.isAvailable(+0, +1);
 
         final int random = random(xAvailable || yAvailable ? 3 : 2);
-        final Decrementer decrementer = new Decrementer(data, false, this);
-
+        Crementer crementer;
+        boolean goVertical;
         if (random == 3) {
-            goForwards(yAvailable);
-            return;
+            crementer = new Incrementer(data, false, this);
+            goVertical = yAvailable;
+        } else {
+            crementer = new Decrementer(data, false, this);
+            goVertical = random == 2;
         }
 
-        decrementer.setOrientation(random == 1 ? new Horizontal() : new Vertical());
-        decrementer.processStep();
-    }
-
-    private void goForwards(boolean yAvailable) {
-        final Incrementer incrementer = new Incrementer(data, false, this);
-        incrementer.setOrientation(yAvailable ? new Vertical() : new Horizontal());
-        incrementer.processStep();
+        crementer.setOrientation(goVertical ? new Vertical() : new Horizontal());
+        crementer.processStep();
     }
 
     private void goAnyDirection() {
