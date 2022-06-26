@@ -79,11 +79,6 @@ public class MazeBuilder {
             return;
         }
 
-        if (previousXAvailable && previousYAvailable) {
-            goAnyDirection();
-            return;
-        }
-
         if (!previousXAvailable && !previousYAvailable) {
             goForwardsIfPossibleOtherwiseNextTile();
             return;
