@@ -80,17 +80,15 @@ public class MazeBuilder {
             return;
         }
 
-        goAnyDirection().ifPresentOrElse(Crementer::processStep, this::restartFromNextProcessedTileInOrder);
+        findAnyDirection().ifPresentOrElse(Crementer::processStep, this::restartFromNextProcessedTileInOrder);
     }
 
     private boolean handleLastRow(boolean previousXAvailable, boolean previousYAvailable) {
         if (!data.yMaxed()) {
             return false;
         }
-
-        final boolean nextXNotAvailable = !data.isAvailable(+1, +0);
-
         if (previousXAvailable) {
+            final boolean nextXNotAvailable = !data.isAvailable(+1, +0);
             if (nextXNotAvailable) {
                 horizontalDecrementer.processStep();
             } else if (random(3) == 2) {
@@ -111,8 +109,7 @@ public class MazeBuilder {
         return false;
     }
 
-
-    private Optional<Crementer> goAnyDirection() {
+    private Optional<Crementer> findAnyDirection() {
         List<Crementer> crementers = new ArrayList<>();
         if (data.isAvailable(-1, +0)) {
             crementers.add(horizontalDecrementer);
