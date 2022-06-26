@@ -4,13 +4,13 @@ import main.MazeBuilder;
 
 public class Decrementer extends Crementer {
 
-    public Decrementer(Data data, Orientation orientation, boolean checkIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder) {
-        super(data, orientation, checkIfStepsFilledBeforeRestart, mazeBuilder);
+    public Decrementer(MazeData mazeData, Orientation orientation, boolean checkIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder) {
+        super(mazeData, orientation, checkIfStepsFilledBeforeRestart, mazeBuilder);
     }
 
     @Override
     protected void moveThrough() {
-        data.decrement(orientation.getXOrY());
-        data.setWallAtCurrent(orientation.getTypeOfWall());
+        mazeData.decrement(orientation.getXOrY());
+        mazeData.setWallAtCurrent(orientation.getTypeOfWall());
     }
 }

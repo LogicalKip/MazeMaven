@@ -1,10 +1,10 @@
 package main;
 
 import dataHandling.Crementer;
-import dataHandling.Data;
 import dataHandling.Decrementer;
 import dataHandling.Horizontal;
 import dataHandling.Incrementer;
+import dataHandling.MazeData;
 import dataHandling.Vertical;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import static dataHandling.Data.VERTICAL_WALL;
+import static dataHandling.MazeData.VERTICAL_WALL;
 
 public class MazeBuilder {
 
@@ -22,7 +22,7 @@ public class MazeBuilder {
      * or is it exit ?
      */
     private final int entrancePosition;
-    private final Data data;
+    private final MazeData mazeData;
     private final Incrementer horizontalIncrementer;
     private final Decrementer verticalDecrementer;
     private final Incrementer verticalIncrementer;
@@ -36,13 +36,13 @@ public class MazeBuilder {
     public MazeBuilder(Random random, int maxHorizontal, int maxVertical) {
         this.random = random;
         final int entrancePosition = random(maxHorizontal);
-        this.data = new Data(maxHorizontal, maxVertical, entrancePosition);
+        this.mazeData = new MazeData(maxHorizontal, maxVertical, entrancePosition);
         this.entrancePosition = entrancePosition;
         this.foundExit = false;
-        verticalDecrementer = new Decrementer(data, new Vertical(), false, this);
-        verticalIncrementer = new Incrementer(data, new Vertical(), true, this);
-        horizontalIncrementer = new Incrementer(data, new Horizontal(), false, this);
-        horizontalDecrementer = new Decrementer(data, new Horizontal(), true, this);
+        verticalDecrementer = new Decrementer(mazeData, new Vertical(), false, this);
+        verticalIncrementer = new Incrementer(mazeData, new Vertical(), true, this);
+        horizontalIncrementer = new Incrementer(mazeData, new Horizontal(), false, this);
+        horizontalDecrementer = new Decrementer(mazeData, new Horizontal(), true, this);
     }
 
     private int random(int count) {
@@ -50,7 +50,7 @@ public class MazeBuilder {
     }
 
     public int[][] getWallArray() {
-        return data.getWallArray();
+        return mazeData.getWallArray();
     }
 
     public int getEntrancePosition() {
@@ -58,16 +58,16 @@ public class MazeBuilder {
     }
 
     public void createMaze() {
-        data.setX(entrancePosition);
-        data.setY(1);
+        mazeData.setX(entrancePosition);
+        mazeData.setY(1);
 
         buildMazeForCurrentStep();
     }
 
     private void restartFromNextProcessedTile() {
         do {
-            data.nextTile();
-        } while (!data.isProcessedAtCurrent());
+            mazeData.nextTile();
+        } while (!mazeData.isProcessedAtCurrent());
 
         buildMazeForCurrentStep();
     }
@@ -81,15 +81,15 @@ public class MazeBuilder {
     }
 
     private boolean handleLastRow() {
-        if (!data.yMaxed()) {
+        if (!mazeData.yMaxed()) {
             return false;
         }
 
-        if (!data.isAvailable(+1, +0)) {
+        if (!mazeData.isAvailable(+1, +0)) {
             return false;
         }
 
-        final boolean previousXAvailable = data.isAvailable(-1, +0);
+        final boolean previousXAvailable = mazeData.isAvailable(-1, +0);
         if (previousXAvailable) {
             if (random(3) == 2) {
                 horizontalIncrementer.processStep();
@@ -100,8 +100,8 @@ public class MazeBuilder {
             return true;
         }
 
-        final boolean previousYAvailable = data.isAvailable(+0, -1);
-        if (!previousYAvailable && !data.xMaxed()) {
+        final boolean previousYAvailable = mazeData.isAvailable(+0, -1);
+        if (!previousYAvailable && !mazeData.xMaxed()) {
             (foundExit ?
                     horizontalIncrementer :
                     verticalDecrementer).processStep();
@@ -112,16 +112,16 @@ public class MazeBuilder {
 
     private Optional<Crementer> findAnyDirection() {
         List<Crementer> crementers = new ArrayList<>();
-        if (data.isAvailable(-1, +0)) {
+        if (mazeData.isAvailable(-1, +0)) {
             crementers.add(horizontalDecrementer);
         }
-        if (data.isAvailable(+0, -1)) {
+        if (mazeData.isAvailable(+0, -1)) {
             crementers.add(verticalDecrementer);
         }
-        if (data.isAvailable(+1, +0)) {
+        if (mazeData.isAvailable(+1, +0)) {
             crementers.add(horizontalIncrementer);
         }
-        if (data.isAvailable(+0, +1)) {
+        if (mazeData.isAvailable(+0, +1)) {
             crementers.add(verticalIncrementer);
         }
         if (crementers.isEmpty()) {
@@ -132,12 +132,12 @@ public class MazeBuilder {
 
     private void createExitHere() {
         foundExit = true;
-        data.setWallAtCurrent(VERTICAL_WALL);
+        mazeData.setWallAtCurrent(VERTICAL_WALL);
     }
 
     private void fillTheRest() {
-        data.setX(1);
-        data.setY(1);
+        mazeData.setX(1);
+        mazeData.setY(1);
         restartFromNextProcessedTile();
     }
 

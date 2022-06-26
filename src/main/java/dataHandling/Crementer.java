@@ -3,13 +3,13 @@ package dataHandling;
 import main.MazeBuilder;
 
 public abstract class Crementer {
-    protected final Data data;
+    protected final MazeData mazeData;
     private final boolean mustCheckIfStepsFilledBeforeRestart;
     private final MazeBuilder mazeBuilder;
     protected Orientation orientation;
 
-    public Crementer(Data data, Orientation orientation, boolean mustCheckIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder) {
-        this.data = data;
+    public Crementer(MazeData mazeData, Orientation orientation, boolean mustCheckIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder) {
+        this.mazeData = mazeData;
         this.orientation = orientation;
         this.mustCheckIfStepsFilledBeforeRestart = mustCheckIfStepsFilledBeforeRestart;
         this.mazeBuilder = mazeBuilder;
@@ -19,12 +19,12 @@ public abstract class Crementer {
 
     public void processStep() {
         moveThrough();
-        data.nextStep();
+        mazeData.nextStep();
         restart();
     }
 
     private void restart() {
-        if (mustCheckIfStepsFilledBeforeRestart && !data.stepsAreNotAllFilled()) {
+        if (mustCheckIfStepsFilledBeforeRestart && !mazeData.stepsAreNotAllFilled()) {
             return;
         }
         mazeBuilder.buildMazeForCurrentStep();

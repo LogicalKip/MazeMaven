@@ -1,6 +1,6 @@
 package dataHandling;
 
-public class Data {
+public class MazeData {
     public static final int VERT_AND_HORIZ_WALL = 0;
     public static final int VERTICAL_WALL = 1;
     public static final int HORIZONTAL_WALL = 2;
@@ -26,20 +26,11 @@ public class Data {
      * Maybe means "has been processed" ?
      */
     private final boolean[][] processed;
-    /**
-     * ex r
-     */
     public int x;
-    /**
-     * ex s
-     */
     public int y;
-    /**
-     * ex c
-     */
     private int stepCount;
 
-    public Data(int maxHorizontal, int maxVertical, int entrancePosition) {
+    public MazeData(int maxHorizontal, int maxVertical, int entrancePosition) {
         this.processed = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.maxHorizontal = maxHorizontal;
         this.maxVertical = maxVertical;
