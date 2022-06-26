@@ -139,12 +139,17 @@ public class MazeBuilder {
         final boolean xAvailable = data.isAvailable(+1, +0);
         final boolean yAvailable = data.isAvailable(+0, +1);
 
-        final int random = random(xAvailable || yAvailable ? 3 : 2);
+        if (!xAvailable || !yAvailable) {
+            goAnyDirection();
+            return;
+        }
+
+        final int random = random(3);
         Crementer crementer;
         boolean goVertical;
         if (random == 3) {
             crementer = new Incrementer(data, false, this);
-            goVertical = yAvailable;
+            goVertical = true;
         } else {
             crementer = new Decrementer(data, false, this);
             goVertical = random == 2;
@@ -154,13 +159,14 @@ public class MazeBuilder {
         crementer.processStep();
     }
 
+
     private void goAnyDirection() {
         List<Crementer> crementers = new ArrayList<>();
-        if (data.isAvailable(+0, -1)) {
-            crementers.add(verticalDecrementer);
-        }
         if (data.isAvailable(-1, +0)) {
             crementers.add(horizontalDecrementer);
+        }
+        if (data.isAvailable(+0, -1)) {
+            crementers.add(verticalDecrementer);
         }
         if (data.isAvailable(+1, +0)) {
             crementers.add(horizontalIncrementer);
