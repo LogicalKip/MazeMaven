@@ -87,11 +87,13 @@ public class MazeBuilder {
         if (!data.yMaxed()) {
             return false;
         }
+
+        if (!data.isAvailable(+1, +0)) {
+            return false;
+        }
+
         if (previousXAvailable) {
-            final boolean nextXNotAvailable = !data.isAvailable(+1, +0);
-            if (nextXNotAvailable) {
-                horizontalDecrementer.processStep();
-            } else if (random(3) == 2) {
+            if (random(3) == 2) {
                 horizontalIncrementer.processStep();
             } else { // Happens only once
                 createExitHere();
