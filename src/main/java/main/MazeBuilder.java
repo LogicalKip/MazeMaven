@@ -101,7 +101,7 @@ public class MazeBuilder {
         }
 
         final boolean previousYAvailable = mazeData.isAvailable(+0, -1);
-        if (!previousYAvailable && !mazeData.xMaxed()) {
+        if (!previousYAvailable) {
             (foundExit ?
                     horizontalIncrementer :
                     verticalDecrementer).processStep();
