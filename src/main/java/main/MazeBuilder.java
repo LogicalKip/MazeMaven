@@ -5,7 +5,6 @@ import dataHandling.Data;
 import dataHandling.Decrementer;
 import dataHandling.Horizontal;
 import dataHandling.Incrementer;
-import dataHandling.Orientation;
 import dataHandling.Vertical;
 
 import java.util.ArrayList;
@@ -141,20 +140,21 @@ public class MazeBuilder {
         final boolean yAvailable = data.isAvailable(+0, +1);
 
         final int random = random(xAvailable || yAvailable ? 3 : 2);
-        Orientation orientation = new Horizontal();
-        Crementer crementer = new Incrementer(data, false, this);
         final Decrementer decrementer = new Decrementer(data, false, this);
-        if (random == 1) {
-            crementer = decrementer;
-        } else if (random == 2) {
-            crementer = decrementer;
-            orientation = new Vertical();
-        } else if (yAvailable) {
-            orientation = new Vertical();
+
+        if (random == 3) {
+            goForwards(yAvailable);
+            return;
         }
 
-        crementer.setOrientation(orientation);
-        crementer.processStep();
+        decrementer.setOrientation(random == 1 ? new Horizontal() : new Vertical());
+        decrementer.processStep();
+    }
+
+    private void goForwards(boolean yAvailable) {
+        final Incrementer incrementer = new Incrementer(data, false, this);
+        incrementer.setOrientation(yAvailable ? new Vertical() : new Horizontal());
+        incrementer.processStep();
     }
 
     private void goAnyDirection() {
