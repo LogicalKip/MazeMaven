@@ -64,7 +64,7 @@ public class MazeBuilder {
         buildMazeForCurrentStep();
     }
 
-    private void restartFromNextProcessedTileInOrder() {
+    private void restartFromNextProcessedTile() {
         do {
             data.nextTile();
         } while (!data.isProcessedAtCurrent());
@@ -73,17 +73,14 @@ public class MazeBuilder {
     }
 
     public void buildMazeForCurrentStep() {
-        final boolean previousXAvailable = data.isAvailable(-1, +0);
-        final boolean previousYAvailable = data.isAvailable(+0, -1);
-
-        if (handleLastRow(previousXAvailable, previousYAvailable)) {
+        if (handleLastRow()) {
             return;
         }
 
-        findAnyDirection().ifPresentOrElse(Crementer::processStep, this::restartFromNextProcessedTileInOrder);
+        findAnyDirection().ifPresentOrElse(Crementer::processStep, this::restartFromNextProcessedTile);
     }
 
-    private boolean handleLastRow(boolean previousXAvailable, boolean previousYAvailable) {
+    private boolean handleLastRow() {
         if (!data.yMaxed()) {
             return false;
         }
@@ -92,6 +89,7 @@ public class MazeBuilder {
             return false;
         }
 
+        final boolean previousXAvailable = data.isAvailable(-1, +0);
         if (previousXAvailable) {
             if (random(3) == 2) {
                 horizontalIncrementer.processStep();
@@ -102,6 +100,7 @@ public class MazeBuilder {
             return true;
         }
 
+        final boolean previousYAvailable = data.isAvailable(+0, -1);
         if (!previousYAvailable && !data.xMaxed()) {
             (foundExit ?
                     horizontalIncrementer :
@@ -139,7 +138,7 @@ public class MazeBuilder {
     private void fillTheRest() {
         data.setX(1);
         data.setY(1);
-        restartFromNextProcessedTileInOrder();
+        restartFromNextProcessedTile();
     }
 
     private Crementer getRandomElement(List<Crementer> actions) {
