@@ -80,13 +80,7 @@ public class MazeBuilder {
             return;
         }
 
-        if (!previousXAvailable && !previousYAvailable) {
-            getForwardDirection()
-                    .ifPresentOrElse(Crementer::processStep, this::restartFromNextProcessedTileInOrder);
-            return;
-        }
-
-        goAnyDirection();
+        goAnyDirection().ifPresentOrElse(Crementer::processStep, this::restartFromNextProcessedTileInOrder);
     }
 
     private boolean handleLastRow(boolean previousXAvailable, boolean previousYAvailable) {
@@ -117,22 +111,8 @@ public class MazeBuilder {
         return false;
     }
 
-    private Optional<Crementer> getForwardDirection() {
-        final boolean nextXAvailable = data.isAvailable(+1, +0);
-        final boolean nextYAvailable = data.isAvailable(+0, +1);
 
-        if (nextXAvailable && nextYAvailable) {
-            return Optional.of(getRandomElement(List.of(horizontalIncrementer, verticalIncrementer)));
-        } else if (nextXAvailable) {
-            return Optional.of(horizontalIncrementer);
-        } else if (nextYAvailable) {
-            return Optional.of(verticalIncrementer);
-        }
-        return Optional.empty();
-    }
-
-
-    private void goAnyDirection() {
+    private Optional<Crementer> goAnyDirection() {
         List<Crementer> crementers = new ArrayList<>();
         if (data.isAvailable(-1, +0)) {
             crementers.add(horizontalDecrementer);
@@ -146,7 +126,10 @@ public class MazeBuilder {
         if (data.isAvailable(+0, +1)) {
             crementers.add(verticalIncrementer);
         }
-        getRandomElement(crementers).processStep();
+        if (crementers.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(getRandomElement(crementers));
     }
 
     private void createExitHere() {
