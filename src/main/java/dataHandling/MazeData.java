@@ -39,9 +39,15 @@ public class MazeData {
         this.stepCount = 2;
         for (int i = 0; i <= maxHorizontal; i++) {
             this.horizontalWallArray[i] = new int[maxVertical + 1];
+            for (int j = 0; j <= maxVertical; j++) {
+                this.horizontalWallArray[i][j] = 2;
+            }
         }
         for (int i = 0; i <= maxHorizontal; i++) {
             this.verticalWallArray[i] = new int[maxVertical + 1];
+            for (int j = 0; j <= maxVertical; j++) {
+                this.verticalWallArray[i][j] = 1;
+            }
         }
         for (int i = 0; i <= maxHorizontal; i++) {
             processed[i] = new boolean[maxVertical + 1];
@@ -106,7 +112,7 @@ public class MazeData {
     }
 
     public void allowPassage(Orientation orientation) {
-        if (horizontalWallArray[x][y] == VERT_AND_HORIZ_WALL) {
+        if (horizontalWallArray[x][y] == HORIZONTAL_WALL && verticalWallArray[x][y] == VERTICAL_WALL) {
             if (orientation.getTypeOfWall() == VERTICAL_WALL) {
                 verticalWallArray[x][y] = VERTICAL_WALL;
                 horizontalWallArray[x][y] = NO_WALL;
@@ -133,17 +139,15 @@ public class MazeData {
     }
 
     public void setWallAtCurrent(int wallType) {
-//        if (wallType == HORIZONTAL_WALL) {
-//            horizontalWallArray[x][y] = wallType;
-//            verticalWallArray[x][y] = wallType;
-//        } else if (wallType == VERTICAL_WALL) {
-//            verticalWallArray[x][y] = wallType;
-//        } else {
-//            System.out.println("unexpected");
-//        }
-
-        horizontalWallArray[x][y] = wallType;
-        verticalWallArray[x][y] = wallType;
+        if (wallType == HORIZONTAL_WALL) {
+            horizontalWallArray[x][y] = wallType;
+            verticalWallArray[x][y] = NO_WALL;
+        } else if (wallType == VERTICAL_WALL) {
+            horizontalWallArray[x][y] = NO_WALL;
+            verticalWallArray[x][y] = wallType;
+        } else {
+            System.out.println("unexpected");
+        }
     }
 
     public boolean isAvailable(int xDelta, int yDelta) {
