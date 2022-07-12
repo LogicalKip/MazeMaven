@@ -3,18 +3,9 @@ package dataHandling;
 public class MazeData {
     public static final int VERTICAL_WALL = 1;
     public static final int HORIZONTAL_WALL = 2;
-    public static final boolean WALL_PRESENT = true;
-    public static final boolean NO_WALL = false;
     /**
-     * shows presence of both vertical and horizontal with the same data.
-     * 0, 1 : vertical wall.
-     * 0, 2 : horizontal wall.
-     * Therefore :
-     * 0 : both walls
-     * 1 : vertical wall
-     * 2 : horizontal wall
-     * 3 : no wall at all.
-     * Starts fully filled with double walls, then gets simplified little by little.
+     * Shows presence of walls.
+     * Both arrays Starts fully filled with walls, then gets simplified little by little.
      * It's the output of the MazeBuilder.
      */
     public final boolean[][] horizontalWallArray;
@@ -40,13 +31,13 @@ public class MazeData {
         for (int i = 0; i <= maxHorizontal; i++) {
             this.horizontalWallArray[i] = new boolean[maxVertical + 1];
             for (int j = 0; j <= maxVertical; j++) {
-                this.horizontalWallArray[i][j] = WALL_PRESENT;
+                this.horizontalWallArray[i][j] = true;
             }
         }
         for (int i = 0; i <= maxHorizontal; i++) {
             this.verticalWallArray[i] = new boolean[maxVertical + 1];
             for (int j = 0; j <= maxVertical; j++) {
-                this.verticalWallArray[i][j] = WALL_PRESENT;
+                this.verticalWallArray[i][j] = true;
             }
         }
         for (int i = 0; i <= maxHorizontal; i++) {
@@ -112,27 +103,27 @@ public class MazeData {
     }
 
     public void allowPassage(Orientation orientation) {
-        if (horizontalWallArray[x][y] == WALL_PRESENT && verticalWallArray[x][y] == WALL_PRESENT) {
+        if (horizontalWallArray[x][y] == true && verticalWallArray[x][y] == true) {
             if (orientation.getTypeOfWall() == VERTICAL_WALL) {
-                verticalWallArray[x][y] = WALL_PRESENT;
-                horizontalWallArray[x][y] = NO_WALL;
+                verticalWallArray[x][y] = true;
+                horizontalWallArray[x][y] = false;
             } else {
-                verticalWallArray[x][y] = NO_WALL;
-                horizontalWallArray[x][y] = WALL_PRESENT;
+                verticalWallArray[x][y] = false;
+                horizontalWallArray[x][y] = true;
             }
         } else {
-            verticalWallArray[x][y] = NO_WALL;
-            horizontalWallArray[x][y] = NO_WALL;
+            verticalWallArray[x][y] = false;
+            horizontalWallArray[x][y] = false;
         }
     }
 
     public void setWallAtCurrent(int wallType) {
         if (wallType == HORIZONTAL_WALL) {
-            horizontalWallArray[x][y] = WALL_PRESENT;
-            verticalWallArray[x][y] = NO_WALL;
+            horizontalWallArray[x][y] = true;
+            verticalWallArray[x][y] = false;
         } else if (wallType == VERTICAL_WALL) {
-            horizontalWallArray[x][y] = NO_WALL;
-            verticalWallArray[x][y] = WALL_PRESENT;
+            horizontalWallArray[x][y] = false;
+            verticalWallArray[x][y] = true;
         } else {
             System.out.println("unexpected");
         }

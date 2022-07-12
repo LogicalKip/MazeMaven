@@ -1,7 +1,5 @@
 package main;
 
-import dataHandling.MazeData;
-
 public class MazePrinter {
     public static final String HORIZONTAL_WALL = ":--";
     public static final String HORIZONTAL_SPACE = ":  ";
@@ -40,7 +38,7 @@ public class MazePrinter {
     private void printHorizontalPartOfCurrentLine(int maxHorizontal, boolean[][] horizontalWallArray, int y) {
         for (int x = 1; x <= maxHorizontal; x++) {
             var current = horizontalWallArray[x][y];
-            if (current == MazeData.WALL_PRESENT) {
+            if (current == true) {
                 print(HORIZONTAL_WALL);
             } else {
                 print(HORIZONTAL_SPACE);
@@ -54,7 +52,7 @@ public class MazePrinter {
     private void printVerticalPartOfCurrentLine(int maxHorizontal, boolean[][] verticalWallArray, int y) {
         print("I");
         for (int x = 1; x <= maxHorizontal; x++) {
-            if (verticalWallArray[x][y] == MazeData.WALL_PRESENT) {
+            if (verticalWallArray[x][y] == true) {
                 print(VERTICAL_WALL);
             } else {
                 print(VERTICAL_SPACE);
