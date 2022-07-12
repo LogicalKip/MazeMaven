@@ -27,10 +27,6 @@ public class MazeBuilder {
     private final Decrementer verticalDecrementer;
     private final Incrementer verticalIncrementer;
     private final Decrementer horizontalDecrementer;
-    /**
-     * ex x
-     * Maybe means "exit was found", which allows more liberty in choices afterwards
-     */
     private boolean foundExit;
 
     public MazeBuilder(Random random, int maxHorizontal, int maxVertical) {
@@ -49,8 +45,12 @@ public class MazeBuilder {
         return (int) (count * random.nextFloat()) + 1;
     }
 
-    public int[][] getWallArray() {
-        return mazeData.getWallArray();
+    public int[][] getHorizontalWallArray() {
+        return mazeData.getHorizontalWallArray();
+    }
+
+    public int[][] getVerticalWallArray() {
+        return mazeData.getVerticalWallArray();
     }
 
     public int getEntrancePosition() {

@@ -10,14 +10,14 @@ public class MazePrinter {
 
     public static final StringBuilder result = new StringBuilder();
 
-    public void printMaze(int maxHorizontal, int maxVertical, int[][] wallArray, int entrancePosition) {
+    public void printMaze(int maxHorizontal, int maxVertical, int[][] horizontalWallArray, int[][] verticalWallArray, int entrancePosition) {
         clear();
         printHeader();
         printFirstWall(maxHorizontal, entrancePosition);
         // 1200:
         for (int y = 1; y <= maxVertical; y++) {
-            printVerticalPartOfCurrentLine(maxHorizontal, wallArray, y);
-            printHorizontalPartOfCurrentLine(maxHorizontal, wallArray, y);
+            printVerticalPartOfCurrentLine(maxHorizontal, horizontalWallArray, verticalWallArray, y);
+            printHorizontalPartOfCurrentLine(maxHorizontal, horizontalWallArray, verticalWallArray, y);
         }
     }
 
@@ -38,9 +38,9 @@ public class MazePrinter {
         println();
     }
 
-    private void printHorizontalPartOfCurrentLine(int maxHorizontal, int[][] wallArray, int y) {
+    private void printHorizontalPartOfCurrentLine(int maxHorizontal, int[][] horizontalWallArray, int[][] verticalWallArray, int y) {
         for (int x = 1; x <= maxHorizontal; x++) {
-            var current = wallArray[x][y];
+            var current = horizontalWallArray[x][y];
             // 1310, 1340
             if (current == MazeData.VERT_AND_HORIZ_WALL || current == MazeData.HORIZONTAL_WALL) {
                 print(HORIZONTAL_WALL);   // 1300, 1340
@@ -53,10 +53,10 @@ public class MazePrinter {
         println();
     }
 
-    private void printVerticalPartOfCurrentLine(int maxHorizontal, int[][] wallArray, int y) {
+    private void printVerticalPartOfCurrentLine(int maxHorizontal, int[][] horizontalWallArray, int[][] verticalWallArray, int y) {
         print("I");        // 1210
         for (int x = 1; x <= maxHorizontal; x++) {
-            if (wallArray[x][y] == MazeData.VERT_AND_HORIZ_WALL || wallArray[x][y] == MazeData.VERTICAL_WALL) {
+            if (verticalWallArray[x][y] == MazeData.VERT_AND_HORIZ_WALL || verticalWallArray[x][y] == MazeData.VERTICAL_WALL) {
                 print(VERTICAL_WALL);  // 1260
             } else {
                 print(VERTICAL_SPACE);  // 1240

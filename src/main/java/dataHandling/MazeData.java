@@ -17,7 +17,8 @@ public class MazeData {
      * Starts fully filled with double walls, then gets simplified little by little.
      * It's the output of the MazeBuilder, and isn't used at all to create the maze
      */
-    public final int[][] wallArray;
+    public final int[][] horizontalWallArray;
+    public final int[][] verticalWallArray;
     private final int maxHorizontal;
     private final int maxVertical;
     /**
@@ -34,10 +35,14 @@ public class MazeData {
         this.processed = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.maxHorizontal = maxHorizontal;
         this.maxVertical = maxVertical;
-        this.wallArray = new int[maxHorizontal + 1][maxVertical + 1];
+        this.horizontalWallArray = new int[maxHorizontal + 1][maxVertical + 1];
+        this.verticalWallArray = new int[maxHorizontal + 1][maxVertical + 1];
         this.stepCount = 2;
         for (int i = 0; i <= maxHorizontal; i++) {
-            this.wallArray[i] = new int[maxVertical + 1];
+            this.horizontalWallArray[i] = new int[maxVertical + 1];
+        }
+        for (int i = 0; i <= maxHorizontal; i++) {
+            this.verticalWallArray[i] = new int[maxVertical + 1];
         }
         for (int i = 0; i <= maxHorizontal; i++) {
             processed[i] = new boolean[maxVertical + 1];
@@ -50,12 +55,12 @@ public class MazeData {
         return y == maxVertical;
     }
 
-    public boolean xMaxed() {
-        return x == maxHorizontal; // FIXME can be replaced by !data.isAlreadyProcessedAt(+1, +0)
+    public int[][] getHorizontalWallArray() {
+        return horizontalWallArray;
     }
 
-    public int[][] getWallArray() {
-        return wallArray;
+    public int[][] getVerticalWallArray() {
+        return verticalWallArray;
     }
 
     public boolean stepsAreNotAllFilled() {
@@ -102,7 +107,8 @@ public class MazeData {
     }
 
     public void allowPassage(Orientation orientation) {
-        wallArray[x][y] = wallArray[x][y] == VERT_AND_HORIZ_WALL ? orientation.getTypeOfWall() : NO_WALL;
+        horizontalWallArray[x][y] = horizontalWallArray[x][y] == VERT_AND_HORIZ_WALL ? orientation.getTypeOfWall() : NO_WALL;
+        verticalWallArray[x][y] = verticalWallArray[x][y] == VERT_AND_HORIZ_WALL ? orientation.getTypeOfWall() : NO_WALL;
     }
 
     public boolean isAvailable(int xDelta, int yDelta) {
@@ -118,7 +124,8 @@ public class MazeData {
     }
 
     public void setWallAtCurrent(int wallType) {
-        wallArray[x][y] = wallType;
+        horizontalWallArray[x][y] = wallType;
+        verticalWallArray[x][y] = wallType;
     }
 
     public boolean isProcessedAtCurrent() {
