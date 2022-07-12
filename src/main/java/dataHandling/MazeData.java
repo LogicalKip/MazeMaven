@@ -124,18 +124,6 @@ public class MazeData {
             verticalWallArray[x][y] = NO_WALL;
             horizontalWallArray[x][y] = NO_WALL;
         }
-
-//        final int newValue = horizontalWallArray[x][y] == VERT_AND_HORIZ_WALL ? orientation.getTypeOfWall() : NO_WALL;
-//        horizontalWallArray[x][y] = newValue;
-
-//        if (verticalWallArray[x][y] == VERT_AND_HORIZ_WALL) {
-//            if (orientation.getTypeOfWall() == VERTICAL_WALL) {
-//                verticalWallArray[x][y] = VERTICAL_WALL;
-//            } else {
-//                verticalWallArray[x][y] = NO_WALL;
-//            }
-//        }
-//        verticalWallArray[x][y] = verticalWallArray[x][y] == VERT_AND_HORIZ_WALL ? orientation.getTypeOfWall() : NO_WALL;
     }
 
     public void setWallAtCurrent(int wallType) {

@@ -40,7 +40,7 @@ public class MazePrinter {
     private void printHorizontalPartOfCurrentLine(int maxHorizontal, int[][] horizontalWallArray, int y) {
         for (int x = 1; x <= maxHorizontal; x++) {
             var current = horizontalWallArray[x][y];
-            if (current == MazeData.VERT_AND_HORIZ_WALL || current == MazeData.HORIZONTAL_WALL) {
+            if (current == MazeData.HORIZONTAL_WALL) {
                 print(HORIZONTAL_WALL);
             } else {
                 print(HORIZONTAL_SPACE);
@@ -54,7 +54,7 @@ public class MazePrinter {
     private void printVerticalPartOfCurrentLine(int maxHorizontal, int[][] verticalWallArray, int y) {
         print("I");
         for (int x = 1; x <= maxHorizontal; x++) {
-            if (verticalWallArray[x][y] == MazeData.VERT_AND_HORIZ_WALL || verticalWallArray[x][y] == MazeData.VERTICAL_WALL) {
+            if (verticalWallArray[x][y] == MazeData.VERTICAL_WALL) {
                 print(VERTICAL_WALL);
             } else {
                 print(VERTICAL_SPACE);
