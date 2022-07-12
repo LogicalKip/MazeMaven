@@ -15,7 +15,7 @@ public class MazeData {
      * 2 : horizontal wall
      * 3 : no wall at all.
      * Starts fully filled with double walls, then gets simplified little by little.
-     * It's the output of the MazeBuilder, and isn't used at all to create the maze
+     * It's the output of the MazeBuilder.
      */
     public final int[][] horizontalWallArray;
     public final int[][] verticalWallArray;
@@ -24,7 +24,6 @@ public class MazeData {
     /**
      * Everything is at false at start except the entrance door.
      * At the end everything is true except the top and side tiles
-     * Maybe means "has been processed" ?
      */
     private final boolean[][] processed;
     public int x;
@@ -107,11 +106,42 @@ public class MazeData {
     }
 
     public void allowPassage(Orientation orientation) {
-        horizontalWallArray[x][y] = horizontalWallArray[x][y] == VERT_AND_HORIZ_WALL ? orientation.getTypeOfWall() : NO_WALL;
-        verticalWallArray[x][y] = verticalWallArray[x][y] == VERT_AND_HORIZ_WALL ? orientation.getTypeOfWall() : NO_WALL;
+        if (horizontalWallArray[x][y] == VERT_AND_HORIZ_WALL) {
+            if (orientation.getTypeOfWall() == VERTICAL_WALL) {
+                verticalWallArray[x][y] = VERTICAL_WALL;
+                horizontalWallArray[x][y] = NO_WALL;
+            } else {
+                verticalWallArray[x][y] = NO_WALL;
+                horizontalWallArray[x][y] = HORIZONTAL_WALL;
+            }
+        } else {
+            verticalWallArray[x][y] = NO_WALL;
+            horizontalWallArray[x][y] = NO_WALL;
+        }
+
+//        final int newValue = horizontalWallArray[x][y] == VERT_AND_HORIZ_WALL ? orientation.getTypeOfWall() : NO_WALL;
+//        horizontalWallArray[x][y] = newValue;
+
+//        if (verticalWallArray[x][y] == VERT_AND_HORIZ_WALL) {
+//            if (orientation.getTypeOfWall() == VERTICAL_WALL) {
+//                verticalWallArray[x][y] = VERTICAL_WALL;
+//            } else {
+//                verticalWallArray[x][y] = NO_WALL;
+//            }
+//        }
+//        verticalWallArray[x][y] = verticalWallArray[x][y] == VERT_AND_HORIZ_WALL ? orientation.getTypeOfWall() : NO_WALL;
     }
 
     public void setWallAtCurrent(int wallType) {
+//        if (wallType == HORIZONTAL_WALL) {
+//            horizontalWallArray[x][y] = wallType;
+//            verticalWallArray[x][y] = wallType;
+//        } else if (wallType == VERTICAL_WALL) {
+//            verticalWallArray[x][y] = wallType;
+//        } else {
+//            System.out.println("unexpected");
+//        }
+
         horizontalWallArray[x][y] = wallType;
         verticalWallArray[x][y] = wallType;
     }

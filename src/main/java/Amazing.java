@@ -27,7 +27,23 @@ public class Amazing {
         }
         var mazeBuilder = new MazeBuilder(random, maxHorizontal, maxVertical);
         mazeBuilder.createMaze();
+//        debug(maxHorizontal, maxVertical, mazeBuilder);
         new MazePrinter().printMaze(maxHorizontal, maxVertical, mazeBuilder.getHorizontalWallArray(), mazeBuilder.getVerticalWallArray(), mazeBuilder.getEntrancePosition());
+    }
+
+    private static void debug(int maxHorizontal, int maxVertical, MazeBuilder mazeBuilder) {
+        for (int i = 0; i < maxHorizontal; i++) {
+            for (int j = 0; j < maxVertical; j++) {
+                if (mazeBuilder.getHorizontalWallArray()[i][j] != mazeBuilder.getVerticalWallArray()[i][j]) {
+                    if (mazeBuilder.getHorizontalWallArray()[i][j] == 2 && mazeBuilder.getVerticalWallArray()[i][j] == 3) {
+                        continue;
+                    } else {
+                        System.out.println("arrays are different");
+                        assert "arrays are different" == "";
+                    }
+                }
+            }
+        }
     }
 
 }
