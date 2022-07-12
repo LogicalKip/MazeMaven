@@ -10,14 +10,14 @@ public class MazePrinter {
 
     public static final StringBuilder result = new StringBuilder();
 
-    public void printMaze(int maxHorizontal, int maxVertical, int[][] valueArray, int entrancePosition) {
+    public void printMaze(int maxHorizontal, int maxVertical, int[][] wallArray, int entrancePosition) {
         clear();
         printHeader();
         printFirstWall(maxHorizontal, entrancePosition);
         // 1200:
         for (int y = 1; y <= maxVertical; y++) {
-            printVerticalPartOfCurrentLine(maxHorizontal, valueArray, y);
-            printHorizontalPartOfCurrentLine(maxHorizontal, valueArray, y);
+            printVerticalPartOfCurrentLine(maxHorizontal, wallArray, y);
+            printHorizontalPartOfCurrentLine(maxHorizontal, wallArray, y);
         }
     }
 
