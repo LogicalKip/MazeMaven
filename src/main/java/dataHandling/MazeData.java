@@ -30,13 +30,9 @@ public class MazeData {
         this.stepCount = 2;
         for (int i = 0; i <= maxHorizontal; i++) {
             this.horizontalWallArray[i] = new boolean[maxVertical + 1];
-            for (int j = 0; j <= maxVertical; j++) {
-                this.horizontalWallArray[i][j] = true;
-            }
-        }
-        for (int i = 0; i <= maxHorizontal; i++) {
             this.verticalWallArray[i] = new boolean[maxVertical + 1];
             for (int j = 0; j <= maxVertical; j++) {
+                this.horizontalWallArray[i][j] = true;
                 this.verticalWallArray[i][j] = true;
             }
         }
