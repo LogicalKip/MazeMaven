@@ -14,7 +14,6 @@ public class MazePrinter {
         clear();
         printHeader();
         printFirstWall(maxHorizontal, entrancePosition);
-        // 1200:
         for (int y = 1; y <= maxVertical; y++) {
             printVerticalPartOfCurrentLine(maxHorizontal, verticalWallArray, y);
             printHorizontalPartOfCurrentLine(maxHorizontal, horizontalWallArray, y);
@@ -41,29 +40,28 @@ public class MazePrinter {
     private void printHorizontalPartOfCurrentLine(int maxHorizontal, int[][] horizontalWallArray, int y) {
         for (int x = 1; x <= maxHorizontal; x++) {
             var current = horizontalWallArray[x][y];
-            // 1310, 1340
             if (current == MazeData.VERT_AND_HORIZ_WALL || current == MazeData.HORIZONTAL_WALL) {
-                print(HORIZONTAL_WALL);   // 1300, 1340
+                print(HORIZONTAL_WALL);
             } else {
-                print(HORIZONTAL_SPACE); // 1320
+                print(HORIZONTAL_SPACE);
             }
         }
 
-        print(":");    // 1360
+        print(":");
         println();
     }
 
     private void printVerticalPartOfCurrentLine(int maxHorizontal, int[][] verticalWallArray, int y) {
-        print("I");        // 1210
+        print("I");
         for (int x = 1; x <= maxHorizontal; x++) {
             if (verticalWallArray[x][y] == MazeData.VERT_AND_HORIZ_WALL || verticalWallArray[x][y] == MazeData.VERTICAL_WALL) {
-                print(VERTICAL_WALL);  // 1260
+                print(VERTICAL_WALL);
             } else {
-                print(VERTICAL_SPACE);  // 1240
+                print(VERTICAL_SPACE);
             }
         }
 
-        print(" ");   // 1280
+        print(" ");
         println();
     }
 
