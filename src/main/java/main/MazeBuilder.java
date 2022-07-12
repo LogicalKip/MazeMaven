@@ -45,11 +45,11 @@ public class MazeBuilder {
         return (int) (count * random.nextFloat()) + 1;
     }
 
-    public int[][] getHorizontalWallArray() {
+    public boolean[][] getHorizontalWallArray() {
         return mazeData.getHorizontalWallArray();
     }
 
-    public int[][] getVerticalWallArray() {
+    public boolean[][] getVerticalWallArray() {
         return mazeData.getVerticalWallArray();
     }
 

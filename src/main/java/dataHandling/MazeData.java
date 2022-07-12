@@ -3,8 +3,8 @@ package dataHandling;
 public class MazeData {
     public static final int VERTICAL_WALL = 1;
     public static final int HORIZONTAL_WALL = 2;
-    public static final int WALL_PRESENT = 4;
-    public static final int NO_WALL = 3;
+    public static final boolean WALL_PRESENT = true;
+    public static final boolean NO_WALL = false;
     /**
      * shows presence of both vertical and horizontal with the same data.
      * 0, 1 : vertical wall.
@@ -17,8 +17,8 @@ public class MazeData {
      * Starts fully filled with double walls, then gets simplified little by little.
      * It's the output of the MazeBuilder.
      */
-    public final int[][] horizontalWallArray;
-    public final int[][] verticalWallArray;
+    public final boolean[][] horizontalWallArray;
+    public final boolean[][] verticalWallArray;
     private final int maxHorizontal;
     private final int maxVertical;
     /**
@@ -34,17 +34,17 @@ public class MazeData {
         this.processed = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.maxHorizontal = maxHorizontal;
         this.maxVertical = maxVertical;
-        this.horizontalWallArray = new int[maxHorizontal + 1][maxVertical + 1];
-        this.verticalWallArray = new int[maxHorizontal + 1][maxVertical + 1];
+        this.horizontalWallArray = new boolean[maxHorizontal + 1][maxVertical + 1];
+        this.verticalWallArray = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.stepCount = 2;
         for (int i = 0; i <= maxHorizontal; i++) {
-            this.horizontalWallArray[i] = new int[maxVertical + 1];
+            this.horizontalWallArray[i] = new boolean[maxVertical + 1];
             for (int j = 0; j <= maxVertical; j++) {
                 this.horizontalWallArray[i][j] = WALL_PRESENT;
             }
         }
         for (int i = 0; i <= maxHorizontal; i++) {
-            this.verticalWallArray[i] = new int[maxVertical + 1];
+            this.verticalWallArray[i] = new boolean[maxVertical + 1];
             for (int j = 0; j <= maxVertical; j++) {
                 this.verticalWallArray[i][j] = WALL_PRESENT;
             }
@@ -60,11 +60,11 @@ public class MazeData {
         return y == maxVertical;
     }
 
-    public int[][] getHorizontalWallArray() {
+    public boolean[][] getHorizontalWallArray() {
         return horizontalWallArray;
     }
 
-    public int[][] getVerticalWallArray() {
+    public boolean[][] getVerticalWallArray() {
         return verticalWallArray;
     }
 

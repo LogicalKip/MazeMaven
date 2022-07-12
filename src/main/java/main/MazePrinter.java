@@ -10,7 +10,7 @@ public class MazePrinter {
 
     public static final StringBuilder result = new StringBuilder();
 
-    public void printMaze(int maxHorizontal, int maxVertical, int[][] horizontalWallArray, int[][] verticalWallArray, int entrancePosition) {
+    public void printMaze(int maxHorizontal, int maxVertical, boolean[][] horizontalWallArray, boolean[][] verticalWallArray, int entrancePosition) {
         clear();
         printHeader();
         printFirstWall(maxHorizontal, entrancePosition);
@@ -37,7 +37,7 @@ public class MazePrinter {
         println();
     }
 
-    private void printHorizontalPartOfCurrentLine(int maxHorizontal, int[][] horizontalWallArray, int y) {
+    private void printHorizontalPartOfCurrentLine(int maxHorizontal, boolean[][] horizontalWallArray, int y) {
         for (int x = 1; x <= maxHorizontal; x++) {
             var current = horizontalWallArray[x][y];
             if (current == MazeData.WALL_PRESENT) {
@@ -51,7 +51,7 @@ public class MazePrinter {
         println();
     }
 
-    private void printVerticalPartOfCurrentLine(int maxHorizontal, int[][] verticalWallArray, int y) {
+    private void printVerticalPartOfCurrentLine(int maxHorizontal, boolean[][] verticalWallArray, int y) {
         print("I");
         for (int x = 1; x <= maxHorizontal; x++) {
             if (verticalWallArray[x][y] == MazeData.WALL_PRESENT) {
