@@ -111,6 +111,11 @@ public class MazeData {
         verticalWallArray[x][y] = verticalWallArray[x][y] == VERT_AND_HORIZ_WALL ? orientation.getTypeOfWall() : NO_WALL;
     }
 
+    public void setWallAtCurrent(int wallType) {
+        horizontalWallArray[x][y] = wallType;
+        verticalWallArray[x][y] = wallType;
+    }
+
     public boolean isAvailable(int xDelta, int yDelta) {
         var xChanged = x + xDelta;
         var yChanged = y + yDelta;
@@ -121,11 +126,6 @@ public class MazeData {
             return false;
         }
         return !processed[xChanged][yChanged];
-    }
-
-    public void setWallAtCurrent(int wallType) {
-        horizontalWallArray[x][y] = wallType;
-        verticalWallArray[x][y] = wallType;
     }
 
     public boolean isProcessedAtCurrent() {
