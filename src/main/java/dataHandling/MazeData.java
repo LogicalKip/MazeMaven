@@ -99,13 +99,11 @@ public class MazeData {
     }
 
     public void allowPassage(Orientation orientation) {
-        if (horizontalWallArray[x][y] == true && verticalWallArray[x][y] == true) {
+        if (horizontalWallArray[x][y] && verticalWallArray[x][y]) {
             if (orientation.getTypeOfWall() == VERTICAL_WALL) {
-                verticalWallArray[x][y] = true;
                 horizontalWallArray[x][y] = false;
             } else {
                 verticalWallArray[x][y] = false;
-                horizontalWallArray[x][y] = true;
             }
         } else {
             verticalWallArray[x][y] = false;
@@ -120,8 +118,6 @@ public class MazeData {
         } else if (wallType == VERTICAL_WALL) {
             horizontalWallArray[x][y] = false;
             verticalWallArray[x][y] = true;
-        } else {
-            System.out.println("unexpected");
         }
     }
 
