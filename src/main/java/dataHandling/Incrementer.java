@@ -10,7 +10,7 @@ public class Incrementer extends Crementer {
 
     @Override
     protected void moveThrough() {
-        mazeData.allowPassage(orientation);
-        mazeData.increment(orientation);
+        mazeData.allowPassage(orientation.isHorizontal());
+        mazeData.increment(orientation.isHorizontal());
     }
 }

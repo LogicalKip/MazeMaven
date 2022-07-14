@@ -80,25 +80,25 @@ public class MazeData {
         x = i;
     }
 
-    public void decrement(Orientation orientation) {
-        if (orientation.isHorizontal()) {
+    public void decrement(boolean isHorizontal) {
+        if (isHorizontal) {
             x--;
         } else {
             y--;
         }
     }
 
-    public void increment(Orientation orientation) {
-        if (orientation.isHorizontal()) {
+    public void increment(boolean isHorizontal) {
+        if (isHorizontal) {
             x++;
         } else {
             y++;
         }
     }
 
-    public void allowPassage(Orientation orientation) {
+    public void allowPassage(boolean isHorizontal) {
         if (horizontalWallArray[x][y] && verticalWallArray[x][y]) {
-            boolean[][] wall = orientation.isHorizontal() ? verticalWallArray : horizontalWallArray;
+            boolean[][] wall = isHorizontal ? verticalWallArray : horizontalWallArray;
             wall[x][y] = false;
         } else {
             verticalWallArray[x][y] = false;
