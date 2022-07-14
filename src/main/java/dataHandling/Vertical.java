@@ -7,7 +7,7 @@ public class Vertical implements Orientation {
     }
 
     @Override
-    public int getTypeOfWall() {
-        return MazeData.VERTICAL_WALL;
+    public boolean getTypeOfWall() {
+        return false;
     }
 }

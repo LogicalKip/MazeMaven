@@ -7,7 +7,7 @@ public class Horizontal implements Orientation {
     }
 
     @Override
-    public int getTypeOfWall() {
-        return MazeData.HORIZONTAL_WALL;
+    public boolean getTypeOfWall() {
+        return true;
     }
 }

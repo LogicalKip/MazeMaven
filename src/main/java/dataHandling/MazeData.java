@@ -5,7 +5,7 @@ public class MazeData {
     public static final int HORIZONTAL_WALL = 2;
     /**
      * Shows presence of walls.
-     * Both arrays Starts fully filled with walls, then gets simplified little by little.
+     * Both arrays starts fully filled with walls, then gets simplified little by little.
      * It's the output of the MazeBuilder.
      */
     public final boolean[][] horizontalWallArray;
@@ -100,7 +100,7 @@ public class MazeData {
 
     public void allowPassage(Orientation orientation) {
         if (horizontalWallArray[x][y] && verticalWallArray[x][y]) {
-            if (orientation.getTypeOfWall() == VERTICAL_WALL) {
+            if (!orientation.getTypeOfWall()) {
                 horizontalWallArray[x][y] = false;
             } else {
                 verticalWallArray[x][y] = false;
@@ -111,11 +111,11 @@ public class MazeData {
         }
     }
 
-    public void setWallAtCurrent(int wallType) {
-        if (wallType == HORIZONTAL_WALL) {
+    public void setWallAtCurrent(boolean isHorizontal) {
+        if (isHorizontal) {
             horizontalWallArray[x][y] = true;
             verticalWallArray[x][y] = false;
-        } else if (wallType == VERTICAL_WALL) {
+        } else {
             horizontalWallArray[x][y] = false;
             verticalWallArray[x][y] = true;
         }

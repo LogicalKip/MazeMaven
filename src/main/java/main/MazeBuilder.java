@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import static dataHandling.MazeData.VERTICAL_WALL;
-
 public class MazeBuilder {
 
     private final Random random;
@@ -132,7 +130,7 @@ public class MazeBuilder {
 
     private void createExitHere() {
         foundExit = true;
-        mazeData.setWallAtCurrent(VERTICAL_WALL);
+        mazeData.setWallAtCurrent(false);
     }
 
     private void fillTheRest() {
