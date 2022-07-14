@@ -4,13 +4,13 @@ import main.MazeBuilder;
 
 public class Incrementer extends Crementer {
 
-    public Incrementer(MazeData mazeData, Orientation orientation, boolean checkIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder) {
-        super(mazeData, orientation, checkIfStepsFilledBeforeRestart, mazeBuilder);
+    public Incrementer(MazeData mazeData, boolean horizontal, boolean checkIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder) {
+        super(mazeData, checkIfStepsFilledBeforeRestart, mazeBuilder, horizontal);
     }
 
     @Override
     protected void moveThrough() {
-        mazeData.allowPassage(orientation.isHorizontal());
-        mazeData.increment(orientation.isHorizontal());
+        mazeData.allowPassage(isHorizontal);
+        mazeData.increment(isHorizontal);
     }
 }

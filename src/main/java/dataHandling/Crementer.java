@@ -4,15 +4,15 @@ import main.MazeBuilder;
 
 public abstract class Crementer {
     protected final MazeData mazeData;
+    protected final boolean isHorizontal;
     private final boolean mustCheckIfStepsFilledBeforeRestart;
     private final MazeBuilder mazeBuilder;
-    protected Orientation orientation;
 
-    public Crementer(MazeData mazeData, Orientation orientation, boolean mustCheckIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder) {
+    public Crementer(MazeData mazeData, boolean mustCheckIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder, boolean isHorizontal) {
         this.mazeData = mazeData;
-        this.orientation = orientation;
         this.mustCheckIfStepsFilledBeforeRestart = mustCheckIfStepsFilledBeforeRestart;
         this.mazeBuilder = mazeBuilder;
+        this.isHorizontal = isHorizontal;
     }
 
     protected abstract void moveThrough();

@@ -2,10 +2,8 @@ package main;
 
 import dataHandling.Crementer;
 import dataHandling.Decrementer;
-import dataHandling.Horizontal;
 import dataHandling.Incrementer;
 import dataHandling.MazeData;
-import dataHandling.Vertical;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +31,10 @@ public class MazeBuilder {
         this.mazeData = new MazeData(maxHorizontal, maxVertical, entrancePosition);
         this.entrancePosition = entrancePosition;
         this.foundExit = false;
-        verticalDecrementer = new Decrementer(mazeData, new Vertical(), false, this);
-        verticalIncrementer = new Incrementer(mazeData, new Vertical(), true, this);
-        horizontalIncrementer = new Incrementer(mazeData, new Horizontal(), false, this);
-        horizontalDecrementer = new Decrementer(mazeData, new Horizontal(), true, this);
+        verticalDecrementer = new Decrementer(mazeData, false, false, this);
+        verticalIncrementer = new Incrementer(mazeData, false, true, this);
+        horizontalIncrementer = new Incrementer(mazeData, true, false, this);
+        horizontalDecrementer = new Decrementer(mazeData, true, true, this);
     }
 
     private int random(int count) {
