@@ -53,19 +53,15 @@ public class MazeBuilder {
         return entrancePosition;
     }
 
-    public void createMaze() {
-        buildMazeForCurrentStep();
-    }
-
     private void restartFromNextProcessedTile() {
         do {
             mazeData.nextTile();
         } while (!mazeData.isProcessedAtCurrent());
 
-        buildMazeForCurrentStep();
+        buildMaze();
     }
 
-    public void buildMazeForCurrentStep() {
+    public void buildMaze() {
         if (handleLastRow()) {
             return;
         }
@@ -129,8 +125,7 @@ public class MazeBuilder {
     }
 
     private void fillTheRest() {
-        mazeData.setX(1);
-        mazeData.startAtBottom();
+        mazeData.backToBottomLeft();
         restartFromNextProcessedTile();
     }
 

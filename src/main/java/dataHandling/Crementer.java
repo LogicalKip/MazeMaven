@@ -27,7 +27,7 @@ public abstract class Crementer {
         if (mustCheckIfStepsFilledBeforeRestart && !mazeData.stepsAreNotAllFilled()) {
             return;
         }
-        mazeBuilder.buildMazeForCurrentStep();
+        mazeBuilder.buildMaze();
     }
 
 }

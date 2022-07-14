@@ -26,7 +26,7 @@ public class Amazing {
             return;
         }
         var mazeBuilder = new MazeBuilder(random, maxHorizontal, maxVertical);
-        mazeBuilder.createMaze();
+        mazeBuilder.buildMaze();
         new MazePrinter().printMaze(maxHorizontal, maxVertical, mazeBuilder.getHorizontalWallArray(), mazeBuilder.getVerticalWallArray(), mazeBuilder.getEntrancePosition());
     }
 

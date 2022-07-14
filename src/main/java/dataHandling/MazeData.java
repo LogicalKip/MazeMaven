@@ -6,8 +6,8 @@ public class MazeData {
      * Both arrays starts fully filled with walls, then gets emptied little by little.
      * It's the output of the MazeBuilder.
      */
-    public final boolean[][] horizontalWallArray;
-    public final boolean[][] verticalWallArray;
+    private final boolean[][] horizontalWallArray;
+    private final boolean[][] verticalWallArray;
     private final int maxHorizontal;
     private final int maxVertical;
     /**
@@ -15,8 +15,8 @@ public class MazeData {
      * At the end everything is true except the top and side tiles
      */
     private final boolean[][] processed;
-    public int x;
-    public int y;
+    private int x;
+    private int y;
     private int stepCount;
 
     public MazeData(int maxHorizontal, int maxVertical, int entrancePosition) {
@@ -78,12 +78,9 @@ public class MazeData {
         stepCount++;
     }
 
-    public void startAtBottom() {
+    public void backToBottomLeft() {
+        x = 1;
         y = 1;
-    }
-
-    public void setX(int i) {
-        x = i;
     }
 
     public void decrement(boolean isHorizontal) {
