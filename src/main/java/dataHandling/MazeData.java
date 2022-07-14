@@ -3,7 +3,7 @@ package dataHandling;
 public class MazeData {
     /**
      * Shows presence of walls.
-     * Both arrays starts fully filled with walls, then gets simplified little by little.
+     * Both arrays starts fully filled with walls, then gets emptied little by little.
      * It's the output of the MazeBuilder.
      */
     public final boolean[][] horizontalWallArray;
@@ -26,6 +26,10 @@ public class MazeData {
         this.horizontalWallArray = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.verticalWallArray = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.stepCount = 1;
+        initializeArrays(maxHorizontal, maxVertical, entrancePosition);
+    }
+
+    private void initializeArrays(int maxHorizontal, int maxVertical, int entrancePosition) {
         for (int i = 0; i <= maxHorizontal; i++) {
             this.horizontalWallArray[i] = new boolean[maxVertical + 1];
             this.verticalWallArray[i] = new boolean[maxVertical + 1];
@@ -97,13 +101,9 @@ public class MazeData {
     }
 
     public void allowPassage(boolean isHorizontal) {
-        if (horizontalWallArray[x][y] && verticalWallArray[x][y]) {
-            boolean[][] wall = isHorizontal ? verticalWallArray : horizontalWallArray;
-            wall[x][y] = false;
-        } else {
-            verticalWallArray[x][y] = false;
-            horizontalWallArray[x][y] = false;
-        }
+        final boolean bothWalls = horizontalWallArray[x][y] && verticalWallArray[x][y];
+        horizontalWallArray[x][y] = bothWalls && isHorizontal;
+        verticalWallArray[x][y] = bothWalls && !isHorizontal;
     }
 
     public void setHorizontalWallAtCurrent(boolean isHorizontal) {
