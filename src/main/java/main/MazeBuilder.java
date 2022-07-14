@@ -54,9 +54,6 @@ public class MazeBuilder {
     }
 
     public void createMaze() {
-        mazeData.setX(entrancePosition);
-        mazeData.startAtBottom();
-
         buildMazeForCurrentStep();
     }
 

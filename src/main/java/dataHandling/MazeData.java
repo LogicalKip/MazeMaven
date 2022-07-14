@@ -26,6 +26,8 @@ public class MazeData {
         this.horizontalWallArray = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.verticalWallArray = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.stepCount = 1;
+        this.x = entrancePosition;
+        this.y = 1;
         initializeArrays(maxHorizontal, maxVertical, entrancePosition);
     }
 
