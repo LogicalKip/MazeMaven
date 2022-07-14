@@ -4,7 +4,7 @@ import main.MazeBuilder;
 
 public class Incrementer extends Crementer {
 
-    public Incrementer(MazeData mazeData, boolean horizontal, boolean checkIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder) {
+    public Incrementer(boolean horizontal, boolean checkIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder, MazeData mazeData) {
         super(mazeData, checkIfStepsFilledBeforeRestart, mazeBuilder, horizontal);
     }
 

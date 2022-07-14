@@ -3,7 +3,7 @@ package dataHandling;
 import main.MazeBuilder;
 
 public class Decrementer extends Crementer {
-    public Decrementer(MazeData mazeData, boolean horizontal, boolean checkIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder) {
+    public Decrementer(boolean horizontal, boolean checkIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder, MazeData mazeData) {
         super(mazeData, checkIfStepsFilledBeforeRestart, mazeBuilder, horizontal);
     }
 
