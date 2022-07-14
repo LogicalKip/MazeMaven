@@ -7,7 +7,7 @@ public class Horizontal implements Orientation {
     }
 
     @Override
-    public boolean getTypeOfWall() {
+    public boolean isHorizontal() {
         return true;
     }
 }

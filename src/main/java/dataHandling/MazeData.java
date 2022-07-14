@@ -1,8 +1,6 @@
 package dataHandling;
 
 public class MazeData {
-    public static final int VERTICAL_WALL = 1;
-    public static final int HORIZONTAL_WALL = 2;
     /**
      * Shows presence of walls.
      * Both arrays starts fully filled with walls, then gets simplified little by little.
@@ -100,11 +98,8 @@ public class MazeData {
 
     public void allowPassage(Orientation orientation) {
         if (horizontalWallArray[x][y] && verticalWallArray[x][y]) {
-            if (!orientation.getTypeOfWall()) {
-                horizontalWallArray[x][y] = false;
-            } else {
-                verticalWallArray[x][y] = false;
-            }
+            boolean[][] wall = orientation.isHorizontal() ? verticalWallArray : horizontalWallArray;
+            wall[x][y] = false;
         } else {
             verticalWallArray[x][y] = false;
             horizontalWallArray[x][y] = false;
@@ -112,13 +107,8 @@ public class MazeData {
     }
 
     public void setWallAtCurrent(boolean isHorizontal) {
-        if (isHorizontal) {
-            horizontalWallArray[x][y] = true;
-            verticalWallArray[x][y] = false;
-        } else {
-            horizontalWallArray[x][y] = false;
-            verticalWallArray[x][y] = true;
-        }
+        horizontalWallArray[x][y] = isHorizontal;
+        verticalWallArray[x][y] = !isHorizontal;
     }
 
     public boolean isAvailable(int xDelta, int yDelta) {

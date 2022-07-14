@@ -11,6 +11,6 @@ public class Decrementer extends Crementer {
     @Override
     protected void moveThrough() {
         mazeData.decrement(orientation.getXOrY());
-        mazeData.setWallAtCurrent(orientation.getTypeOfWall());
+        mazeData.setWallAtCurrent(orientation.isHorizontal());
     }
 }
