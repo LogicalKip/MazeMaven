@@ -76,8 +76,8 @@ public class MazeData {
         stepCount++;
     }
 
-    public void setY(int i) {
-        y = i;
+    public void startAtBottom() {
+        y = 1;
     }
 
     public void setX(int i) {

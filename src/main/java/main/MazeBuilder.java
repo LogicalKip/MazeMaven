@@ -55,7 +55,7 @@ public class MazeBuilder {
 
     public void createMaze() {
         mazeData.setX(entrancePosition);
-        mazeData.setY(1);
+        mazeData.startAtBottom();
 
         buildMazeForCurrentStep();
     }
@@ -133,7 +133,7 @@ public class MazeBuilder {
 
     private void fillTheRest() {
         mazeData.setX(1);
-        mazeData.setY(1);
+        mazeData.startAtBottom();
         restartFromNextProcessedTile();
     }
 
