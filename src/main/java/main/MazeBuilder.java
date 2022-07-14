@@ -53,20 +53,20 @@ public class MazeBuilder {
         return entrancePosition;
     }
 
-    private void restartFromNextProcessedTile() {
-        do {
-            mazeData.nextTile();
-        } while (!mazeData.isProcessedAtCurrent());
-
-        buildMaze();
-    }
-
     public void buildMaze() {
         if (handleLastRow()) {
             return;
         }
 
         findAnyDirection().ifPresentOrElse(Crementer::processStep, this::restartFromNextProcessedTile);
+    }
+
+    private void restartFromNextProcessedTile() {
+        do {
+            mazeData.nextTile();
+        } while (!mazeData.isProcessedAtCurrent());
+
+        buildMaze();
     }
 
     private boolean handleLastRow() {
