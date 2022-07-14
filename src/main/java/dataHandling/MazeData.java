@@ -127,22 +127,4 @@ public class MazeData {
         return processed[x][y];
     }
 
-    enum XorY {
-        X,
-        Y
-    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
