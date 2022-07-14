@@ -25,7 +25,7 @@ public class MazeData {
         this.maxVertical = maxVertical;
         this.horizontalWallArray = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.verticalWallArray = new boolean[maxHorizontal + 1][maxVertical + 1];
-        this.stepCount = 2;
+        this.stepCount = 1;
         for (int i = 0; i <= maxHorizontal; i++) {
             this.horizontalWallArray[i] = new boolean[maxVertical + 1];
             this.verticalWallArray[i] = new boolean[maxVertical + 1];
@@ -54,7 +54,7 @@ public class MazeData {
     }
 
     public boolean stepsAreNotAllFilled() {
-        return stepCount < this.maxHorizontal * this.maxVertical + 1;
+        return stepCount < this.maxHorizontal * this.maxVertical;
     }
 
     /**
