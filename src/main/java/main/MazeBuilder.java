@@ -130,7 +130,7 @@ public class MazeBuilder {
 
     private void createExitHere() {
         foundExit = true;
-        mazeData.setWallAtCurrent(false);
+        mazeData.setHorizontalWallAtCurrent(false);
     }
 
     private void fillTheRest() {

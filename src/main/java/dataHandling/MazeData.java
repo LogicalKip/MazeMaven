@@ -58,7 +58,7 @@ public class MazeData {
     }
 
     /**
-     * Moves to the right. If no more room, Move to first tile of next line above.
+     * Moves to the right. If no more room, move to first tile of next line above.
      */
     public void nextTile() {
         if (x == maxHorizontal) {
@@ -80,16 +80,16 @@ public class MazeData {
         x = i;
     }
 
-    public void decrement(XorY xorY) {
-        if (xorY == XorY.X) {
+    public void decrement(Orientation orientation) {
+        if (orientation.isHorizontal()) {
             x--;
         } else {
             y--;
         }
     }
 
-    public void increment(XorY xorY) {
-        if (xorY == XorY.X) {
+    public void increment(Orientation orientation) {
+        if (orientation.isHorizontal()) {
             x++;
         } else {
             y++;
@@ -106,7 +106,7 @@ public class MazeData {
         }
     }
 
-    public void setWallAtCurrent(boolean isHorizontal) {
+    public void setHorizontalWallAtCurrent(boolean isHorizontal) {
         horizontalWallArray[x][y] = isHorizontal;
         verticalWallArray[x][y] = !isHorizontal;
     }
@@ -132,3 +132,17 @@ public class MazeData {
         Y
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
