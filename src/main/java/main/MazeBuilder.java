@@ -121,7 +121,7 @@ public class MazeBuilder {
 
     private void createExitHere() {
         foundExit = true;
-        mazeData.setHorizontalWallAtCurrent(false);
+        mazeData.setWallAtCurrent(false);
     }
 
     private void fillTheRest() {

@@ -105,7 +105,7 @@ public class MazeData {
         verticalWallArray[x][y] = bothWalls && !isHorizontal;
     }
 
-    public void setHorizontalWallAtCurrent(boolean isHorizontal) {
+    public void setWallAtCurrent(boolean isHorizontal) {
         horizontalWallArray[x][y] = isHorizontal;
         verticalWallArray[x][y] = !isHorizontal;
     }
