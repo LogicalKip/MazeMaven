@@ -15,8 +15,8 @@ public class MazeData {
      * At the end everything is true except the top and side tiles
      */
     private final boolean[][] processed;
-    private int x;
-    private int y;
+    public X x;
+    public Y y;
     private int stepCount;
 
     public MazeData(int maxHorizontal, int maxVertical, int entrancePosition) {
@@ -26,8 +26,8 @@ public class MazeData {
         this.horizontalWallArray = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.verticalWallArray = new boolean[maxHorizontal + 1][maxVertical + 1];
         this.stepCount = 1;
-        this.x = entrancePosition;
-        this.y = 1;
+        this.x = new X(entrancePosition);
+        this.y = new Y(1);
         initializeArrays(maxHorizontal, maxVertical, entrancePosition);
     }
 
@@ -48,7 +48,7 @@ public class MazeData {
     }
 
     public boolean yMaxed() {
-        return y == maxVertical;
+        return y() == maxVertical;
     }
 
     public boolean[][] getHorizontalWallArray() {
@@ -67,52 +67,37 @@ public class MazeData {
      * Moves to the right. If no more room, move to first tile of next line above.
      */
     public void nextTile() {
-        if (x == maxHorizontal) {
-            y = (y % maxVertical) + 1;
+        if (x() == maxHorizontal) {
+            y.value = (y() % maxVertical) + 1;
         }
-        x = (x % maxHorizontal) + 1;
+        x.value = (x() % maxHorizontal) + 1;
     }
 
     public void nextStep() {
-        processed[x][y] = true;
+        processed[x()][y()] = true;
         stepCount++;
     }
 
     public void backToBottomLeft() {
-        x = 1;
-        y = 1;
-    }
-
-    public void decrement(boolean isHorizontal) {
-        if (isHorizontal) {
-            x--;
-        } else {
-            y--;
-        }
-    }
-
-    public void increment(boolean isHorizontal) {
-        if (isHorizontal) {
-            x++;
-        } else {
-            y++;
-        }
+        x.value = 1;
+        y.value = 1;
     }
 
     public void allowPassage(boolean isHorizontal) {
-        final boolean bothWalls = horizontalWallArray[x][y] && verticalWallArray[x][y];
-        horizontalWallArray[x][y] = bothWalls && isHorizontal;
-        verticalWallArray[x][y] = bothWalls && !isHorizontal;
+        final boolean bothWalls = horizontalWallArray[x()][y()] && verticalWallArray[x()][y()];
+        horizontalWallArray[x()][y()] = bothWalls && isHorizontal;
+        verticalWallArray[x()][y()] = bothWalls && !isHorizontal;
     }
 
+
     public void setWallAtCurrent(boolean isHorizontal) {
-        horizontalWallArray[x][y] = isHorizontal;
-        verticalWallArray[x][y] = !isHorizontal;
+        horizontalWallArray[x()][y()] = isHorizontal;
+        verticalWallArray[x()][y()] = !isHorizontal;
     }
 
     public boolean isAvailable(int xDelta, int yDelta) {
-        var xChanged = x + xDelta;
-        var yChanged = y + yDelta;
+        var xChanged = x() + xDelta;
+        var yChanged = y() + yDelta;
         if (xChanged == 0 || yChanged == 0) {
             return false;
         }
@@ -123,7 +108,14 @@ public class MazeData {
     }
 
     public boolean isProcessedAtCurrent() {
-        return processed[x][y];
+        return processed[x()][y()];
     }
 
+    private int x() {
+        return x.value;
+    }
+
+    private int y() {
+        return y.value;
+    }
 }
