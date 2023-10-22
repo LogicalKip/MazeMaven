@@ -69,7 +69,7 @@ public class TestAmazing {
                 ":  :  :--:  :\n" +
                 "I  I  I     I \n" +
                 ":  :  :  :  :\n" +
-                "I  I  I  I  I \n" +
+                "I     I  I  I \n" +
                 ":  :--:  :  :\n" +
                 "I  I  I  I  I \n" +
                 ":--:--:  :--:\n";

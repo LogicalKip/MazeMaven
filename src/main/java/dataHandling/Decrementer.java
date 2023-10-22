@@ -10,6 +10,6 @@ public class Decrementer extends Crementer {
     @Override
     protected void moveThrough() {
         axis.value--;
-        mazeData.setWallAtCurrent(axis.isHorizontal()); // Note : using here the same logic as incrementer would make a similar but more open labyrinth (less cul-de-sac)
+        mazeData.allowPassage(axis.isHorizontal()); // Note : using here the same logic as incrementer would make a similar but more open labyrinth (less cul-de-sac)
     }
 }
