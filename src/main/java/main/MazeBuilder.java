@@ -88,10 +88,10 @@ public class MazeBuilder {
         }
 
         final boolean previousYAvailable = mazeData.isAvailable(+0, -1);
-        if (!previousYAvailable) {
-            (foundExit ?
-                    horizontalIncrementer :
-                    verticalDecrementer).processStep();
+        // If we can only go right, but exit isn't created yet, go back down anyway.
+        // Only case where we can go back to something explored. Probably because we don't want to block the last row with a blocked corridor
+        if (!previousYAvailable && !foundExit) {
+            verticalDecrementer.processStep();
             return true;
         }
         return false;

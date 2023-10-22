@@ -85,8 +85,8 @@ public class MazeData {
 
     /**
      * Representation is
-     * __
-     *   |
+     * .  __
+     * .    |
      * horizontal wall is the top part.
      * This method removes the wall needed to go through the direction, and doesn't change the other
      */
