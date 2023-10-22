@@ -31,10 +31,10 @@ public class MazeBuilder {
         this.mazeData = new MazeData(maxHorizontal, maxVertical, entrancePosition);
         this.entrancePosition = entrancePosition;
         this.foundExit = false;
-        verticalDecrementer = new Decrementer(mazeData.y, false, this, mazeData);
-        verticalIncrementer = new Incrementer(mazeData.y, true, this, mazeData);
-        horizontalIncrementer = new Incrementer(mazeData.x, false, this, mazeData);
-        horizontalDecrementer = new Decrementer(mazeData.x, true, this, mazeData);
+        verticalDecrementer = new Decrementer(mazeData.y, this, mazeData);
+        verticalIncrementer = new Incrementer(mazeData.y, this, mazeData);
+        horizontalIncrementer = new Incrementer(mazeData.x, this, mazeData);
+        horizontalDecrementer = new Decrementer(mazeData.x, this, mazeData);
     }
 
     private int random(int count) {
@@ -58,13 +58,11 @@ public class MazeBuilder {
             return;
         }
 
-        findAnyDirection().ifPresentOrElse(Crementer::processStep, this::restartFromNextProcessedTile);
+        findAvailableDirection().ifPresentOrElse(Crementer::processStep, this::restartFromNextProcessedTile);
     }
 
     private void restartFromNextProcessedTile() {
-        do {
-            mazeData.nextTile();
-        } while (!mazeData.isProcessedAtCurrent());
+        mazeData.moveToNextUnprocessedTile();
 
         buildMaze();
     }
@@ -99,24 +97,24 @@ public class MazeBuilder {
         return false;
     }
 
-    private Optional<Crementer> findAnyDirection() {
-        List<Crementer> crementers = new ArrayList<>();
+    private Optional<Crementer> findAvailableDirection() {
+        List<Crementer> directions = new ArrayList<>();
         if (mazeData.isAvailable(-1, +0)) {
-            crementers.add(horizontalDecrementer);
+            directions.add(horizontalDecrementer);
         }
         if (mazeData.isAvailable(+0, -1)) {
-            crementers.add(verticalDecrementer);
+            directions.add(verticalDecrementer);
         }
         if (mazeData.isAvailable(+1, +0)) {
-            crementers.add(horizontalIncrementer);
+            directions.add(horizontalIncrementer);
         }
         if (mazeData.isAvailable(+0, +1)) {
-            crementers.add(verticalIncrementer);
+            directions.add(verticalIncrementer);
         }
-        if (crementers.isEmpty()) {
+        if (directions.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(getRandomElement(crementers));
+        return Optional.of(getRandomElement(directions));
     }
 
     private void createExitHere() {

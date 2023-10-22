@@ -1,6 +1,6 @@
 package dataHandling;
 
-public abstract class XorY {
+public abstract class Axis {
 
     public int value;
 

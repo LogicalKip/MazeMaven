@@ -59,21 +59,21 @@ public class MazeData {
         return verticalWallArray;
     }
 
-    public boolean stepsAreNotAllFilled() {
-        return stepCount < this.maxHorizontal * this.maxVertical;
+    public boolean stepsAreAllFilled() {
+        return stepCount == this.maxHorizontal * this.maxVertical;
     }
 
     /**
      * Moves to the right. If no more room, move to first tile of next line above.
      */
-    public void nextTile() {
+    private void nextTile() {
         if (x() == maxHorizontal) {
             y.value = (y() % maxVertical) + 1;
         }
         x.value = (x() % maxHorizontal) + 1;
     }
 
-    public void nextStep() {
+    public void markStepAsProcessed() {
         processed[x()][y()] = true;
         stepCount++;
     }
@@ -83,6 +83,13 @@ public class MazeData {
         y.value = 1;
     }
 
+    /**
+     * Representation is
+     * __
+     *   |
+     * horizontal wall is the top part.
+     * This method removes the wall needed to go through the direction, and doesn't change the other
+     */
     public void allowPassage(boolean isHorizontal) {
         final boolean bothWalls = horizontalWallArray[x()][y()] && verticalWallArray[x()][y()];
         horizontalWallArray[x()][y()] = bothWalls && isHorizontal;
@@ -90,6 +97,9 @@ public class MazeData {
     }
 
 
+    /**
+     * Put exactly one kind of wall, no matter what was before
+     */
     public void setWallAtCurrent(boolean isHorizontal) {
         horizontalWallArray[x()][y()] = isHorizontal;
         verticalWallArray[x()][y()] = !isHorizontal;
@@ -107,7 +117,7 @@ public class MazeData {
         return !processed[xChanged][yChanged];
     }
 
-    public boolean isProcessedAtCurrent() {
+    private boolean isProcessedAtCurrent() {
         return processed[x()][y()];
     }
 
@@ -117,5 +127,11 @@ public class MazeData {
 
     private int y() {
         return y.value;
+    }
+
+    public void moveToNextUnprocessedTile() {
+        do {
+            nextTile();
+        } while (!isProcessedAtCurrent());
     }
 }

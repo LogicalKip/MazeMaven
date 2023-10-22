@@ -1,6 +1,6 @@
 package dataHandling;
 
-public class Y extends XorY {
+public class Y extends Axis {
     public Y(int startingValue) {
         value = startingValue;
     }

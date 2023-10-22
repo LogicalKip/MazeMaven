@@ -3,13 +3,13 @@ package dataHandling;
 import main.MazeBuilder;
 
 public class Decrementer extends Crementer {
-    public Decrementer(XorY horizontal, boolean checkIfStepsFilledBeforeRestart, MazeBuilder mazeBuilder, MazeData mazeData) {
-        super(mazeData, checkIfStepsFilledBeforeRestart, mazeBuilder, horizontal);
+    public Decrementer(Axis axis, MazeBuilder mazeBuilder, MazeData mazeData) {
+        super(mazeData, mazeBuilder, axis);
     }
 
     @Override
     protected void moveThrough() {
-        xorY.value--;
-        mazeData.setWallAtCurrent(xorY.isHorizontal());
+        axis.value--;
+        mazeData.setWallAtCurrent(axis.isHorizontal()); // Note : using here the same logic as incrementer would make a similar but more open labyrinth (less cul-de-sac)
     }
 }
