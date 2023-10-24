@@ -96,13 +96,9 @@ public class MazeData {
         verticalWallArray[x()][y()] = bothWalls && !isHorizontal;
     }
 
-
-    /**
-     * Put exactly one kind of wall, no matter what was before
-     */
-    public void setWallAtCurrent(boolean isHorizontal) {
-        horizontalWallArray[x()][y()] = isHorizontal;
-        verticalWallArray[x()][y()] = !isHorizontal;
+    public void createExit() {
+        horizontalWallArray[x()][y()] = false;
+        verticalWallArray[x()][y()] = true;
     }
 
     public boolean isAvailable(int xDelta, int yDelta) {
